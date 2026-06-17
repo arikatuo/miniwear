@@ -1,0 +1,49 @@
+{
+  "pages": [
+    "pages/today/index",
+    "pages/goods/index",
+    "pages/settings/index",
+    "pages/onboarding/index",
+    "pages/city/index",
+    "pages/manual-weather/index",
+    "pages/privacy/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "宝宝今天穿什么",
+    "navigationBarBackgroundColor": "#F7FBFF",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F7FBFF",
+    "backgroundTextStyle": "light"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于获取所在城市天气，生成宝宝今日穿搭建议"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "tabBar": {
+    "color": "#718096",
+    "selectedColor": "#3478B9",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/today/index",
+        "text": "今日"
+      },
+      {
+        "pagePath": "pages/goods/index",
+        "text": "宝宝用品"
+      },
+      {
+        "pagePath": "pages/settings/index",
+        "text": "宝宝设置"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

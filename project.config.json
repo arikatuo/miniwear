@@ -1,0 +1,28 @@
+{
+  "appid": "touristappid",
+  "projectname": "miniwear",
+  "description": "宝宝今天穿什么 V1.0",
+  "compileType": "miniprogram",
+  "miniprogramRoot": "./",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": false
+  },
+  "packOptions": {
+    "ignore": [
+      { "type": "folder", "value": ".omx" },
+      { "type": "folder", "value": "docs" },
+      { "type": "folder", "value": "scripts" },
+      { "type": "folder", "value": "tests" },
+      { "type": "folder", "value": "衣柜床品图案" },
+      { "type": "file", "value": "宝宝今天穿什么_V1.0_最终版PRD.pdf" },
+      { "type": "file", "value": "package.json" },
+      { "type": "file", "value": "README.md" }
+    ]
+  },
+  "simulatorType": "wechat",
+  "condition": {}
+}
