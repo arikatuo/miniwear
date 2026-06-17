@@ -1,0 +1,22 @@
+<view class="page">
+  <text class="page-title">暂时没有天气，也能继续用</text>
+  <text class="page-subtitle">填写大概温度即可生成建议，之后随时可以刷新天气。</text>
+  <view class="weather-form card">
+    <text class="form-label">室外温度</text>
+    <view class="temperature-input">
+      <input type="number" value="{{outdoorTemp}}" bindinput="inputOutdoor" aria-label="室外温度" />
+      <text>℃</text>
+    </view>
+    <text class="form-label spaced">室内温度</text>
+    <view class="temperature-input">
+      <input type="number" value="{{indoorTemp}}" bindinput="inputIndoor" aria-label="室内温度" />
+      <text>℃</text>
+    </view>
+    <text class="form-label spaced">天气情况（可多选）</text>
+    <view class="weather-options">
+      <button wx:for="{{weatherOptions}}" wx:key="value" class="{{item.selected ? 'active' : ''}}" data-value="{{item.value}}" bindtap="toggleWeather">{{item.label}}</button>
+    </view>
+  </view>
+  <button class="primary-button submit" bindtap="submit">生成今日建议</button>
+  <view class="disclaimer">本建议仅供日常穿衣参考，不构成医疗建议。请结合宝宝实际状态判断；如宝宝出现明显不适，请及时咨询医生。</view>
+</view>

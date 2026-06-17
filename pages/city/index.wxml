@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="location-card">
+    <view>
+      <text class="location-title">使用当前位置</text>
+      <text class="location-copy">只在你点击后获取，用于查询城市天气。</text>
+    </view>
+    <button class="locate" bindtap="locate" loading="{{locating}}" disabled="{{locating}}">一键定位</button>
+  </view>
+  <view class="search">
+    <text class="search-icon">⌕</text>
+    <input value="{{keyword}}" bindinput="inputKeyword" placeholder="输入城市名称，如杭州" aria-label="搜索城市" />
+  </view>
+  <block wx:if="{{recentCities.length}}">
+    <text class="section-title">最近使用</text>
+    <view class="recent">
+      <button wx:for="{{recentCities}}" wx:key="name" data-city="{{item}}" bindtap="choose">{{item.name}}</button>
+    </view>
+  </block>
+  <text class="section-title">城市列表</text>
+  <view wx:if="{{results.length}}" class="city-list">
+    <view wx:for="{{results}}" wx:key="code" class="city-row" data-city="{{item}}" bindtap="choose" role="button" aria-label="选择{{item.name}}">
+      <text>{{item.name}}</text><text>›</text>
+    </view>
+  </view>
+  <empty-state
+    wx:else
+    title="常用城市列表里没有找到"
+    description="可以直接使用“{{keyword}}”，有天气服务时会自动查询行政区划。"
+    action-text="使用“{{keyword}}”"
+    bind:action="chooseCustomCity"
+  />
+</view>

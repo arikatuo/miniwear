@@ -1,0 +1,6 @@
+.settings-card { overflow: hidden; background: #ffffff; border-radius: 24rpx; }
+.setting-row { display: flex; min-height: 96rpx; align-items: center; justify-content: space-between; padding: 0 26rpx; border-bottom: 1rpx solid #edf2f6; }
+.setting-row:last-child { border-bottom: 0; }
+.setting-row.static { color: #526678; }
+.value { max-width: 65%; color: #718096; text-align: right; }
+.danger { color: #b64f4f; }

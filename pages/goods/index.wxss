@@ -1,0 +1,18 @@
+.notice { margin: 26rpx 0; padding: 20rpx 22rpx; color: #6b654f; background: #fff6dc; border-radius: 18rpx; font-size: 24rpx; }
+.category-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 12rpx; padding: 8rpx; background: #eaf1f6; border-radius: 22rpx; }
+.category-tabs button { min-height: 76rpx; margin: 0; color: #607487; background: transparent; border-radius: 17rpx; font-size: 28rpx; line-height: 76rpx; }
+.category-tabs button.active { color: #253342; background: #ffffff; font-weight: 650; box-shadow: 0 6rpx 16rpx rgba(50, 92, 126, .08); }
+.sub-tabs { width: 100%; margin: 24rpx 0; white-space: nowrap; }
+.sub-tabs button { display: inline-block; min-width: 112rpx; min-height: 68rpx; margin: 0 12rpx 0 0; color: #607487; background: #ffffff; border: 1rpx solid #dce8f2; border-radius: 999rpx; font-size: 25rpx; line-height: 68rpx; }
+.sub-tabs button.active { color: #ffffff; background: #3478b9; border-color: #3478b9; }
+.goods-card { display: flex; gap: 24rpx; margin-bottom: 20rpx; padding: 24rpx; background: #ffffff; border-radius: 26rpx; box-shadow: 0 8rpx 26rpx rgba(50, 92, 126, .06); }
+.goods-image { flex: none; width: 180rpx; height: 180rpx; background: #f1f7fb; border-radius: 22rpx; }
+.goods-content { flex: 1; min-width: 0; }
+.goods-name { display: block; color: #253342; font-size: 32rpx; font-weight: 700; }
+.meta-row { display: flex; flex-wrap: wrap; gap: 10rpx; margin: 12rpx 0; }
+.warm, .range { padding: 5rpx 12rpx; border-radius: 10rpx; font-size: 22rpx; }
+.warm { color: #8a6531; background: #fff6dc; }
+.range { color: #3478b9; background: #e9f3fc; }
+.scenes, .description { display: block; color: #718096; font-size: 23rpx; line-height: 1.55; }
+.description { margin-top: 6rpx; color: #536779; }
+button::after { border: 0; }

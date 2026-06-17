@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "选择城市",
+  "usingComponents": {
+    "empty-state": "/components/empty-state/index"
+  }
+}

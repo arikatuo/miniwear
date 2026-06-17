@@ -1,0 +1,32 @@
+<view class="page" wx:if="{{profile}}">
+  <text class="page-title">宝宝设置</text>
+  <text class="section-title">宝宝信息</text>
+  <view class="settings-card">
+    <picker mode="date" value="{{profile.birthday}}" end="{{maxDate}}" bindchange="birthdayChange">
+      <view class="setting-row"><text>出生日期</text><text class="value">{{profile.birthday || '未设置'}} ›</text></view>
+    </picker>
+    <view class="setting-row static"><text>当前月龄</text><text class="value">{{ageText}}</text></view>
+    <picker range="{{bodyOptions}}" range-key="label" value="{{bodyIndex}}" bindchange="bodyChange">
+      <view class="setting-row"><text>宝宝体质</text><text class="value">{{bodyOptions[bodyIndex].label}} ›</text></view>
+    </picker>
+    <picker range="{{sweatOptions}}" range-key="label" value="{{sweatIndex}}" bindchange="sweatChange">
+      <view class="setting-row"><text>容易出汗</text><text class="value">{{sweatOptions[sweatIndex].label}} ›</text></view>
+    </picker>
+  </view>
+
+  <text class="section-title">环境设置</text>
+  <view class="settings-card">
+    <picker mode="selector" range="{{tempValues}}" value="{{tempIndex}}" bindchange="indoorChange">
+      <view class="setting-row"><text>默认室内温度</text><text class="value">{{indoorTemp}}℃ ›</text></view>
+    </picker>
+    <view class="setting-row" bindtap="chooseCity" role="button"><text>所在城市</text><text class="value">{{city ? city.name : '未设置'}} ›</text></view>
+    <view class="setting-row static"><text>定位状态</text><text class="value">{{city && city.source === 'location' ? '已用于选城' : '未开启'}}</text></view>
+  </view>
+
+  <text class="section-title">数据与隐私</text>
+  <view class="settings-card">
+    <view class="setting-row" bindtap="openPrivacy" role="button"><text>隐私说明</text><text class="value">›</text></view>
+    <view class="setting-row danger" bindtap="clearData" role="button"><text>清除本地数据</text><text>›</text></view>
+  </view>
+  <view class="disclaimer">使用提示：本建议仅供日常穿衣参考，不构成医疗建议。</view>
+</view>

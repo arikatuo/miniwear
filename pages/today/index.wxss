@@ -1,0 +1,19 @@
+.today-page { padding-top: 22rpx; }
+.indoor-strip { display: flex; min-height: 92rpx; align-items: center; justify-content: space-between; margin: 22rpx 0; padding: 0 24rpx; background: #fff6dc; border-radius: 22rpx; }
+.indoor-label { margin-right: 16rpx; color: #6b654f; font-size: 26rpx; }
+.indoor-value { color: #4d493b; font-size: 32rpx; font-weight: 700; }
+.modify { color: #856e38; font-size: 25rpx; }
+.hero { padding: 34rpx 30rpx; background: #ffffff; border-radius: 30rpx; box-shadow: 0 12rpx 36rpx rgba(50, 92, 126, .08); }
+.eyebrow { display: block; color: #3478b9; font-size: 24rpx; font-weight: 650; letter-spacing: 2rpx; }
+.hero-title { display: block; margin-top: 6rpx; color: #253342; font-size: 46rpx; font-weight: 750; line-height: 1.3; }
+.comfort { display: block; margin-top: 10rpx; color: #607487; font-size: 26rpx; }
+.summary-list { margin-top: 28rpx; overflow: hidden; border: 1rpx solid #e2edf5; border-radius: 22rpx; }
+.summary { display: grid; grid-template-columns: 100rpx 1fr; gap: 12rpx; min-height: 96rpx; align-items: center; padding: 0 22rpx; border-bottom: 1rpx solid #edf3f7; }
+.summary:last-child { border-bottom: 0; }
+.summary-scene { color: #3478b9; font-weight: 700; }
+.summary-result { color: #34495e; font-size: 27rpx; }
+.profile-note { display: block; margin-top: 18rpx; color: #8393a2; font-size: 23rpx; }
+.share-button { min-height: 92rpx; color: #ffffff; background: #3478b9; border-radius: 22rpx; font-size: 30rpx; font-weight: 650; line-height: 92rpx; }
+.hero-skeleton { height: 330rpx; margin-top: 22rpx; }
+.card-skeleton { height: 440rpx; margin-top: 24rpx; }
+button::after { border: 0; }

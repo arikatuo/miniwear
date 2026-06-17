@@ -1,0 +1,27 @@
+<view class="page">
+  <text class="page-title">宝宝用品</text>
+  <text class="page-subtitle">穿衣和睡觉用品参考清单，不代表必须全部准备，请按家里实际情况选择。</text>
+  <view class="notice">保暖值仅供参考，请结合宝宝实际状态调整。</view>
+  <view class="category-tabs">
+    <button class="{{category === 'clothing' ? 'active' : ''}}" data-value="clothing" bindtap="chooseCategory">穿衣用品</button>
+    <button class="{{category === 'sleep' ? 'active' : ''}}" data-value="sleep" bindtap="chooseCategory">睡觉用品</button>
+  </view>
+  <scroll-view class="sub-tabs" scroll-x enhanced show-scrollbar="{{false}}">
+    <button wx:for="{{subCategories}}" wx:key="key" class="{{subCategory === item.key ? 'active' : ''}}" data-value="{{item.key}}" bindtap="chooseSubCategory">{{item.label}}</button>
+  </scroll-view>
+  <view wx:if="{{visibleGoods.length}}" class="goods-list">
+    <view wx:for="{{visibleGoods}}" wx:key="id" class="goods-card">
+      <image class="goods-image" src="{{item.illustration}}" mode="aspectFit" data-index="{{index}}" binderror="imageError" aria-label="{{item.name}}插画" />
+      <view class="goods-content">
+        <text class="goods-name">{{item.name}}</text>
+        <view class="meta-row">
+          <text class="warm">{{item.warmText}}</text>
+          <text class="range">{{item.tempRange}}</text>
+        </view>
+        <text class="scenes">适用：{{item.sceneText}}</text>
+        <text class="description">{{item.desc}}</text>
+      </view>
+    </view>
+  </view>
+  <empty-state wx:else title="当前分类暂无用品" description="换一个分类看看吧。" />
+</view>

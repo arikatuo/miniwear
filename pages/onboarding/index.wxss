@@ -1,0 +1,29 @@
+.onboarding { display: flex; min-height: 100vh; flex-direction: column; }
+.progress { display: flex; gap: 10rpx; margin: 10rpx 0 12rpx; }
+.progress-item { flex: 1; height: 8rpx; background: #dfeaf2; border-radius: 99rpx; }
+.progress-item.active { background: #3478b9; }
+.step-label { color: #718096; font-size: 24rpx; }
+.illustration { position: relative; height: 260rpx; margin: 38rpx 0; overflow: hidden; background: #eaf5ff; border-radius: 32rpx; }
+.city-art::before { content: ""; position: absolute; top: 42rpx; right: 70rpx; width: 86rpx; height: 86rpx; background: #ffe39a; border-radius: 50%; }
+.building { position: absolute; bottom: 0; background: #8dbce2; border-radius: 14rpx 14rpx 0 0; }
+.building.one { left: 80rpx; width: 110rpx; height: 130rpx; }
+.building.two { left: 215rpx; width: 150rpx; height: 190rpx; background: #6ba4d2; }
+.building.three { right: 82rpx; width: 120rpx; height: 105rpx; background: #b5d5ed; }
+.center { display: block; margin-top: 16rpx; text-align: center; }
+.temperature { margin: 56rpx 0 34rpx; color: #3478b9; font-size: 108rpx; font-weight: 700; text-align: center; line-height: 1; }
+.temperature text { font-size: 44rpx; }
+.temperature-grid { display: flex; gap: 12rpx; }
+.temp-choice { flex: 1; min-height: 78rpx; margin: 0; padding: 0; color: #526678; background: #ffffff; border: 1rpx solid #dce8f2; border-radius: 18rpx; font-size: 25rpx; line-height: 78rpx; }
+.temp-choice.active, .option.active { color: #ffffff; background: #3478b9; }
+.manual-field { display: flex; align-items: center; gap: 12rpx; margin-top: 24rpx; padding: 0 24rpx; background: #ffffff; border: 1rpx solid #dce8f2; border-radius: 20rpx; }
+.manual-field input { flex: 1; min-height: 88rpx; text-align: right; }
+.form-card { margin-top: 36rpx; padding: 28rpx; background: #ffffff; border-radius: 28rpx; }
+.picker-value { display: flex; min-height: 88rpx; align-items: center; justify-content: space-between; padding: 0 22rpx; background: #f7fafc; border-radius: 18rpx; color: #526678; }
+.spaced { margin-top: 30rpx; }
+.option-grid { display: flex; gap: 12rpx; }
+.option { flex: 1; min-height: 80rpx; margin: 0; padding: 0; color: #526678; background: #f2f6f9; border-radius: 18rpx; font-size: 25rpx; line-height: 80rpx; }
+.footer-actions { display: flex; gap: 16rpx; margin-top: auto; padding-top: 40rpx; }
+.half { width: 200rpx; margin: 0; }
+.grow { flex: 1; margin: 0; }
+.skip { min-height: 76rpx; color: #718096; background: transparent; font-size: 26rpx; line-height: 76rpx; }
+button::after { border: 0; }

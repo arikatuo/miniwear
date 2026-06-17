@@ -1,0 +1,3 @@
+.privacy-card, .health-card { margin-top: 24rpx; padding: 28rpx; color: #526678; background: #ffffff; border-radius: 24rpx; font-size: 27rpx; line-height: 1.75; }
+.privacy-title { display: block; margin-bottom: 10rpx; color: #253342; font-size: 32rpx; font-weight: 700; }
+.health-card { background: #fff6dc; }

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "宝宝今天穿什么",
+  "usingComponents": {
+    "weather-bar": "/components/weather-bar/index",
+    "recommendation-card": "/components/recommendation-card/index",
+    "empty-state": "/components/empty-state/index",
+    "temperature-modal": "/components/temperature-modal/index",
+    "share-card": "/components/share-card/index"
+  }
+}
