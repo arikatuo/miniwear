@@ -1,0 +1,15 @@
+.overlay { position: fixed; z-index: 100; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: flex-end; background: rgba(28, 41, 54, .48); }
+.sheet { width: 100%; padding: 18rpx 30rpx calc(30rpx + env(safe-area-inset-bottom)); background: #ffffff; border-radius: 32rpx 32rpx 0 0; }
+.handle { width: 72rpx; height: 8rpx; margin: 0 auto 24rpx; background: #d8e1e8; border-radius: 99rpx; }
+.title, .copy { display: block; }
+.title { color: #253342; font-size: 36rpx; font-weight: 700; }
+.copy { margin-top: 6rpx; color: #718096; font-size: 25rpx; }
+.choices { display: flex; gap: 12rpx; margin: 28rpx 0; }
+.choice { flex: 1; min-height: 74rpx; margin: 0; padding: 0; color: #526678; background: #f2f6f9; border-radius: 16rpx; font-size: 25rpx; line-height: 74rpx; }
+.choice.active { color: #ffffff; background: #3478b9; }
+.input-row { display: flex; align-items: center; gap: 16rpx; padding: 0 22rpx; background: #f7fafc; border: 1rpx solid #dce8f2; border-radius: 18rpx; }
+.input { flex: 1; min-height: 84rpx; font-size: 32rpx; }
+.confirm, .cancel { min-height: 88rpx; border-radius: 20rpx; font-size: 29rpx; line-height: 88rpx; }
+.confirm { margin-top: 26rpx; color: #ffffff; background: #3478b9; }
+.cancel { color: #607487; background: transparent; }
+button::after { border: 0; }

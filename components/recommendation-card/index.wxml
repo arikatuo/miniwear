@@ -1,0 +1,28 @@
+<view wx:if="{{item}}" class="recommend-card">
+  <view class="card-head">
+    <view class="scene-badge">{{item.sceneName}}</view>
+    <text class="temperature">{{item.temperature}}℃</text>
+  </view>
+  <text class="result">{{item.result}}</text>
+  <text wx:if="{{adjustmentLabel}}" class="adjust-label">{{adjustmentLabel}}</text>
+  <view class="detail">
+    <text class="detail-label">为什么这样穿</text>
+    <text class="detail-copy">{{item.reason}}</text>
+    <text class="age-copy">{{item.ageText}}</text>
+  </view>
+  <view class="tips">
+    <view class="tip tip-hot">
+      <text class="tip-label">热了</text>
+      <text>{{item.hotAction}}</text>
+    </view>
+    <view class="tip tip-cold">
+      <text class="tip-label">冷了</text>
+      <text>{{item.coldAction}}</text>
+    </view>
+  </view>
+  <view class="actions">
+    <button class="adjust-button" data-delta="-1" bindtap="adjust">想薄一点</button>
+    <button class="good-button" bindtap="confirmGood">刚刚好</button>
+    <button class="adjust-button" data-delta="1" bindtap="adjust">想厚一点</button>
+  </view>
+</view>

@@ -1,0 +1,12 @@
+.overlay { position: fixed; z-index: 110; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: flex-end; background: rgba(28, 41, 54, .52); }
+.panel { width: 100%; max-height: 92vh; padding: 28rpx 30rpx calc(30rpx + env(safe-area-inset-bottom)); background: #ffffff; border-radius: 32rpx 32rpx 0 0; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; }
+.title { color: #253342; font-size: 36rpx; font-weight: 700; }
+.close { min-width: 96rpx; min-height: 72rpx; margin: 0; padding: 0; color: #607487; background: #f2f6f9; border-radius: 16rpx; font-size: 25rpx; line-height: 72rpx; }
+.preview { height: 720rpx; margin-top: 20rpx; overflow: hidden; background: #f7fbff; border-radius: 22rpx; text-align: center; }
+.image { width: 100%; }
+.loading { color: #718096; line-height: 720rpx; }
+.canvas { position: fixed; left: -9999px; width: 600px; height: 900px; }
+.save { min-height: 88rpx; margin-top: 22rpx; color: #ffffff; background: #3478b9; border-radius: 20rpx; font-size: 29rpx; line-height: 88rpx; }
+.note { display: block; margin-top: 12rpx; color: #718096; font-size: 23rpx; text-align: center; }
+button::after { border: 0; }

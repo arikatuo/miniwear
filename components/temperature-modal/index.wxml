@@ -1,0 +1,16 @@
+<view wx:if="{{visible}}" class="overlay" bindtap="close">
+  <view class="sheet" catchtap="stop">
+    <view class="handle"></view>
+    <text class="title">家里现在多少度？</text>
+    <text class="copy">不知道也没关系，可以先用 24℃。</text>
+    <view class="choices">
+      <button wx:for="{{choices}}" wx:key="*this" class="choice {{draft == item ? 'active' : ''}}" data-value="{{item}}" bindtap="choose">{{item}}℃</button>
+    </view>
+    <view class="input-row">
+      <input class="input" type="number" value="{{draft}}" bindinput="input" aria-label="室内温度" />
+      <text>℃</text>
+    </view>
+    <button class="confirm" bindtap="confirm">保存室温</button>
+    <button class="cancel" bindtap="close">取消</button>
+  </view>
+</view>

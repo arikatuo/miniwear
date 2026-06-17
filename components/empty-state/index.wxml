@@ -1,0 +1,10 @@
+<view class="empty">
+  <view class="empty-illustration">
+    <view class="sun"></view>
+    <view class="cloud cloud-left"></view>
+    <view class="cloud cloud-right"></view>
+  </view>
+  <text class="title">{{title}}</text>
+  <text class="description">{{description}}</text>
+  <button wx:if="{{actionText}}" class="action" bindtap="action">{{actionText}}</button>
+</view>
