@@ -1,6 +1,110 @@
-.settings-card { overflow: hidden; background: #ffffff; border-radius: 24rpx; }
-.setting-row { display: flex; min-height: 96rpx; align-items: center; justify-content: space-between; padding: 0 26rpx; border-bottom: 1rpx solid #edf2f6; }
-.setting-row:last-child { border-bottom: 0; }
-.setting-row.static { color: #526678; }
-.value { max-width: 65%; color: #718096; text-align: right; }
-.danger { color: #b64f4f; }
+.settings-page {
+  padding-bottom: calc(132rpx + env(safe-area-inset-bottom));
+}
+
+.settings-hero {
+  margin-bottom: 34rpx;
+}
+
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin: 36rpx 0 16rpx;
+}
+
+.section-note {
+  color: var(--color-faint);
+  font-size: 23rpx;
+  font-weight: 700;
+}
+
+.settings-card {
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1rpx solid rgba(255, 255, 255, 0.86);
+  border-radius: 34rpx;
+  box-shadow: var(--shadow-soft);
+}
+
+.setting-row {
+  display: flex;
+  min-height: 104rpx;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30rpx;
+  border-bottom: 1rpx solid rgba(228, 236, 239, 0.78);
+  color: var(--color-text);
+  font-size: 29rpx;
+  font-weight: 690;
+}
+
+.setting-row:last-child {
+  border-bottom: 0;
+}
+
+.setting-row.static {
+  color: var(--color-muted);
+}
+
+.temp-row {
+  border-bottom: 0;
+}
+
+.value {
+  max-width: 64%;
+  color: var(--color-muted);
+  font-weight: 650;
+  text-align: right;
+}
+
+.value.strong {
+  color: var(--color-primary);
+  font-size: 34rpx;
+  font-weight: 850;
+}
+
+.danger {
+  color: var(--color-danger);
+}
+
+.settings-temp-wheel {
+  position: relative;
+  height: 214rpx;
+  margin: 0 24rpx 24rpx;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(245, 248, 246, 0.36), rgba(231, 242, 247, 0.85), rgba(245, 248, 246, 0.36));
+  border-radius: 28rpx;
+}
+
+.wheel-highlight {
+  position: absolute;
+  top: 71rpx;
+  right: 22rpx;
+  left: 22rpx;
+  height: 72rpx;
+  border: 1rpx solid rgba(47, 111, 159, 0.12);
+  border-radius: 22rpx;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.temperature-wheel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 214rpx;
+}
+
+.wheel-item {
+  display: flex;
+  height: 72rpx;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-deep);
+  font-size: 36rpx;
+  font-weight: 850;
+}
+
+.disclaimer {
+  margin-bottom: 10rpx;
+}

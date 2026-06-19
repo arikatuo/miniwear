@@ -1,6 +1,14 @@
-<view class="page" wx:if="{{profile}}">
-  <text class="page-title">宝宝设置</text>
-  <text class="section-title">宝宝信息</text>
+<view class="page settings-page" wx:if="{{profile}}">
+  <view class="settings-hero">
+    <text class="eyebrow">个人化建议</text>
+    <text class="page-title">宝宝设置</text>
+    <text class="page-subtitle">这些信息只保存在本地，用来让穿衣建议更贴近宝宝状态。</text>
+  </view>
+
+  <view class="section-heading">
+    <text class="section-title">宝宝信息</text>
+    <text class="section-note">基础资料</text>
+  </view>
   <view class="settings-card">
     <picker mode="date" value="{{profile.birthday}}" end="{{maxDate}}" bindchange="birthdayChange">
       <view class="setting-row"><text>出生日期</text><text class="value">{{profile.birthday || '未设置'}} ›</text></view>
@@ -10,20 +18,32 @@
       <view class="setting-row"><text>宝宝体质</text><text class="value">{{bodyOptions[bodyIndex].label}} ›</text></view>
     </picker>
     <picker range="{{sweatOptions}}" range-key="label" value="{{sweatIndex}}" bindchange="sweatChange">
-      <view class="setting-row"><text>容易出汗</text><text class="value">{{sweatOptions[sweatIndex].label}} ›</text></view>
+      <view class="setting-row"><text>出汗情况</text><text class="value">{{sweatOptions[sweatIndex].label}} ›</text></view>
     </picker>
   </view>
 
-  <text class="section-title">环境设置</text>
+  <view class="section-heading">
+    <text class="section-title">环境设置</text>
+    <text class="section-note">默认参考</text>
+  </view>
   <view class="settings-card">
-    <picker mode="selector" range="{{tempValues}}" value="{{tempIndex}}" bindchange="indoorChange">
-      <view class="setting-row"><text>默认室内温度</text><text class="value">{{indoorTemp}}℃ ›</text></view>
-    </picker>
+    <view class="setting-row static temp-row"><text>默认室内温度</text><text class="value strong">{{indoorTemp}}℃</text></view>
+    <view class="settings-temp-wheel">
+      <view class="wheel-highlight"></view>
+      <picker-view class="temperature-wheel compact" value="{{tempPickerValue}}" bindchange="indoorChange" indicator-style="height: 72rpx;">
+        <picker-view-column>
+          <view wx:for="{{tempValues}}" wx:key="*this" class="wheel-item compact">{{item}}℃</view>
+        </picker-view-column>
+      </picker-view>
+    </view>
     <view class="setting-row" bindtap="chooseCity" role="button"><text>所在城市</text><text class="value">{{city ? city.name : '未设置'}} ›</text></view>
     <view class="setting-row static"><text>定位状态</text><text class="value">{{city && city.source === 'location' ? '已用于选城' : '未开启'}}</text></view>
   </view>
 
-  <text class="section-title">数据与隐私</text>
+  <view class="section-heading">
+    <text class="section-title">数据与隐私</text>
+    <text class="section-note">本地存储</text>
+  </view>
   <view class="settings-card">
     <view class="setting-row" bindtap="openPrivacy" role="button"><text>隐私说明</text><text class="value">›</text></view>
     <view class="setting-row danger" bindtap="clearData" role="button"><text>清除本地数据</text><text>›</text></view>

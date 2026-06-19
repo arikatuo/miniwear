@@ -8,19 +8,19 @@ Page({
     indoorTemp: 24,
     ageText: '',
     bodyOptions: [
-      { value: 'unknown', label: '不确定' },
+      { value: 'unknown', label: '正常' },
       { value: 'hot', label: '偏怕热' },
       { value: 'cold', label: '偏怕冷' }
     ],
     sweatOptions: [
-      { value: 'unknown', label: '不确定' },
+      { value: 'unknown', label: '正常' },
       { value: 'yes', label: '容易出汗' },
-      { value: 'no', label: '不太容易出汗' }
+      { value: 'no', label: '不太出汗' }
     ],
     bodyIndex: 0,
     sweatIndex: 0,
-    tempValues: [20, 22, 24, 26, 28],
-    tempIndex: 2,
+    tempValues: Array.from({ length: 25 }, (_, index) => index + 12),
+    tempPickerValue: [12],
     maxDate: ''
   },
 
@@ -35,16 +35,18 @@ Page({
     const profile = storage.getBabyProfile()
     const city = storage.getCity()
     const indoorTemp = storage.getEnvironment().indoorTemp
+    const bodyIndex = this.data.bodyOptions.findIndex((item) => item.value === profile.bodyType)
+    const sweatIndex = this.data.sweatOptions.findIndex((item) => item.value === profile.easySweat)
     this.setData({
       profile,
       city,
       indoorTemp,
       ageText: formatAge(profile.birthday),
-      bodyIndex: this.data.bodyOptions.findIndex((item) => item.value === profile.bodyType),
-      sweatIndex: this.data.sweatOptions.findIndex((item) => item.value === profile.easySweat),
-      tempIndex: this.data.tempValues.reduce((best, value, index, values) => (
+      bodyIndex: bodyIndex >= 0 ? bodyIndex : 0,
+      sweatIndex: sweatIndex >= 0 ? sweatIndex : 0,
+      tempPickerValue: [this.data.tempValues.reduce((best, value, index, values) => (
         Math.abs(value - indoorTemp) < Math.abs(values[best] - indoorTemp) ? index : best
-      ), 0)
+      ), 0)]
     })
   },
 
@@ -67,9 +69,10 @@ Page({
   },
 
   indoorChange(event) {
-    const indoorTemp = this.data.tempValues[Number(event.detail.value)]
+    const index = Number(event.detail.value[0])
+    const indoorTemp = this.data.tempValues[index]
     storage.saveEnvironment({ indoorTemp })
-    this.setData({ indoorTemp })
+    this.setData({ indoorTemp, tempPickerValue: [index] })
   },
 
   chooseCity() { wx.navigateTo({ url: '/pages/city/index' }) },
