@@ -49,6 +49,17 @@ function readImageSize(relativePath) {
   return { width: 0, height: 0 }
 }
 
+function isUploadIgnored(relativePath) {
+  const normalized = normalizeRelativePath(relativePath).replace(/^\.\//, '')
+  const ignored = projectConfig.packOptions && projectConfig.packOptions.ignore || []
+  return ignored.some((item) => {
+    const value = normalizeRelativePath(item.value).replace(/^\.\//, '')
+    if (item.type === 'folder') return normalized === value || normalized.startsWith(`${value}/`)
+    if (item.type === 'file') return normalized === value
+    return false
+  })
+}
+
 function validateJson(relativePath) {
   try {
     JSON.parse(read(relativePath))
@@ -77,6 +88,7 @@ for (const component of componentRoots) {
   for (const extension of ['.js', '.json', '.wxml', '.wxss']) {
     const file = `${component}${extension}`
     if (!exists(file)) errors.push(`${file}: 组件文件缺失`)
+    if (isUploadIgnored(file)) errors.push(`${file}: 组件文件被上传忽略规则排除`)
   }
 }
 
@@ -160,7 +172,8 @@ for (const expected of [
   'folder:tests',
   'folder:scripts',
   'folder:衣柜床品图案',
-  'file:宝宝今天穿什么_V1.0_最终版PRD.pdf'
+  'file:宝宝今天穿什么_V1.0_最终版PRD.pdf',
+  'file:project.private.config.json'
 ]) {
   if (!ignoredPackageFiles.includes(expected)) errors.push(`project.config.json 上传忽略配置缺少 ${expected}`)
 }

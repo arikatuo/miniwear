@@ -10,6 +10,7 @@
     "postcss": true,
     "minified": true,
     "urlCheck": false,
+    "ignoreDevUnusedFiles": false,
     "compileWorklet": false,
     "uglifyFileName": false,
     "uploadWithSourceMap": true,
@@ -61,6 +62,10 @@
       },
       {
         "value": "package.json",
+        "type": "file"
+      },
+      {
+        "value": "project.private.config.json",
         "type": "file"
       },
       {
