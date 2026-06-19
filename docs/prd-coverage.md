@@ -7,7 +7,7 @@
 | 定位与手动城市 | `pages/city/` | 页面结构与 JS 语法校验 | 已实现，定位授权需真机 |
 | 手动温度模式 | `pages/manual-weather/` | 页面结构校验 | 已实现 |
 | 宝宝设置、隐私、清除数据 | `pages/settings/`、`pages/privacy/` | 缓存测试、免责声明校验 | 已实现 |
-| 宝宝用品参考与分类 | `pages/goods/`、`config/goods.config.js` | 50 个完整商品条目、400x400 PNG 插画引用校验、截图素材裁剪预览 | 已实现 |
+| 宝宝用品参考与分类 | `pages/goods/`、`config/goods.config.js` | 50 个完整商品条目、400x400 JPG 运行素材引用校验、截图素材裁剪预览 | 已实现 |
 | 分享卡生成与保存 | `components/share-card/` | 结构、文案、代码路径与画布尺寸校验 | 已实现，保存相册需真机 |
 | 固定小程序码 | `config/share.config.js` | 配置资源存在性校验 | 待真实 AppID 发布后配置 |
 | 温度基准规则 | `config/recommend.rules.js` | 推荐测试 | 已实现 |

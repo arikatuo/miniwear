@@ -104,7 +104,7 @@
 - Create: `pages/goods/*`
 - Create: `pages/settings/*`
 - Create: `pages/privacy/*`
-- Create: `assets/goods/*.png`
+- Create: `assets/goods/*.jpg`
 
 - [ ] 实现用品大类、小类筛选、保暖值、温度范围和统一图片回退。
 - [ ] 实现宝宝生日、体质、是否易出汗、室温和城市设置。

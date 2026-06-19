@@ -29,6 +29,26 @@ function normalizeRelativePath(relativePath) {
   return relativePath.replace(/\\/g, '/')
 }
 
+function readImageSize(relativePath) {
+  const buffer = fs.readFileSync(path.join(root, relativePath))
+  if (buffer.length >= 24 && buffer.toString('ascii', 1, 4) === 'PNG') {
+    return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20) }
+  }
+  if (buffer.length >= 4 && buffer[0] === 0xff && buffer[1] === 0xd8) {
+    let offset = 2
+    while (offset + 9 < buffer.length) {
+      if (buffer[offset] !== 0xff) break
+      const marker = buffer[offset + 1]
+      const length = buffer.readUInt16BE(offset + 2)
+      if (marker >= 0xc0 && marker <= 0xc3) {
+        return { width: buffer.readUInt16BE(offset + 7), height: buffer.readUInt16BE(offset + 5) }
+      }
+      offset += 2 + length
+    }
+  }
+  return { width: 0, height: 0 }
+}
+
 function validateJson(relativePath) {
   try {
     JSON.parse(read(relativePath))
@@ -111,20 +131,20 @@ const { goods } = require(path.join(root, 'config/goods.config'))
 const goodsPage = read('pages/goods/index.js')
 if (!goodsPage.includes('warmText')) errors.push('用品页未使用格式化后的保暖值文案')
 if (goods.length < 50) errors.push(`用品配置至少应包含 50 个完整截图商品条目，当前 ${goods.length} 个`)
-const referencedGoodsAssets = new Set(['assets/goods/default.png'])
+const referencedGoodsAssets = new Set(['assets/goods/default.jpg'])
 for (const item of goods) {
   const asset = normalizeRelativePath(item.illustration.replace(/^\//, ''))
   referencedGoodsAssets.add(asset)
   if (!exists(asset)) errors.push(`用品 ${item.id} 的插画不存在: ${asset}`)
   if (!Number.isFinite(item.warmValue)) errors.push(`用品 ${item.id} 的保暖值必须为数字`)
 }
-if (!exists('assets/goods/default.png')) errors.push('缺少用品默认占位图')
-for (const pngFile of walk('assets/goods', '.png')) {
-  const normalizedPngFile = normalizeRelativePath(pngFile)
-  if (!referencedGoodsAssets.has(normalizedPngFile)) errors.push(`${normalizedPngFile}: 用品图片未被配置引用`)
-  const buffer = fs.readFileSync(path.join(root, pngFile))
-  if (buffer.readUInt32BE(16) !== 400 || buffer.readUInt32BE(20) !== 400) {
-    errors.push(`${pngFile}: 插画尺寸必须为 400x400`)
+if (!exists('assets/goods/default.jpg')) errors.push('缺少用品默认占位图')
+for (const imageFile of [...walk('assets/goods', '.jpg'), ...walk('assets/goods', '.png')]) {
+  const normalizedImageFile = normalizeRelativePath(imageFile)
+  if (!referencedGoodsAssets.has(normalizedImageFile)) errors.push(`${normalizedImageFile}: 用品图片未被配置引用`)
+  const { width, height } = readImageSize(imageFile)
+  if (width !== 400 || height !== 400) {
+    errors.push(`${imageFile}: 插画尺寸必须为 400x400`)
   }
 }
 
@@ -136,6 +156,7 @@ const ignoredPackageFiles = (projectConfig.packOptions && projectConfig.packOpti
   .map((item) => `${item.type}:${item.value}`)
 for (const expected of [
   'folder:docs',
+  'folder:.git',
   'folder:tests',
   'folder:scripts',
   'folder:衣柜床品图案',

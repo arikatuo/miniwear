@@ -1,5 +1,5 @@
 {
-  "appid": "touristappid",
+  "appid": "wxed1ea023e86cc62a",
   "projectname": "miniwear",
   "description": "宝宝今天穿什么 V1.0",
   "compileType": "miniprogram",
@@ -9,20 +9,69 @@
     "enhance": true,
     "postcss": true,
     "minified": true,
-    "urlCheck": false
+    "urlCheck": false,
+    "compileWorklet": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
   },
   "packOptions": {
     "ignore": [
-      { "type": "folder", "value": ".omx" },
-      { "type": "folder", "value": "docs" },
-      { "type": "folder", "value": "scripts" },
-      { "type": "folder", "value": "tests" },
-      { "type": "folder", "value": "衣柜床品图案" },
-      { "type": "file", "value": "宝宝今天穿什么_V1.0_最终版PRD.pdf" },
-      { "type": "file", "value": "package.json" },
-      { "type": "file", "value": "README.md" }
-    ]
+      {
+        "value": ".omx",
+        "type": "folder"
+      },
+      {
+        "value": ".git",
+        "type": "folder"
+      },
+      {
+        "value": "docs",
+        "type": "folder"
+      },
+      {
+        "value": "scripts",
+        "type": "folder"
+      },
+      {
+        "value": "tests",
+        "type": "folder"
+      },
+      {
+        "value": "衣柜床品图案",
+        "type": "folder"
+      },
+      {
+        "value": "宝宝今天穿什么_V1.0_最终版PRD.pdf",
+        "type": "file"
+      },
+      {
+        "value": "package.json",
+        "type": "file"
+      },
+      {
+        "value": "README.md",
+        "type": "file"
+      }
+    ],
+    "include": []
   },
   "simulatorType": "wechat",
-  "condition": {}
+  "condition": {},
+  "simulatorPluginLibVersion": {},
+  "editorSetting": {}
 }
