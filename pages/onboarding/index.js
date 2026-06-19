@@ -6,17 +6,18 @@ Page({
     progressSteps: [0, 1, 2],
     city: null,
     indoorTemp: 24,
-    temperatureChoices: [20, 22, 24, 26, 28],
+    temperatureValues: Array.from({ length: 25 }, (_, index) => index + 12),
+    temperaturePickerValue: [12],
     birthday: '',
     bodyTypes: [
-      { value: 'unknown', label: '不确定' },
+      { value: 'unknown', label: '正常' },
       { value: 'hot', label: '偏怕热' },
       { value: 'cold', label: '偏怕冷' }
     ],
     sweatTypes: [
-      { value: 'unknown', label: '不确定' },
+      { value: 'unknown', label: '正常' },
       { value: 'yes', label: '容易出汗' },
-      { value: 'no', label: '不太容易出汗' }
+      { value: 'no', label: '不太出汗' }
     ],
     bodyType: 'unknown',
     easySweat: 'unknown',
@@ -26,9 +27,11 @@ Page({
   onLoad() {
     storage.initialize()
     const profile = storage.getBabyProfile()
+    const indoorTemp = storage.getEnvironment().indoorTemp
     this.setData({
       city: storage.getCity(),
-      indoorTemp: storage.getEnvironment().indoorTemp,
+      indoorTemp,
+      temperaturePickerValue: [this.getTemperatureIndex(indoorTemp)],
       birthday: profile.birthday,
       bodyType: profile.bodyType,
       easySweat: profile.easySweat,
@@ -48,13 +51,16 @@ Page({
     wx.navigateTo({ url: '/pages/city/index?source=onboarding' })
   },
 
-  selectTemperature(event) {
-    this.setData({ indoorTemp: Number(event.currentTarget.dataset.value) })
+  getTemperatureIndex(value) {
+    const temp = Number(value)
+    const index = this.data.temperatureValues.findIndex((item) => item === temp)
+    return index >= 0 ? index : this.data.temperatureValues.findIndex((item) => item === 24)
   },
 
-  inputTemperature(event) {
-    const value = Number(event.detail.value)
-    if (Number.isFinite(value)) this.setData({ indoorTemp: value })
+  temperatureChange(event) {
+    const index = Number(event.detail.value[0])
+    const indoorTemp = this.data.temperatureValues[index]
+    this.setData({ indoorTemp, temperaturePickerValue: [index] })
   },
 
   validIndoorTemp() {

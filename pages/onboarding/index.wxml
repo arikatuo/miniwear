@@ -1,36 +1,63 @@
 <view class="page onboarding">
-  <view class="progress">
-    <view wx:for="{{progressSteps}}" wx:key="*this" class="progress-item {{step >= item ? 'active' : ''}}"></view>
+  <view class="onboarding-ambient one"></view>
+  <view class="onboarding-ambient two"></view>
+  <view class="progress-shell">
+    <view class="progress">
+      <view wx:for="{{progressSteps}}" wx:key="*this" class="progress-item {{step >= item ? 'active' : ''}}"></view>
+    </view>
+    <text class="step-label">第 {{step + 1}} 步 / 共 3 步</text>
   </view>
-  <text class="step-label">第 {{step + 1}} 步，共 3 步</text>
 
   <block wx:if="{{step === 0}}">
-    <text class="page-title">今天从哪里出发？</text>
-    <text class="page-subtitle">城市只用来获取天气。我们不会持续追踪位置。</text>
-    <view class="illustration city-art">
-      <view class="building one"></view><view class="building two"></view><view class="building three"></view>
+    <view class="hero-copy">
+      <text class="eyebrow">天气基准</text>
+      <text class="page-title">今天从哪里出发？</text>
+      <text class="page-subtitle">只用城市获取天气，不持续追踪定位。拒绝授权也可以手动选择。</text>
     </view>
-    <button class="primary-button" bindtap="chooseCity">{{city ? '已选择：' + city.name : '定位或手动选择城市'}}</button>
-    <text class="help-text center">点击后才会申请定位权限；拒绝也不影响手动选择。</text>
+    <view class="illustration city-art">
+      <view class="sun-orb"></view>
+      <view class="building one"></view>
+      <view class="building two"></view>
+      <view class="building three"></view>
+      <view class="city-line"></view>
+    </view>
+    <view class="selection-card" bindtap="chooseCity" role="button">
+      <view>
+        <text class="selection-label">当前城市</text>
+        <text class="selection-value">{{city ? city.name : '选择城市'}}</text>
+      </view>
+      <text class="selection-action">{{city ? '重新选择' : '去选择'}} ›</text>
+    </view>
   </block>
 
   <block wx:elif="{{step === 1}}">
-    <text class="page-title">家里大约多少度？</text>
-    <text class="page-subtitle">室温会用于在家和睡觉建议，不确定时用 24℃ 即可。</text>
-    <view class="temperature">{{indoorTemp}}<text>℃</text></view>
-    <view class="temperature-grid">
-      <button wx:for="{{temperatureChoices}}" wx:key="*this" class="temp-choice {{indoorTemp == item ? 'active' : ''}}" data-value="{{item}}" bindtap="selectTemperature">{{item}}℃</button>
+    <view class="hero-copy">
+      <text class="eyebrow">室内体感</text>
+      <text class="page-title">家里大约多少度？</text>
+      <text class="page-subtitle">用于在家和睡觉建议。不确定时，24℃ 是一个温和默认值。</text>
     </view>
-    <view class="manual-field">
-      <text>手动输入</text>
-      <input type="number" value="{{indoorTemp}}" bindinput="inputTemperature" aria-label="室内温度" />
-      <text>℃</text>
+    <view class="temperature-panel">
+      <view class="temperature-readout">
+        <text>{{indoorTemp}}</text><text class="unit">℃</text>
+      </view>
+      <view class="wheel-wrap">
+        <view class="wheel-highlight"></view>
+        <picker-view class="temperature-wheel" value="{{temperaturePickerValue}}" bindchange="temperatureChange" indicator-style="height: 80rpx;">
+          <picker-view-column>
+            <view wx:for="{{temperatureValues}}" wx:key="*this" class="wheel-item">{{item}}℃</view>
+          </picker-view-column>
+        </picker-view>
+      </view>
+      <text class="panel-note">上下滑动调整温度</text>
     </view>
   </block>
 
   <block wx:else>
-    <text class="page-title">再了解一点宝宝</text>
-    <text class="page-subtitle">这些信息只保存在当前小程序本地，也可以先跳过。</text>
+    <view class="hero-copy">
+      <text class="eyebrow">宝宝偏好</text>
+      <text class="page-title">再了解一点宝宝</text>
+      <text class="page-subtitle">信息只保存在当前小程序本地，也可以先跳过。</text>
+    </view>
     <view class="form-card">
       <text class="form-label">出生日期</text>
       <picker mode="date" value="{{birthday}}" end="{{maxDate}}" bindchange="selectBirthday">
@@ -40,7 +67,7 @@
       <view class="option-grid">
         <button wx:for="{{bodyTypes}}" wx:key="value" class="option {{bodyType === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectBodyType">{{item.label}}</button>
       </view>
-      <text class="form-label spaced">是否容易出汗</text>
+      <text class="form-label spaced">出汗情况</text>
       <view class="option-grid">
         <button wx:for="{{sweatTypes}}" wx:key="value" class="option {{easySweat === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectSweat">{{item.label}}</button>
       </view>
