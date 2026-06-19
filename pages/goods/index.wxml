@@ -1,15 +1,47 @@
-<view class="page">
-  <text class="page-title">宝宝用品</text>
-  <text class="page-subtitle">穿衣和睡觉用品参考清单，不代表必须全部准备，请按家里实际情况选择。</text>
-  <view class="notice">保暖值仅供参考，请结合宝宝实际状态调整。</view>
+<view class="page goods-page">
+  <view class="goods-hero">
+    <text class="eyebrow">用品图鉴</text>
+    <text class="page-title">宝宝用品</text>
+    <text class="page-subtitle">穿衣和睡觉用品参考清单，不代表必须全部准备，请按家里实际情况选择。</text>
+  </view>
+  <view class="notice">保暖值仅供参考，重点观察后颈温度、出汗和精神状态。</view>
   <view class="category-tabs">
-    <button class="{{category === 'clothing' ? 'active' : ''}}" data-value="clothing" bindtap="chooseCategory">穿衣用品</button>
-    <button class="{{category === 'sleep' ? 'active' : ''}}" data-value="sleep" bindtap="chooseCategory">睡觉用品</button>
+    <button class="{{category === 'clothing' ? 'active' : ''}}" data-value="clothing" bindtap="chooseCategory">
+      <text>穿衣用品</text>
+      <text class="tab-desc">分层搭配</text>
+    </button>
+    <button class="{{category === 'sleep' ? 'active' : ''}}" data-value="sleep" bindtap="chooseCategory">
+      <text>睡觉用品</text>
+      <text class="tab-desc">夜间保暖</text>
+    </button>
   </view>
   <scroll-view class="sub-tabs" scroll-x enhanced show-scrollbar="{{false}}">
-    <button wx:for="{{subCategories}}" wx:key="key" class="{{subCategory === item.key ? 'active' : ''}}" data-value="{{item.key}}" bindtap="chooseSubCategory">{{item.label}}</button>
+    <button wx:for="{{subCategories}}" wx:key="key" class="{{subCategory === item.key ? 'active' : ''}}" data-value="{{item.key}}" bindtap="chooseSubCategory">
+      <text>{{item.label}}</text>
+      <text class="count">{{item.count}}</text>
+    </button>
   </scroll-view>
-  <view wx:if="{{visibleGoods.length}}" class="goods-list">
+
+  <view wx:if="{{subCategory === 'all'}}" class="grouped-list">
+    <view wx:for="{{groupedGoods}}" wx:key="key" class="goods-group">
+      <view class="group-head">
+        <view>
+          <text class="group-title">{{item.label}}</text>
+          <text class="group-subtitle">{{item.count}} 件参考用品</text>
+        </view>
+        <button class="group-action" data-value="{{item.key}}" bindtap="chooseSubCategory">查看全部</button>
+      </view>
+      <scroll-view class="mini-row" scroll-x enhanced show-scrollbar="{{false}}">
+        <view wx:for="{{item.goods}}" wx:for-item="goodsItem" wx:key="id" class="mini-card">
+          <image class="mini-image" src="{{goodsItem.illustration}}" mode="aspectFit" aria-label="{{goodsItem.name}}插画" />
+          <text class="mini-name">{{goodsItem.name}}</text>
+          <text class="mini-warm">{{goodsItem.warmText}}</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view wx:elif="{{visibleGoods.length}}" class="goods-list">
     <view wx:for="{{visibleGoods}}" wx:key="id" class="goods-card">
       <image class="goods-image" src="{{item.illustration}}" mode="aspectFit" data-index="{{index}}" binderror="imageError" aria-label="{{item.name}}插画" />
       <view class="goods-content">
