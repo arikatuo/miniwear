@@ -117,6 +117,18 @@ Page({
   openTemperature() { this.setData({ showTemperature: true }) },
   closeTemperature() { this.setData({ showTemperature: false }) },
 
+  scrollToScene(event) {
+    const scene = event.currentTarget.dataset.scene
+    const query = wx.createSelectorQuery()
+    query.select(`#card-${scene}`).boundingClientRect()
+    query.selectViewport().scrollOffset()
+    query.exec((res) => {
+      if (!res || !res[0] || !res[1]) return
+      const target = res[1].scrollTop + res[0].top - 20
+      wx.pageScrollTo({ scrollTop: target, duration: 260 })
+    })
+  },
+
   saveTemperature(event) {
     const indoorTemp = event.detail.value
     storage.saveEnvironment({ indoorTemp })

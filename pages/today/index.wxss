@@ -1,19 +1,91 @@
 .today-page { padding-top: 22rpx; }
-.indoor-strip { display: flex; min-height: 92rpx; align-items: center; justify-content: space-between; margin: 22rpx 0; padding: 0 24rpx; background: #fff6dc; border-radius: 22rpx; }
-.indoor-label { margin-right: 16rpx; color: #6b654f; font-size: 26rpx; }
-.indoor-value { color: #4d493b; font-size: 32rpx; font-weight: 700; }
-.modify { color: #856e38; font-size: 25rpx; }
-.hero { padding: 34rpx 30rpx; background: #ffffff; border-radius: 30rpx; box-shadow: 0 12rpx 36rpx rgba(50, 92, 126, .08); }
-.eyebrow { display: block; color: #3478b9; font-size: 24rpx; font-weight: 650; letter-spacing: 2rpx; }
-.hero-title { display: block; margin-top: 6rpx; color: #253342; font-size: 46rpx; font-weight: 750; line-height: 1.3; }
-.comfort { display: block; margin-top: 10rpx; color: #607487; font-size: 26rpx; }
-.summary-list { margin-top: 28rpx; overflow: hidden; border: 1rpx solid #e2edf5; border-radius: 22rpx; }
-.summary { display: grid; grid-template-columns: 100rpx 1fr; gap: 12rpx; min-height: 96rpx; align-items: center; padding: 0 22rpx; border-bottom: 1rpx solid #edf3f7; }
-.summary:last-child { border-bottom: 0; }
-.summary-scene { color: #3478b9; font-weight: 700; }
-.summary-result { color: #34495e; font-size: 27rpx; }
-.profile-note { display: block; margin-top: 18rpx; color: #8393a2; font-size: 23rpx; }
-.share-button { min-height: 92rpx; color: #ffffff; background: #3478b9; border-radius: 22rpx; font-size: 30rpx; font-weight: 650; line-height: 92rpx; }
-.hero-skeleton { height: 330rpx; margin-top: 22rpx; }
-.card-skeleton { height: 440rpx; margin-top: 24rpx; }
+
+.indoor-strip {
+  display: flex;
+  min-height: 96rpx;
+  align-items: center;
+  gap: 16rpx;
+  margin: 20rpx 0;
+  padding: 0 22rpx;
+  background: linear-gradient(135deg, var(--color-butter-soft), #fff8e6);
+  border-radius: 26rpx;
+}
+
+.indoor-icon-wrap {
+  display: flex;
+  width: 64rpx;
+  height: 64rpx;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface);
+  border-radius: 18rpx;
+}
+
+.indoor-icon { width: 40rpx; height: 40rpx; }
+.indoor-text { flex: 1; }
+.indoor-label { display: block; color: var(--color-butter-deep); font-size: 23rpx; }
+.indoor-value { display: block; color: var(--color-ink); font-size: 32rpx; font-weight: 750; }
+.modify { color: var(--color-butter-deep); font-size: 25rpx; }
+
+.hero { padding: 30rpx 26rpx; }
+
+.hero-top { display: flex; align-items: center; gap: 18rpx; }
+.hero-mascot { width: 116rpx; height: 84rpx; flex: none; }
+.hero-text { flex: 1; min-width: 0; }
+.hero-title { display: block; margin-top: 8rpx; color: var(--color-ink); font-size: 42rpx; font-weight: 750; line-height: 1.3; }
+.comfort { display: block; margin-top: 6rpx; color: var(--color-muted); font-size: 25rpx; }
+
+.summary-nav {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 26rpx;
+}
+
+.summary-pill {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  min-width: 0;
+  padding: 18rpx 8rpx;
+  background: var(--scene-soft);
+  border-radius: 22rpx;
+  text-align: center;
+}
+
+.summary-icon { width: 44rpx; height: 44rpx; }
+.summary-scene { color: var(--scene-deep); font-size: 23rpx; font-weight: 750; }
+.summary-result {
+  display: block;
+  width: 100%;
+  color: var(--color-ink);
+  font-size: 21rpx;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-note { display: block; margin-top: 20rpx; color: var(--color-faint); font-size: 23rpx; }
+
+.share-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  min-height: 96rpx;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--color-coral), #ff7048);
+  border-radius: 28rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  box-shadow: 0 18rpx 38rpx rgba(255, 112, 72, 0.26);
+}
+
+.share-icon { width: 32rpx; height: 32rpx; }
+
+.hero-skeleton { height: 320rpx; margin-top: 22rpx; }
+.card-skeleton { height: 420rpx; margin-top: 22rpx; }
 button::after { border: 0; }

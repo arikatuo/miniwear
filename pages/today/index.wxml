@@ -10,7 +10,10 @@
   />
 
   <view class="indoor-strip" bindtap="openTemperature" role="button" aria-label="修改室内温度">
-    <view>
+    <view class="indoor-icon-wrap">
+      <image class="indoor-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" />
+    </view>
+    <view class="indoor-text">
       <text class="indoor-label">家里现在</text>
       <text class="indoor-value">{{indoorTemp}}℃</text>
     </view>
@@ -23,32 +26,51 @@
   </block>
 
   <block wx:elif="{{recommendations}}">
-    <view class="hero">
-      <text class="eyebrow">今日穿搭建议</text>
-      <text class="hero-title">今天宝宝这样穿</text>
-      <text class="comfort">后颈温热、不出汗，通常比较合适</text>
-      <view class="summary-list">
-        <view class="summary">
+    <view class="hero card">
+      <view class="hero-top">
+        <image class="hero-mascot" src="/assets/icons/mascot-cloud.svg" mode="aspectFit" />
+        <view class="hero-text">
+          <text class="eyebrow">今日穿搭建议</text>
+          <text class="hero-title">今天宝宝这样穿</text>
+          <text class="comfort">后颈温热、不出汗，通常比较合适</text>
+        </view>
+      </view>
+
+      <view class="summary-nav">
+        <view class="summary-pill scene-indoor" bindtap="scrollToScene" data-scene="indoor" role="button" aria-label="查看在家详情">
+          <image class="summary-icon" src="/assets/icons/scene-home.svg" mode="aspectFit" />
           <text class="summary-scene">在家</text>
           <text class="summary-result">{{recommendations.indoor.result}}</text>
         </view>
-        <view class="summary">
+        <view class="summary-pill scene-outdoor" bindtap="scrollToScene" data-scene="outdoor" role="button" aria-label="查看出门详情">
+          <image class="summary-icon" src="/assets/icons/scene-outdoor.svg" mode="aspectFit" />
           <text class="summary-scene">出门</text>
           <text class="summary-result">{{recommendations.outdoor.result}}</text>
         </view>
-        <view class="summary">
+        <view class="summary-pill scene-sleep" bindtap="scrollToScene" data-scene="sleep" role="button" aria-label="查看睡觉详情">
+          <image class="summary-icon" src="/assets/icons/scene-sleep.svg" mode="aspectFit" />
           <text class="summary-scene">睡觉</text>
           <text class="summary-result">{{recommendations.sleep.result}}</text>
         </view>
       </view>
+
       <text class="profile-note">当前参考：{{ageText}} · {{profile.bodyType === 'unknown' ? '体质未确定' : profile.bodyType === 'hot' ? '偏怕热' : '偏怕冷'}}</text>
     </view>
 
     <text class="section-title">详细建议</text>
-    <recommendation-card item="{{recommendations.indoor}}" adjustment-label="{{adjustmentLabels.indoor}}" bind:adjust="adjust" bind:good="confirmGood" />
-    <recommendation-card item="{{recommendations.outdoor}}" adjustment-label="{{adjustmentLabels.outdoor}}" bind:adjust="adjust" bind:good="confirmGood" />
-    <recommendation-card item="{{recommendations.sleep}}" adjustment-label="{{adjustmentLabels.sleep}}" bind:adjust="adjust" bind:good="confirmGood" />
-    <button class="share-button" bindtap="share">分享给家人</button>
+    <view id="card-indoor">
+      <recommendation-card item="{{recommendations.indoor}}" adjustment-label="{{adjustmentLabels.indoor}}" bind:adjust="adjust" bind:good="confirmGood" />
+    </view>
+    <view id="card-outdoor">
+      <recommendation-card item="{{recommendations.outdoor}}" adjustment-label="{{adjustmentLabels.outdoor}}" bind:adjust="adjust" bind:good="confirmGood" />
+    </view>
+    <view id="card-sleep">
+      <recommendation-card item="{{recommendations.sleep}}" adjustment-label="{{adjustmentLabels.sleep}}" bind:adjust="adjust" bind:good="confirmGood" />
+    </view>
+    <button class="share-button" bindtap="share">
+      <image class="share-icon" src="/assets/icons/icon-heart.svg" mode="aspectFit" />
+      <text>分享给家人</text>
+    </button>
   </block>
 
   <empty-state
