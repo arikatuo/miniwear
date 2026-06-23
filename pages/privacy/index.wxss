@@ -1,3 +1,29 @@
-.privacy-card, .health-card { margin-top: 24rpx; padding: 28rpx; color: #526678; background: #ffffff; border-radius: 24rpx; font-size: 27rpx; line-height: 1.75; }
-.privacy-title { display: block; margin-bottom: 10rpx; color: #253342; font-size: 32rpx; font-weight: 700; }
-.health-card { background: #fff6dc; }
+.privacy-card, .health-card {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 22rpx;
+  padding: 26rpx;
+  background: var(--color-surface);
+  border: 1.5rpx solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+}
+
+.privacy-icon-wrap {
+  display: flex;
+  width: 72rpx;
+  height: 72rpx;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-coral-soft);
+  border-radius: 20rpx;
+}
+
+.privacy-icon-wrap.health { background: var(--color-butter-soft); }
+.privacy-icon { width: 42rpx; height: 42rpx; }
+
+.privacy-text { flex: 1; min-width: 0; color: var(--color-muted); font-size: 26rpx; line-height: 1.7; }
+.privacy-title { display: block; margin-bottom: 8rpx; color: var(--color-ink); font-size: 30rpx; font-weight: 750; }
+
+.health-card { background: var(--color-butter-soft); border-color: transparent; }

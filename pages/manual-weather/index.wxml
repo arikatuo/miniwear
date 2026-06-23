@@ -14,7 +14,10 @@
     </view>
     <text class="form-label spaced">天气情况（可多选）</text>
     <view class="weather-options">
-      <button wx:for="{{weatherOptions}}" wx:key="value" class="{{item.selected ? 'active' : ''}}" data-value="{{item.value}}" bindtap="toggleWeather">{{item.label}}</button>
+      <button wx:for="{{weatherOptions}}" wx:key="value" class="{{item.selected ? 'active' : ''}}" data-value="{{item.value}}" bindtap="toggleWeather">
+        <image class="weather-option-icon" src="/assets/icons/weather-{{item.value === 'sunny' ? 'sun' : item.value === 'cloudy' ? 'cloud' : item.value}}.svg" mode="aspectFit" />
+        <text>{{item.label}}</text>
+      </button>
     </view>
   </view>
   <button class="primary-button submit" bindtap="submit">生成今日建议</button>

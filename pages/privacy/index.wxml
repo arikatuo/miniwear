@@ -3,23 +3,38 @@
   <text class="page-subtitle">我们尽量少收集信息，让建议简单、透明、可控制。</text>
 
   <view class="privacy-card">
-    <text class="privacy-title">不需要账号</text>
-    <text>本小程序不要求登录，不收集手机号，不建立账号体系，也不提供云同步。</text>
+    <view class="privacy-icon-wrap"><image class="privacy-icon" src="/assets/icons/icon-heart.svg" mode="aspectFit" /></view>
+    <view class="privacy-text">
+      <text class="privacy-title">不需要账号</text>
+      <text>本小程序不要求登录，不收集手机号，不建立账号体系，也不提供云同步。</text>
+    </view>
   </view>
   <view class="privacy-card">
-    <text class="privacy-title">数据只保存在本地</text>
-    <text>宝宝信息、室内温度、最近城市和天气缓存仅保存在当前微信小程序本地缓存中。你可以随时在宝宝设置页清除本地数据。</text>
+    <view class="privacy-icon-wrap"><image class="privacy-icon" src="/assets/icons/icon-shield.svg" mode="aspectFit" /></view>
+    <view class="privacy-text">
+      <text class="privacy-title">数据只保存在本地</text>
+      <text>宝宝信息、室内温度、最近城市和天气缓存仅保存在当前微信小程序本地缓存中。你可以随时在宝宝设置页清除本地数据。</text>
+    </view>
   </view>
   <view class="privacy-card">
-    <text class="privacy-title">定位如何使用</text>
-    <text>定位仅用于获取所在城市和天气，不持续追踪。只有点击“一键定位”后才会申请权限；不授权也可以手动选择城市继续使用。</text>
+    <view class="privacy-icon-wrap"><image class="privacy-icon" src="/assets/icons/icon-pin.svg" mode="aspectFit" /></view>
+    <view class="privacy-text">
+      <text class="privacy-title">定位如何使用</text>
+      <text>定位仅用于获取所在城市和天气，不持续追踪。只有点击“一键定位”后才会申请权限；不授权也可以手动选择城市继续使用。</text>
+    </view>
   </view>
   <view class="privacy-card">
-    <text class="privacy-title">天气服务</text>
-    <text>本小程序可调用腾讯位置服务获取城市和天气信息。若后续启用云函数轻代理，云函数仅转发天气查询，不保存宝宝数据。</text>
+    <view class="privacy-icon-wrap"><image class="privacy-icon" src="/assets/icons/weather-cloud-sun.svg" mode="aspectFit" /></view>
+    <view class="privacy-text">
+      <text class="privacy-title">天气服务</text>
+      <text>本小程序可调用腾讯位置服务获取城市和天气信息。若后续启用云函数轻代理，云函数仅转发天气查询，不保存宝宝数据。</text>
+    </view>
   </view>
   <view class="health-card">
-    <text class="privacy-title">健康提示</text>
-    <text>后颈温热、不出汗，通常比较合适。本建议仅供日常穿衣参考，不构成医疗建议。请结合宝宝实际状态判断；如宝宝出现明显不适，请及时咨询医生。</text>
+    <view class="privacy-icon-wrap health"><image class="privacy-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" /></view>
+    <view class="privacy-text">
+      <text class="privacy-title">健康提示</text>
+      <text>后颈温热、不出汗，通常比较合适。本建议仅供日常穿衣参考，不构成医疗建议。请结合宝宝实际状态判断；如宝宝出现明显不适，请及时咨询医生。</text>
+    </view>
   </view>
 </view>
