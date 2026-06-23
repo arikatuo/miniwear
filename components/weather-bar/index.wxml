@@ -1,9 +1,16 @@
 <view class="weather-shell">
-  <view wx:if="{{loading && !weather}}" class="weather-loading">正在看看今天的天气…</view>
+  <view wx:if="{{loading && !weather}}" class="weather-loading">
+    <view class="spinner"></view>
+    <text>正在看看今天的天气…</text>
+  </view>
   <block wx:elif="{{weather}}">
     <view class="weather-main">
-      <view>
+      <view class="weather-icon-wrap">
+        <image class="weather-icon" src="{{weatherIcon}}" mode="aspectFit" />
+      </view>
+      <view class="weather-info">
         <view class="city-line" bindtap="chooseCity" role="button" aria-label="选择城市">
+          <image class="pin-icon" src="/assets/icons/icon-pin.svg" mode="aspectFit" />
           <text class="city">{{weather.cityName || city.name}}</text>
           <text class="chevron">›</text>
         </view>
@@ -14,7 +21,10 @@
     <view wx:if="{{staleText}}" class="stale">{{staleText}}</view>
   </block>
   <view wx:else class="empty-weather">
-    <view>
+    <view class="weather-icon-wrap muted">
+      <image class="weather-icon" src="/assets/icons/weather-cloud.svg" mode="aspectFit" />
+    </view>
+    <view class="weather-info">
       <text class="empty-title">{{city ? '暂时没有天气数据' : '还没有选择城市'}}</text>
       <text class="empty-copy">可以选择城市，或直接手动填写温度。</text>
     </view>

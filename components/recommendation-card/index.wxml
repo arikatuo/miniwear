@@ -1,28 +1,45 @@
-<view wx:if="{{item}}" class="recommend-card">
+<view wx:if="{{item}}" class="recommend-card scene-{{item.scene}}">
   <view class="card-head">
-    <view class="scene-badge">{{item.sceneName}}</view>
-    <text class="temperature">{{item.temperature}}℃</text>
+    <view class="scene-icon-wrap">
+      <image class="scene-icon" src="{{sceneIcon}}" mode="aspectFit" />
+    </view>
+    <view class="head-text">
+      <text class="scene-name">{{item.sceneName}}</text>
+      <text class="temperature">{{item.temperature}}℃</text>
+    </view>
+    <text wx:if="{{adjustmentLabel}}" class="adjust-tag">{{adjustmentLabel}}</text>
   </view>
+
   <text class="result">{{item.result}}</text>
-  <text wx:if="{{adjustmentLabel}}" class="adjust-label">{{adjustmentLabel}}</text>
+
   <view class="detail">
-    <text class="detail-label">为什么这样穿</text>
     <text class="detail-copy">{{item.reason}}</text>
     <text class="age-copy">{{item.ageText}}</text>
   </view>
+
   <view class="tips">
     <view class="tip tip-hot">
-      <text class="tip-label">热了</text>
-      <text>{{item.hotAction}}</text>
+      <image class="tip-icon" src="/assets/icons/weather-hot.svg" mode="aspectFit" />
+      <view class="tip-text">
+        <text class="tip-label">如果热了</text>
+        <text class="tip-copy">{{item.hotAction}}</text>
+      </view>
     </view>
     <view class="tip tip-cold">
-      <text class="tip-label">冷了</text>
-      <text>{{item.coldAction}}</text>
+      <image class="tip-icon" src="/assets/icons/weather-cold.svg" mode="aspectFit" />
+      <view class="tip-text">
+        <text class="tip-label">如果冷了</text>
+        <text class="tip-copy">{{item.coldAction}}</text>
+      </view>
     </view>
   </view>
+
   <view class="actions">
     <button class="adjust-button" data-delta="-1" bindtap="adjust">想薄一点</button>
-    <button class="good-button" bindtap="confirmGood">刚刚好</button>
+    <button class="good-button" bindtap="confirmGood">
+      <image class="good-icon" src="/assets/icons/icon-check.svg" mode="aspectFit" />
+      <text>刚刚好</text>
+    </button>
     <button class="adjust-button" data-delta="1" bindtap="adjust">想厚一点</button>
   </view>
 </view>

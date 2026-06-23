@@ -10,9 +10,9 @@
   ],
   "window": {
     "navigationBarTitleText": "宝宝今天穿什么",
-    "navigationBarBackgroundColor": "#F7FBFF",
+    "navigationBarBackgroundColor": "#FFF8EF",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#F7FBFF",
+    "backgroundColor": "#FFF8EF",
     "backgroundTextStyle": "light"
   },
   "permission": {
@@ -24,22 +24,28 @@
     "getLocation"
   ],
   "tabBar": {
-    "color": "#718096",
-    "selectedColor": "#3478B9",
+    "color": "#C9BBAE",
+    "selectedColor": "#FF8A65",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
     "list": [
       {
         "pagePath": "pages/today/index",
-        "text": "今日"
+        "text": "今日",
+        "iconPath": "assets/icons/tabbar/today.png",
+        "selectedIconPath": "assets/icons/tabbar/today-active.png"
       },
       {
         "pagePath": "pages/goods/index",
-        "text": "宝宝用品"
+        "text": "宝宝用品",
+        "iconPath": "assets/icons/tabbar/goods.png",
+        "selectedIconPath": "assets/icons/tabbar/goods-active.png"
       },
       {
         "pagePath": "pages/settings/index",
-        "text": "宝宝设置"
+        "text": "宝宝设置",
+        "iconPath": "assets/icons/tabbar/settings.png",
+        "selectedIconPath": "assets/icons/tabbar/settings-active.png"
       }
     ]
   },

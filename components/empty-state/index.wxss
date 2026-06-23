@@ -1,12 +1,7 @@
-.empty { padding: 60rpx 32rpx; text-align: center; }
-.empty-illustration { position: relative; width: 220rpx; height: 130rpx; margin: 0 auto 24rpx; }
-.sun { position: absolute; top: 0; left: 80rpx; width: 84rpx; height: 84rpx; background: #ffe39a; border-radius: 50%; }
-.cloud { position: absolute; bottom: 12rpx; height: 62rpx; background: #dcecf8; border-radius: 40rpx; }
-.cloud::before { content: ""; position: absolute; top: -24rpx; left: 34rpx; width: 76rpx; height: 76rpx; background: inherit; border-radius: 50%; }
-.cloud-left { left: 8rpx; width: 132rpx; }
-.cloud-right { right: 0; width: 118rpx; background: #edf5fa; }
+.empty { padding: 50rpx 32rpx; text-align: center; }
+.mascot { width: 320rpx; height: 226rpx; margin: 0 auto 16rpx; }
 .title, .description { display: block; }
-.title { color: #253342; font-size: 32rpx; font-weight: 650; }
-.description { margin-top: 10rpx; color: #718096; font-size: 26rpx; }
-.action { min-height: 84rpx; margin-top: 30rpx; color: #ffffff; background: #3478b9; border-radius: 20rpx; font-size: 28rpx; line-height: 84rpx; }
+.title { color: var(--color-ink); font-size: 32rpx; font-weight: 700; }
+.description { margin-top: 10rpx; color: var(--color-muted); font-size: 26rpx; line-height: 1.6; }
+.action { min-height: 84rpx; margin-top: 28rpx; color: #ffffff; background: linear-gradient(135deg, var(--color-coral), #ff7048); border-radius: 24rpx; font-size: 28rpx; font-weight: 700; line-height: 84rpx; }
 button::after { border: 0; }
