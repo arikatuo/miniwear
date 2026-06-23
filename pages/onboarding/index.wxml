@@ -1,6 +1,4 @@
 <view class="page onboarding">
-  <view class="onboarding-ambient one"></view>
-  <view class="onboarding-ambient two"></view>
   <view class="progress-shell">
     <view class="progress">
       <view wx:for="{{progressSteps}}" wx:key="*this" class="progress-item {{step >= item ? 'active' : ''}}"></view>
@@ -15,14 +13,13 @@
       <text class="page-subtitle">只用城市获取天气，不持续追踪定位。拒绝授权也可以手动选择。</text>
     </view>
     <view class="illustration city-art">
-      <view class="sun-orb"></view>
-      <view class="building one"></view>
-      <view class="building two"></view>
-      <view class="building three"></view>
-      <view class="city-line"></view>
+      <image class="mascot-img" src="/assets/icons/mascot-cloud.svg" mode="aspectFit" />
     </view>
     <view class="selection-card" bindtap="chooseCity" role="button">
-      <view>
+      <view class="selection-icon-wrap">
+        <image class="selection-icon" src="/assets/icons/icon-pin.svg" mode="aspectFit" />
+      </view>
+      <view class="selection-text">
         <text class="selection-label">当前城市</text>
         <text class="selection-value">{{city ? city.name : '选择城市'}}</text>
       </view>
@@ -37,6 +34,7 @@
       <text class="page-subtitle">用于在家和睡觉建议。不确定时，24℃ 是一个温和默认值。</text>
     </view>
     <view class="temperature-panel">
+      <image class="thermo-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" />
       <view class="temperature-readout">
         <text>{{indoorTemp}}</text><text class="unit">℃</text>
       </view>
@@ -61,15 +59,26 @@
     <view class="form-card">
       <text class="form-label">出生日期</text>
       <picker mode="date" value="{{birthday}}" end="{{maxDate}}" bindchange="selectBirthday">
-        <view class="picker-value">{{birthday || '未设置，默认按 6 个月处理'}}<text>›</text></view>
+        <view class="picker-value">
+          <text>{{birthday || '未设置，默认按 6 个月处理'}}</text>
+          <text>›</text>
+        </view>
       </picker>
+
       <text class="form-label spaced">宝宝体质</text>
       <view class="option-grid">
-        <button wx:for="{{bodyTypes}}" wx:key="value" class="option {{bodyType === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectBodyType">{{item.label}}</button>
+        <button wx:for="{{bodyTypes}}" wx:key="value" class="option {{bodyType === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectBodyType">
+          <image class="option-icon" src="{{item.value === 'hot' ? '/assets/icons/weather-hot.svg' : item.value === 'cold' ? '/assets/icons/weather-cold.svg' : '/assets/icons/icon-heart.svg'}}" mode="aspectFit" />
+          <text>{{item.label}}</text>
+        </button>
       </view>
+
       <text class="form-label spaced">出汗情况</text>
       <view class="option-grid">
-        <button wx:for="{{sweatTypes}}" wx:key="value" class="option {{easySweat === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectSweat">{{item.label}}</button>
+        <button wx:for="{{sweatTypes}}" wx:key="value" class="option {{easySweat === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectSweat">
+          <image class="option-icon" src="{{item.value === 'yes' ? '/assets/icons/weather-rain.svg' : item.value === 'no' ? '/assets/icons/icon-check.svg' : '/assets/icons/icon-heart.svg'}}" mode="aspectFit" />
+          <text>{{item.label}}</text>
+        </button>
       </view>
     </view>
   </block>

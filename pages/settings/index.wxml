@@ -11,14 +11,30 @@
   </view>
   <view class="settings-card">
     <picker mode="date" value="{{profile.birthday}}" end="{{maxDate}}" bindchange="birthdayChange">
-      <view class="setting-row"><text>出生日期</text><text class="value">{{profile.birthday || '未设置'}} ›</text></view>
+      <view class="setting-row">
+        <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-babybib.svg" mode="aspectFit" /></view>
+        <text class="row-label">出生日期</text>
+        <text class="value">{{profile.birthday || '未设置'}} ›</text>
+      </view>
     </picker>
-    <view class="setting-row static"><text>当前月龄</text><text class="value">{{ageText}}</text></view>
+    <view class="setting-row static">
+      <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-heart.svg" mode="aspectFit" /></view>
+      <text class="row-label">当前月龄</text>
+      <text class="value">{{ageText}}</text>
+    </view>
     <picker range="{{bodyOptions}}" range-key="label" value="{{bodyIndex}}" bindchange="bodyChange">
-      <view class="setting-row"><text>宝宝体质</text><text class="value">{{bodyOptions[bodyIndex].label}} ›</text></view>
+      <view class="setting-row">
+        <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/weather-hot.svg" mode="aspectFit" /></view>
+        <text class="row-label">宝宝体质</text>
+        <text class="value">{{bodyOptions[bodyIndex].label}} ›</text>
+      </view>
     </picker>
     <picker range="{{sweatOptions}}" range-key="label" value="{{sweatIndex}}" bindchange="sweatChange">
-      <view class="setting-row"><text>出汗情况</text><text class="value">{{sweatOptions[sweatIndex].label}} ›</text></view>
+      <view class="setting-row">
+        <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/weather-rain.svg" mode="aspectFit" /></view>
+        <text class="row-label">出汗情况</text>
+        <text class="value">{{sweatOptions[sweatIndex].label}} ›</text>
+      </view>
     </picker>
   </view>
 
@@ -27,7 +43,11 @@
     <text class="section-note">默认参考</text>
   </view>
   <view class="settings-card">
-    <view class="setting-row static temp-row"><text>默认室内温度</text><text class="value strong">{{indoorTemp}}℃</text></view>
+    <view class="setting-row static temp-row">
+      <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" /></view>
+      <text class="row-label">默认室内温度</text>
+      <text class="value strong">{{indoorTemp}}℃</text>
+    </view>
     <view class="settings-temp-wheel">
       <view class="wheel-highlight"></view>
       <picker-view class="temperature-wheel compact" value="{{tempPickerValue}}" bindchange="indoorChange" indicator-style="height: 72rpx;">
@@ -36,8 +56,16 @@
         </picker-view-column>
       </picker-view>
     </view>
-    <view class="setting-row" bindtap="chooseCity" role="button"><text>所在城市</text><text class="value">{{city ? city.name : '未设置'}} ›</text></view>
-    <view class="setting-row static"><text>定位状态</text><text class="value">{{city && city.source === 'location' ? '已用于选城' : '未开启'}}</text></view>
+    <view class="setting-row" bindtap="chooseCity" role="button">
+      <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-pin.svg" mode="aspectFit" /></view>
+      <text class="row-label">所在城市</text>
+      <text class="value">{{city ? city.name : '未设置'}} ›</text>
+    </view>
+    <view class="setting-row static">
+      <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/scene-outdoor.svg" mode="aspectFit" /></view>
+      <text class="row-label">定位状态</text>
+      <text class="value">{{city && city.source === 'location' ? '已用于选城' : '未开启'}}</text>
+    </view>
   </view>
 
   <view class="section-heading">
@@ -45,8 +73,16 @@
     <text class="section-note">本地存储</text>
   </view>
   <view class="settings-card">
-    <view class="setting-row" bindtap="openPrivacy" role="button"><text>隐私说明</text><text class="value">›</text></view>
-    <view class="setting-row danger" bindtap="clearData" role="button"><text>清除本地数据</text><text>›</text></view>
+    <view class="setting-row" bindtap="openPrivacy" role="button">
+      <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-shield.svg" mode="aspectFit" /></view>
+      <text class="row-label">隐私说明</text>
+      <text class="value">›</text>
+    </view>
+    <view class="setting-row danger" bindtap="clearData" role="button">
+      <view class="row-icon-wrap danger"><image class="row-icon" src="/assets/icons/icon-trash.svg" mode="aspectFit" /></view>
+      <text class="row-label">清除本地数据</text>
+      <text class="value">›</text>
+    </view>
   </view>
   <view class="disclaimer">使用提示：本建议仅供日常穿衣参考，不构成医疗建议。</view>
 </view>
