@@ -162,7 +162,26 @@ Page({
     })
   },
 
-  confirmGood() {
+  confirmGood(event) {
+    const scene = event.detail && event.detail.scene
+    if (scene && this.data.adjustments[scene] !== 0) {
+      const adjustments = {
+        ...this.data.adjustments,
+        [scene]: 0
+      }
+      const recommendations = buildAllRecommendations({
+        indoorTemp: this.data.indoorTemp,
+        outdoorTemp: this.data.weather.currentTemp,
+        profile: this.data.profile,
+        weatherTypes: this.data.weather.weatherType,
+        adjustments
+      })
+      this.setData({
+        adjustments,
+        recommendations,
+        [`adjustmentLabels.${scene}`]: ''
+      })
+    }
     wx.showToast({ title: '好的，请继续以后颈温热、不出汗为准。', icon: 'none', duration: 2500 })
   },
 
