@@ -1,15 +1,24 @@
 <view wx:if="{{visible}}" class="overlay" bindtap="close">
   <view class="panel" catchtap="stop">
     <view class="panel-head">
-      <text class="title">分享给家人</text>
+      <view>
+        <text class="eyebrow">穿衣建议卡</text>
+        <text class="title">分享给家人</text>
+      </view>
       <button class="close" bindtap="close" aria-label="关闭分享卡">关闭</button>
     </view>
+    <text class="subtitle">保存后发给家人，方便一起照看宝宝状态。</text>
     <view class="preview">
       <image wx:if="{{imagePath}}" src="{{imagePath}}" mode="widthFix" class="image" />
-      <view wx:else class="loading">{{generating ? '正在生成建议卡…' : '准备生成…'}}</view>
+      <view wx:else class="loading">
+        <view class="loading-card">
+          <view class="loading-icon"></view>
+          <text>{{generating ? '正在生成建议卡…' : '准备生成…'}}</text>
+        </view>
+      </view>
     </view>
     <canvas canvas-id="shareCanvas" class="canvas"></canvas>
-    <button class="save" bindtap="save" disabled="{{!imagePath}}">保存图片</button>
+    <button class="save" bindtap="save" disabled="{{!imagePath}}">保存图片到相册</button>
     <text class="note">分享前请再次结合宝宝实际状态判断。</text>
   </view>
 </view>

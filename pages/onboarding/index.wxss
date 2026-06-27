@@ -162,19 +162,21 @@
 
 .option-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12rpx;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16rpx;
 }
 
 .option {
   display: flex;
+  width: 100%;
+  box-sizing: border-box;
   min-height: 132rpx;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8rpx;
   margin: 0;
-  padding: 16rpx 0;
+  padding: 18rpx 12rpx;
   color: var(--color-muted);
   background: var(--color-surface-soft);
   border: 1.5rpx solid var(--color-border);
@@ -182,6 +184,7 @@
   font-size: 25rpx;
   font-weight: 700;
   line-height: 1.3;
+  white-space: normal;
 }
 
 .option-icon { width: 44rpx; height: 44rpx; }

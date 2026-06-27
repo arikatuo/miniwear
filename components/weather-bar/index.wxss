@@ -14,9 +14,9 @@
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 14rpx;
+  gap: 12rpx;
   min-width: 0;
-  padding: 22rpx;
+  padding: 22rpx 18rpx;
 }
 
 .combo-divider {
@@ -54,7 +54,8 @@
 .combo-value { display: block; margin-top: 2rpx; color: var(--color-ink); font-size: 30rpx; font-weight: 750; }
 .combo-value.small { color: var(--color-coral-deep); font-size: 25rpx; }
 .combo-range { color: var(--color-faint); font-size: 22rpx; font-weight: 600; }
-.combo-action { flex: none; color: var(--color-coral-deep); font-size: 24rpx; font-weight: 700; }
+.combo-action { flex: none; color: var(--color-coral-deep); font-size: 24rpx; font-weight: 700; white-space: nowrap; }
+.city-action { font-size: 21rpx; }
 
 .spinner {
   width: 36rpx;

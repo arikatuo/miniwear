@@ -6,6 +6,7 @@ Page({
     profile: null,
     city: null,
     indoorTemp: 24,
+    draftIndoorTemp: 24,
     ageText: '',
     bodyOptions: [
       { value: 'unknown', label: '正常' },
@@ -41,6 +42,7 @@ Page({
       profile,
       city,
       indoorTemp,
+      draftIndoorTemp: indoorTemp,
       ageText: formatAge(profile.birthday),
       bodyIndex: bodyIndex >= 0 ? bodyIndex : 0,
       sweatIndex: sweatIndex >= 0 ? sweatIndex : 0,
@@ -71,8 +73,9 @@ Page({
   indoorChange(event) {
     const index = Number(event.detail.value[0])
     const indoorTemp = this.data.tempValues[index]
+    if (!Number.isFinite(indoorTemp)) return
     storage.saveEnvironment({ indoorTemp })
-    this.setData({ indoorTemp, tempPickerValue: [index] })
+    this.setData({ indoorTemp, draftIndoorTemp: indoorTemp, tempPickerValue: [index] })
   },
 
   chooseCity() { wx.navigateTo({ url: '/pages/city/index' }) },

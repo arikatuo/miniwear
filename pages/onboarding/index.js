@@ -6,6 +6,7 @@ Page({
     progressSteps: [0, 1, 2],
     city: null,
     indoorTemp: 24,
+    draftIndoorTemp: 24,
     temperatureValues: Array.from({ length: 25 }, (_, index) => index + 12),
     temperaturePickerValue: [12],
     birthday: '',
@@ -31,6 +32,7 @@ Page({
     this.setData({
       city: storage.getCity(),
       indoorTemp,
+      draftIndoorTemp: indoorTemp,
       temperaturePickerValue: [this.getTemperatureIndex(indoorTemp)],
       birthday: profile.birthday,
       bodyType: profile.bodyType,
@@ -60,11 +62,12 @@ Page({
   temperatureChange(event) {
     const index = Number(event.detail.value[0])
     const indoorTemp = this.data.temperatureValues[index]
-    this.setData({ indoorTemp, temperaturePickerValue: [index] })
+    if (!Number.isFinite(indoorTemp)) return
+    this.setData({ draftIndoorTemp: indoorTemp, temperaturePickerValue: [index] })
   },
 
   validIndoorTemp() {
-    const temp = Number(this.data.indoorTemp)
+    const temp = Number(this.data.draftIndoorTemp)
     return Number.isFinite(temp) && temp >= 5 && temp <= 40
   },
 
@@ -78,7 +81,8 @@ Page({
         wx.showToast({ title: '请输入 5-40℃', icon: 'none' })
         return
       }
-      storage.saveEnvironment({ indoorTemp: Number(this.data.indoorTemp) })
+      storage.saveEnvironment({ indoorTemp: Number(this.data.draftIndoorTemp) })
+      this.setData({ indoorTemp: Number(this.data.draftIndoorTemp) })
     }
     if (this.data.step < 2) {
       this.setData({ step: this.data.step + 1 })
@@ -93,14 +97,15 @@ Page({
 
   skip() {
     if (this.data.step === 1 && !this.validIndoorTemp()) {
-      this.setData({ indoorTemp: 24 })
+      this.setData({ indoorTemp: 24, draftIndoorTemp: 24, temperaturePickerValue: [this.getTemperatureIndex(24)] })
     }
     if (this.data.step < 2) this.setData({ step: this.data.step + 1 })
     else this.finish()
   },
 
   finish() {
-    storage.saveEnvironment({ indoorTemp: this.validIndoorTemp() ? Number(this.data.indoorTemp) : 24 })
+    const indoorTemp = this.validIndoorTemp() ? Number(this.data.draftIndoorTemp) : 24
+    storage.saveEnvironment({ indoorTemp })
     storage.saveBabyProfile({
       birthday: this.data.birthday,
       bodyType: this.data.bodyType,

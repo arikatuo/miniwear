@@ -46,7 +46,7 @@
     <view class="setting-row static temp-row">
       <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" /></view>
       <text class="row-label">默认室内温度</text>
-      <text class="value strong">{{indoorTemp}}℃</text>
+      <text class="value strong">{{draftIndoorTemp}}℃</text>
     </view>
     <view class="settings-temp-wheel">
       <view class="wheel-highlight"></view>

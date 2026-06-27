@@ -36,7 +36,7 @@
     <view class="temperature-panel">
       <image class="thermo-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" />
       <view class="temperature-readout">
-        <text>{{indoorTemp}}</text><text class="unit">℃</text>
+        <text>{{draftIndoorTemp}}</text><text class="unit">℃</text>
       </view>
       <view class="wheel-wrap">
         <view class="wheel-highlight"></view>
