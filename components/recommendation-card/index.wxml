@@ -1,38 +1,28 @@
 <view wx:if="{{item}}" class="recommend-card scene-{{item.scene}}">
   <view class="card-head">
-    <view class="scene-icon-wrap">
-      <image class="scene-icon" src="{{sceneIcon}}" mode="aspectFit" />
+    <view class="tag temp-tag">
+      <image class="tag-icon" src="{{sceneIcon}}" mode="aspectFit" />
+      <text>{{tempLabel}} {{item.temperature}}℃</text>
     </view>
-    <view class="head-text">
-      <text class="scene-name">{{item.sceneName}}</text>
-      <text class="temperature">{{item.temperature}}℃</text>
-    </view>
-    <text wx:if="{{adjustmentLabel}}" class="adjust-tag">{{adjustmentLabel}}</text>
+    <text class="tag age-tag">{{item.ageText}}</text>
+    <text wx:if="{{adjustmentLabel}}" class="tag adjust-tag">{{adjustmentLabel}}</text>
   </view>
 
   <text class="result">{{item.result}}</text>
+  <text class="reason">{{item.reason}}</text>
 
-  <view class="detail">
-    <text class="detail-copy">{{item.reason}}</text>
-    <text class="age-copy">{{item.ageText}}</text>
-  </view>
-
-  <view class="tips">
-    <view class="tip tip-hot">
-      <image class="tip-icon" src="/assets/icons/weather-hot.svg" mode="aspectFit" />
-      <view class="tip-text">
-        <text class="tip-label">如果热了</text>
-        <text class="tip-copy">{{item.hotAction}}</text>
-      </view>
+  <view class="tip-toggle-row">
+    <view class="tip-toggle tip-hot {{expandedTip === 'hot' ? 'open' : ''}}" data-tip="hot" bindtap="toggleTip">
+      <image class="tip-toggle-icon" src="/assets/icons/weather-hot.svg" mode="aspectFit" />
+      <text>热了怎么办</text>
     </view>
-    <view class="tip tip-cold">
-      <image class="tip-icon" src="/assets/icons/weather-cold.svg" mode="aspectFit" />
-      <view class="tip-text">
-        <text class="tip-label">如果冷了</text>
-        <text class="tip-copy">{{item.coldAction}}</text>
-      </view>
+    <view class="tip-toggle tip-cold {{expandedTip === 'cold' ? 'open' : ''}}" data-tip="cold" bindtap="toggleTip">
+      <image class="tip-toggle-icon" src="/assets/icons/weather-cold.svg" mode="aspectFit" />
+      <text>冷了怎么办</text>
     </view>
   </view>
+  <view wx:if="{{expandedTip === 'hot'}}" class="tip-expanded tip-expanded-hot">{{item.hotAction}}</view>
+  <view wx:if="{{expandedTip === 'cold'}}" class="tip-expanded tip-expanded-cold">{{item.coldAction}}</view>
 
   <view class="actions">
     <button class="adjust-button" data-delta="-1" bindtap="adjust">想薄一点</button>

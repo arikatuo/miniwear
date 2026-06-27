@@ -20,44 +20,43 @@
       <text class="tab-desc">夜间保暖</text>
     </button>
   </view>
-  <scroll-view class="sub-tabs" scroll-x enhanced show-scrollbar="{{false}}">
-    <button wx:for="{{subCategories}}" wx:key="key" class="{{subCategory === item.key ? 'active' : ''}}" data-value="{{item.key}}" bindtap="chooseSubCategory">
+
+  <scroll-view wx:if="{{groupedGoods.length}}" class="floor-nav" scroll-x enhanced show-scrollbar="{{false}}">
+    <view
+      wx:for="{{groupedGoods}}"
+      wx:key="key"
+      class="floor {{currentFloor === item.key ? 'current' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="jumpToFloor"
+      role="button"
+      aria-label="跳转到{{item.label}}"
+    >
       <text>{{item.label}}</text>
-      <text class="count">{{item.count}}</text>
-    </button>
+      <text class="floor-count">{{item.count}}</text>
+    </view>
   </scroll-view>
 
-  <view wx:if="{{subCategory === 'all'}}" class="grouped-list">
-    <view wx:for="{{groupedGoods}}" wx:key="key" class="goods-group">
+  <view wx:if="{{groupedGoods.length}}" class="grouped-list">
+    <view wx:for="{{groupedGoods}}" wx:key="key" id="floor-{{item.key}}" class="goods-group">
       <view class="group-head">
-        <view>
-          <text class="group-title">{{item.label}}</text>
-          <text class="group-subtitle">{{item.count}} 件参考用品</text>
-        </view>
-        <button class="group-action" data-value="{{item.key}}" bindtap="chooseSubCategory">查看全部</button>
+        <text class="group-title">{{item.label}}</text>
+        <text class="group-count">{{item.count}} 件参考用品</text>
       </view>
       <scroll-view class="mini-row" scroll-x enhanced show-scrollbar="{{false}}">
-        <view wx:for="{{item.goods}}" wx:for-item="goodsItem" wx:key="id" class="mini-card">
-          <image class="mini-image" src="{{goodsItem.illustration}}" mode="aspectFit" aria-label="{{goodsItem.name}}插画" />
+        <view wx:for="{{item.goods}}" wx:for-item="goodsItem" wx:for-index="goodsIndex" wx:key="id" class="mini-card">
+          <image
+            class="mini-image"
+            src="{{goodsItem.illustration}}"
+            mode="aspectFit"
+            data-key="{{item.key}}"
+            data-index="{{goodsIndex}}"
+            binderror="imageError"
+            aria-label="{{goodsItem.name}}插画"
+          />
           <text class="mini-name">{{goodsItem.name}}</text>
           <text class="mini-warm">{{goodsItem.warmText}}</text>
         </view>
       </scroll-view>
-    </view>
-  </view>
-
-  <view wx:elif="{{visibleGoods.length}}" class="goods-list">
-    <view wx:for="{{visibleGoods}}" wx:key="id" class="goods-card">
-      <image class="goods-image" src="{{item.illustration}}" mode="aspectFit" data-index="{{index}}" binderror="imageError" aria-label="{{item.name}}插画" />
-      <view class="goods-content">
-        <text class="goods-name">{{item.name}}</text>
-        <view class="meta-row">
-          <text class="warm">{{item.warmText}}</text>
-          <text class="range">{{item.tempRange}}</text>
-        </view>
-        <text class="scenes">适用：{{item.sceneText}}</text>
-        <text class="description">{{item.desc}}</text>
-      </view>
     </view>
   </view>
   <empty-state wx:else title="当前分类暂无用品" description="换一个分类看看吧。" />

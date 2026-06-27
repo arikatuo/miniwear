@@ -19,19 +19,31 @@ Component({
     weather: { type: Object, value: null },
     city: { type: Object, value: null },
     staleText: { type: String, value: '' },
-    loading: { type: Boolean, value: false }
+    loading: { type: Boolean, value: false },
+    indoorTemp: { type: Number, value: 24 }
   },
   data: {
-    weatherIcon: ICONS.cloudy
+    weatherIcon: ICONS.cloudy,
+    showRange: false,
+    sourceLabel: ''
   },
   observers: {
     weather(weather) {
-      this.setData({ weatherIcon: weather ? pickIcon(weather.weatherType) : ICONS.cloudy })
+      if (!weather) {
+        this.setData({ weatherIcon: ICONS.cloudy, showRange: false, sourceLabel: '' })
+        return
+      }
+      this.setData({
+        weatherIcon: pickIcon(weather.weatherType),
+        showRange: weather.minTemp !== weather.maxTemp,
+        sourceLabel: weather.source === 'manual' ? '手动填写' : ''
+      })
     }
   },
   methods: {
     refresh() { this.triggerEvent('refresh') },
     chooseCity() { this.triggerEvent('choosecity') },
-    manual() { this.triggerEvent('manual') }
+    manual() { this.triggerEvent('manual') },
+    openTemperature() { this.triggerEvent('opentemp') }
   }
 })

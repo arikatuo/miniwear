@@ -3,6 +3,11 @@ const SCENE_ICONS = {
   outdoor: '/assets/icons/scene-outdoor.svg',
   sleep: '/assets/icons/scene-sleep.svg'
 }
+const TEMP_LABELS = {
+  indoor: '室温',
+  outdoor: '室外',
+  sleep: '室温'
+}
 
 Component({
   properties: {
@@ -10,15 +15,25 @@ Component({
     adjustmentLabel: { type: String, value: '' }
   },
   data: {
-    sceneIcon: ''
+    sceneIcon: '',
+    tempLabel: '室温',
+    expandedTip: ''
   },
   observers: {
     item(item) {
       if (!item) return
-      this.setData({ sceneIcon: SCENE_ICONS[item.scene] || '' })
+      this.setData({
+        sceneIcon: SCENE_ICONS[item.scene] || '',
+        tempLabel: TEMP_LABELS[item.scene] || '室温',
+        expandedTip: ''
+      })
     }
   },
   methods: {
+    toggleTip(event) {
+      const key = event.currentTarget.dataset.tip
+      this.setData({ expandedTip: this.data.expandedTip === key ? '' : key })
+    },
     adjust(event) {
       this.triggerEvent('adjust', {
         scene: this.data.item.scene,

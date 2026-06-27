@@ -17,7 +17,13 @@ Page({
     loading: false,
     staleText: '',
     showTemperature: false,
-    noWeather: false
+    noWeather: false,
+    activeScene: 'indoor',
+    sceneList: [
+      { value: 'indoor', label: '在家', icon: '/assets/icons/scene-home.svg' },
+      { value: 'outdoor', label: '出门', icon: '/assets/icons/scene-outdoor.svg' },
+      { value: 'sleep', label: '睡觉', icon: '/assets/icons/scene-sleep.svg' }
+    ]
   },
 
   onShow() {
@@ -117,16 +123,8 @@ Page({
   openTemperature() { this.setData({ showTemperature: true }) },
   closeTemperature() { this.setData({ showTemperature: false }) },
 
-  scrollToScene(event) {
-    const scene = event.currentTarget.dataset.scene
-    const query = wx.createSelectorQuery()
-    query.select(`#card-${scene}`).boundingClientRect()
-    query.selectViewport().scrollOffset()
-    query.exec((res) => {
-      if (!res || !res[0] || !res[1]) return
-      const target = res[1].scrollTop + res[0].top - 20
-      wx.pageScrollTo({ scrollTop: target, duration: 260 })
-    })
+  setScene(event) {
+    this.setData({ activeScene: event.currentTarget.dataset.scene })
   },
 
   saveTemperature(event) {

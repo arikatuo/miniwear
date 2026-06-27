@@ -34,6 +34,7 @@ Component({
       const data = this.data.cardData
       const ctx = wx.createCanvasContext('shareCanvas', this)
       const SCENE_COLORS = { indoor: '#FF8A65', outdoor: '#4FB8D6', sleep: '#8B8FE0' }
+      const SCENE_TEXT_COLORS = { indoor: '#E8643A', outdoor: '#2E86A8', sleep: '#5A5EC9' }
       ctx.setFillStyle('#FFF8EF')
       ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT)
       ctx.setFillStyle('#FF8A65')
@@ -61,6 +62,7 @@ Component({
         ctx.fillRect(38, y, 524, 104)
         ctx.setFillStyle(color)
         ctx.fillRect(38, y, 8, 104)
+        ctx.setFillStyle(SCENE_TEXT_COLORS[key] || color)
         ctx.setFontSize(21)
         ctx.fillText(label, 64, y + 34)
         ctx.setFillStyle('#4A3B30')

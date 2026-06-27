@@ -1,34 +1,51 @@
 <view class="weather-shell">
-  <view wx:if="{{loading && !weather}}" class="weather-loading">
-    <view class="spinner"></view>
-    <text>正在看看今天的天气…</text>
-  </view>
-  <block wx:elif="{{weather}}">
-    <view class="weather-main">
-      <view class="weather-icon-wrap">
-        <image class="weather-icon" src="{{weatherIcon}}" mode="aspectFit" />
-      </view>
-      <view class="weather-info">
-        <view class="city-line" bindtap="chooseCity" role="button" aria-label="选择城市">
-          <image class="pin-icon" src="/assets/icons/icon-pin.svg" mode="aspectFit" />
-          <text class="city">{{weather.cityName || city.name}}</text>
-          <text class="chevron">›</text>
+  <view class="combo-card">
+    <view class="combo-half" bindtap="chooseCity" role="button" aria-label="选择城市">
+      <block wx:if="{{loading && !weather}}">
+        <view class="combo-icon-wrap"><view class="spinner"></view></view>
+        <view class="combo-text">
+          <text class="combo-label">正在看看天气…</text>
         </view>
-        <text class="weather-detail">{{weather.weatherText}} · {{weather.currentTemp}}℃ · {{weather.minTemp}}-{{weather.maxTemp}}℃</text>
+      </block>
+      <block wx:elif="{{weather}}">
+        <view class="combo-icon-wrap">
+          <image class="combo-icon" src="{{weatherIcon}}" mode="aspectFit" />
+        </view>
+        <view class="combo-text">
+          <text class="combo-label">{{weather.cityName}}{{sourceLabel ? ' · ' + sourceLabel : ''}}</text>
+          <text class="combo-value">{{weather.currentTemp}}℃<text wx:if="{{showRange}}" class="combo-range"> · {{weather.minTemp}}-{{weather.maxTemp}}℃</text></text>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="combo-icon-wrap muted">
+          <image class="combo-icon" src="/assets/icons/weather-cloud.svg" mode="aspectFit" />
+        </view>
+        <view class="combo-text">
+          <text class="combo-label">{{city ? '暂时没有天气' : '选择城市'}}</text>
+          <text class="combo-value small">点击设置 ›</text>
+        </view>
+      </block>
+    </view>
+
+    <view class="combo-divider"></view>
+
+    <view class="combo-half" bindtap="openTemperature" role="button" aria-label="修改室内温度">
+      <view class="combo-icon-wrap warm">
+        <image class="combo-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" />
       </view>
-      <button class="refresh" bindtap="refresh" loading="{{loading}}" disabled="{{loading}}" aria-label="刷新天气">刷新</button>
+      <view class="combo-text">
+        <text class="combo-label">室温</text>
+        <text class="combo-value">{{indoorTemp}}℃</text>
+      </view>
+      <text class="combo-action">改 ›</text>
     </view>
-    <view wx:if="{{staleText}}" class="stale">{{staleText}}</view>
-  </block>
-  <view wx:else class="empty-weather">
-    <view class="weather-icon-wrap muted">
-      <image class="weather-icon" src="/assets/icons/weather-cloud.svg" mode="aspectFit" />
-    </view>
-    <view class="weather-info">
-      <text class="empty-title">{{city ? '暂时没有天气数据' : '还没有选择城市'}}</text>
-      <text class="empty-copy">可以选择城市，或直接手动填写温度。</text>
-    </view>
-    <button class="mini-button" bindtap="chooseCity">选城市</button>
   </view>
-  <button class="manual-link" bindtap="manual">手动填写温度</button>
+
+  <view class="combo-footer">
+    <text class="stale">{{staleText}}</text>
+    <view class="footer-links">
+      <button class="link-button" bindtap="refresh" loading="{{loading}}" disabled="{{loading}}">刷新天气</button>
+      <button class="link-button" bindtap="manual">手动填写</button>
+    </view>
+  </view>
 </view>

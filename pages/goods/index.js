@@ -3,9 +3,7 @@ const { goods, subCategories } = require('../../config/goods.config')
 Page({
   data: {
     category: 'clothing',
-    subCategory: 'all',
-    subCategories: subCategories.clothing,
-    visibleGoods: [],
+    currentFloor: '',
     groupedGoods: [],
     categoryMeta: {
       clothing: { title: '穿衣用品', desc: '按贴身层、下装、外套和配件整理，搭配时更容易看清层次。' },
@@ -17,15 +15,7 @@ Page({
 
   chooseCategory(event) {
     const category = event.currentTarget.dataset.value
-    this.setData({
-      category,
-      subCategory: 'all',
-      subCategories: subCategories[category]
-    }, () => this.filterGoods())
-  },
-
-  chooseSubCategory(event) {
-    this.setData({ subCategory: event.currentTarget.dataset.value }, () => this.filterGoods())
+    this.setData({ category }, () => this.filterGoods())
   },
 
   filterGoods() {
@@ -36,24 +26,39 @@ Page({
         sceneText: item.scenes.join(' / '),
         warmText: item.warmValue > 0 ? `保暖值 +${item.warmValue}℃` : `保暖值 ${item.warmValue}℃`
       }))
-    const visibleGoods = decoratedGoods.filter((item) => this.data.subCategory === 'all' || item.subCategory === this.data.subCategory)
-    const groupedGoods = this.data.subCategories
+    const groupedGoods = subCategories[this.data.category]
       .filter((item) => item.key !== 'all')
       .map((group) => ({
         ...group,
         count: decoratedGoods.filter((item) => item.subCategory === group.key).length,
-        goods: decoratedGoods.filter((item) => item.subCategory === group.key).slice(0, 4)
+        goods: decoratedGoods.filter((item) => item.subCategory === group.key)
       }))
       .filter((group) => group.goods.length)
-    const subCategories = this.data.subCategories.map((item) => ({
-      ...item,
-      count: item.key === 'all' ? decoratedGoods.length : decoratedGoods.filter((goodsItem) => goodsItem.subCategory === item.key).length
-    }))
-    this.setData({ visibleGoods, groupedGoods, subCategories })
+    this.setData({
+      groupedGoods,
+      currentFloor: groupedGoods.length ? groupedGoods[0].key : ''
+    })
+  },
+
+  jumpToFloor(event) {
+    const key = event.currentTarget.dataset.key
+    this.setData({ currentFloor: key })
+    const query = wx.createSelectorQuery()
+    query.select(`#floor-${key}`).boundingClientRect()
+    query.selectViewport().scrollOffset()
+    query.exec((res) => {
+      if (!res || !res[0] || !res[1]) return
+      const target = res[1].scrollTop + res[0].top - 20
+      wx.pageScrollTo({ scrollTop: target, duration: 260 })
+    })
   },
 
   imageError(event) {
+    const key = event.currentTarget.dataset.key
     const index = event.currentTarget.dataset.index
-    this.setData({ [`visibleGoods[${index}].illustration`]: '/assets/goods/default.jpg' })
+    const group = this.data.groupedGoods.find((item) => item.key === key)
+    if (!group) return
+    const groupIndex = this.data.groupedGoods.indexOf(group)
+    this.setData({ [`groupedGoods[${groupIndex}].goods[${index}].illustration`]: '/assets/goods/default.jpg' })
   }
 })

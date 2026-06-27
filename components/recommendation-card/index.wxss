@@ -1,147 +1,97 @@
 .recommend-card {
   margin-bottom: 24rpx;
-  padding: 28rpx 26rpx 26rpx;
+  padding: 30rpx 28rpx 28rpx;
   background: var(--color-surface);
   border: 1.5rpx solid var(--color-border);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-lift);
 }
 
 .card-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 18rpx;
+  gap: 10rpx;
 }
 
-.scene-icon-wrap {
-  display: flex;
-  width: 88rpx;
-  height: 88rpx;
-  flex: none;
+.tag {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  background: var(--scene-soft);
-  border-radius: 26rpx;
-}
-
-.scene-icon {
-  width: 58rpx;
-  height: 58rpx;
-}
-
-.head-text {
-  flex: 1;
-  min-width: 0;
-}
-
-.scene-name {
-  display: block;
-  color: var(--scene-deep);
-  font-size: 30rpx;
+  gap: 6rpx;
+  min-height: 48rpx;
+  padding: 0 18rpx;
+  border-radius: 999rpx;
+  font-size: 23rpx;
   font-weight: 750;
 }
 
-.temperature {
-  display: block;
-  margin-top: 2rpx;
-  color: var(--color-faint);
-  font-size: 24rpx;
-}
-
-.adjust-tag {
-  flex: none;
-  padding: 8rpx 18rpx;
-  border-radius: 999rpx;
-  background: var(--color-butter-soft);
-  color: var(--color-butter-deep);
-  font-size: 22rpx;
-  font-weight: 700;
-}
+.temp-tag { color: var(--scene-deep); background: var(--scene-soft); }
+.tag-icon { width: 28rpx; height: 28rpx; }
+.age-tag { color: var(--color-faint); background: var(--color-bg-deep); }
+.adjust-tag { color: var(--color-butter-deep); background: var(--color-butter-soft); }
 
 .result {
   display: block;
-  margin-top: 22rpx;
+  margin-top: 20rpx;
   color: var(--color-ink);
-  font-size: 38rpx;
-  font-weight: 750;
-  line-height: 1.35;
+  font-size: 40rpx;
+  font-weight: 800;
+  line-height: 1.32;
 }
 
-.detail {
-  margin-top: 14rpx;
-  padding: 20rpx 22rpx;
-  background: var(--color-surface-soft);
-  border-radius: 24rpx;
-}
-
-.detail-copy {
+.reason {
   display: block;
+  margin-top: 10rpx;
+  overflow: hidden;
   color: var(--color-muted);
-  font-size: 26rpx;
-  line-height: 1.6;
+  font-size: 25rpx;
+  line-height: 1.55;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-.age-copy {
-  display: block;
-  margin-top: 8rpx;
-  color: var(--color-faint);
-  font-size: 23rpx;
-}
-
-.tips {
+.tip-toggle-row {
   display: flex;
-  gap: 14rpx;
-  margin-top: 18rpx;
+  gap: 12rpx;
+  margin-top: 22rpx;
 }
 
-.tip {
+.tip-toggle {
   flex: 1;
   display: flex;
-  align-items: flex-start;
-  gap: 10rpx;
-  padding: 16rpx;
-  border-radius: 22rpx;
-}
-
-.tip-hot {
-  background: var(--color-coral-soft);
-}
-
-.tip-cold {
-  background: var(--color-sky-soft);
-}
-
-.tip-icon {
-  width: 36rpx;
-  height: 36rpx;
-  margin-top: 2rpx;
-  flex: none;
-}
-
-.tip-text {
-  flex: 1;
-  min-width: 0;
-}
-
-.tip-label {
-  display: block;
-  color: var(--color-ink);
-  font-size: 23rpx;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  min-height: 68rpx;
+  border-radius: 18rpx;
+  font-size: 24rpx;
   font-weight: 700;
 }
 
-.tip-copy {
-  display: block;
-  margin-top: 4rpx;
-  color: var(--color-muted);
-  font-size: 22rpx;
-  line-height: 1.5;
+.tip-toggle-icon { width: 30rpx; height: 30rpx; }
+
+.tip-hot { color: var(--color-coral-deep); background: var(--color-coral-soft); }
+.tip-cold { color: var(--color-sky-deep); background: var(--color-sky-soft); }
+.tip-hot.open, .tip-cold.open { box-shadow: inset 0 0 0 2rpx currentColor; }
+
+.tip-expanded {
+  margin-top: 12rpx;
+  padding: 18rpx 20rpx;
+  color: var(--color-ink);
+  font-size: 24rpx;
+  line-height: 1.6;
+  border-radius: 18rpx;
 }
+
+.tip-expanded-hot { background: var(--color-coral-soft); }
+.tip-expanded-cold { background: var(--color-sky-soft); }
 
 .actions {
   display: flex;
   gap: 12rpx;
-  margin-top: 22rpx;
+  margin-top: 24rpx;
 }
 
 .adjust-button,
@@ -171,11 +121,6 @@
   line-height: 1;
 }
 
-.good-icon {
-  width: 30rpx;
-  height: 30rpx;
-}
+.good-icon { width: 30rpx; height: 30rpx; }
 
-button::after {
-  border: 0;
-}
+button::after { border: 0; }
