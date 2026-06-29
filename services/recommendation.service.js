@@ -1,4 +1,4 @@
-const { recommendRules } = require('../config/recommend.rules')
+const { recommendRules, iconByLevel } = require('../config/recommend.rules')
 
 const SCENE_NAMES = {
   indoor: '在家',
@@ -52,6 +52,11 @@ function resultFor(scene, level) {
   return recommendRules.resultByLevel[scene][level]
 }
 
+function iconFor(scene, level) {
+  const group = scene === 'sleep' ? 'sleep' : 'wear'
+  return iconByLevel[group][level]
+}
+
 function buildRecommendation({ scene, temperature, profile = {}, weatherTypes = [], adjustment = 0 }) {
   const baseRule = findBaseRule(scene, temperature)
   const rawLevel = baseRule.level
@@ -67,6 +72,7 @@ function buildRecommendation({ scene, temperature, profile = {}, weatherTypes = 
     baseLevel: baseRule.level,
     adjustment,
     result: resultFor(scene, level),
+    icon: iconFor(scene, level),
     reason: buildReason(baseRule, scene, weatherTypes, profile),
     hotAction: level === 1 ? '保持轻薄并改善通风，及时擦干汗液。' : '换薄款或少穿一层，并观察后颈和出汗。',
     coldAction: level === 6 ? '优先改善环境温度，并持续观察宝宝状态。' : '加薄背心、袜子或轻便外层，再观察体感。',

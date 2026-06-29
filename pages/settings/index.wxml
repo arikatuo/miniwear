@@ -50,7 +50,7 @@
     </view>
     <view class="settings-temp-wheel">
       <view class="wheel-highlight"></view>
-      <picker-view class="temperature-wheel compact" value="{{tempPickerValue}}" bindchange="indoorChange" indicator-style="height: 72rpx;">
+      <picker-view class="temperature-wheel compact" value="{{tempPickerValue}}" bindchange="indoorChange" immediate-change="{{true}}" indicator-style="height: 72rpx;">
         <picker-view-column>
           <view wx:for="{{tempValues}}" wx:key="*this" class="wheel-item compact">{{item}}℃</view>
         </picker-view-column>

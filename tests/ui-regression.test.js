@@ -72,9 +72,30 @@ test('今日天气卡提供明确的改城市和改天气入口', () => {
   assert.match(wxml, /改天气/)
 })
 
-test('首次设置偏好选项使用不会横向溢出的两列网格', () => {
+test('首次设置偏好选项使用三等列网格且不会横向溢出', () => {
   const wxss = fs.readFileSync(path.join(__dirname, '../pages/onboarding/index.wxss'), 'utf8')
 
-  assert.match(wxss, /grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/)
+  assert.match(wxss, /grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/)
   assert.match(wxss, /box-sizing:\s*border-box/)
+  assert.match(wxss, /white-space:\s*normal/)
+})
+
+test('两处温度滚轮启用微信 picker-view 实时 change 事件', () => {
+  const onboarding = fs.readFileSync(path.join(__dirname, '../pages/onboarding/index.wxml'), 'utf8')
+  const settings = fs.readFileSync(path.join(__dirname, '../pages/settings/index.wxml'), 'utf8')
+
+  assert.match(onboarding, /<picker-view[^>]+immediate-change="\{\{true\}\}"/)
+  assert.match(settings, /<picker-view[^>]+immediate-change="\{\{true\}\}"/)
+})
+
+test('裤子和配件补充条目使用存在的插画占位图', () => {
+  const { goods } = require('../config/goods.config')
+  const expectedIds = ['leggings', 'fleece_pants', 'sun_hat', 'warm_hat', 'belly_band']
+
+  expectedIds.forEach((id) => {
+    const item = goods.find((entry) => entry.id === id)
+    assert.ok(item, `missing goods item ${id}`)
+    assert.match(item.desc, /插画示意/)
+    assert.ok(fs.existsSync(path.join(__dirname, '..', item.illustration)))
+  })
 })

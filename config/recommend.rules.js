@@ -72,4 +72,23 @@ const recommendRules = {
   }
 }
 
-module.exports = { LEVELS, recommendRules }
+const iconByLevel = {
+  wear: {
+    1: '/assets/icons/recommend/wear-level-1.svg',
+    2: '/assets/icons/recommend/wear-level-2.svg',
+    3: '/assets/icons/recommend/wear-level-3.svg',
+    4: '/assets/icons/recommend/wear-level-4.svg',
+    5: '/assets/icons/recommend/wear-level-5.svg',
+    6: '/assets/icons/recommend/wear-level-6.svg'
+  },
+  sleep: {
+    1: '/assets/icons/recommend/sleep-level-1.svg',
+    2: '/assets/icons/recommend/sleep-level-2.svg',
+    3: '/assets/icons/recommend/sleep-level-3.svg',
+    4: '/assets/icons/recommend/sleep-level-4.svg',
+    5: '/assets/icons/recommend/sleep-level-5.svg',
+    6: '/assets/icons/recommend/sleep-level-6.svg'
+  }
+}
+
+module.exports = { LEVELS, recommendRules, iconByLevel }

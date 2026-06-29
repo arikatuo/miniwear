@@ -40,7 +40,7 @@
       </view>
       <view class="wheel-wrap">
         <view class="wheel-highlight"></view>
-        <picker-view class="temperature-wheel" value="{{temperaturePickerValue}}" bindchange="temperatureChange" indicator-style="height: 80rpx;">
+        <picker-view class="temperature-wheel" value="{{temperaturePickerValue}}" bindchange="temperatureChange" immediate-change="{{true}}" indicator-style="height: 80rpx;">
           <picker-view-column>
             <view wx:for="{{temperatureValues}}" wx:key="*this" class="wheel-item">{{item}}℃</view>
           </picker-view-column>

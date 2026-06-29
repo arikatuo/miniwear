@@ -17,7 +17,8 @@ Component({
   data: {
     sceneIcon: '',
     tempLabel: '室温',
-    expandedTip: ''
+    expandedTip: '',
+    gaugeSteps: [1, 2, 3, 4, 5, 6]
   },
   observers: {
     item(item) {

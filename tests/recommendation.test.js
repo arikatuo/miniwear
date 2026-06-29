@@ -131,3 +131,27 @@ test('三场景结果均包含原因和冷热调整', () => {
     assert.ok(item.coldAction)
   })
 })
+
+test('每条推荐都带有对应厚度等级的配图，室内外共用穿衣组、睡觉用独立组', () => {
+  const results = buildAllRecommendations({
+    indoorTemp: 24,
+    outdoorTemp: 21,
+    profile,
+    weatherTypes: []
+  })
+  assert.match(results.indoor.icon, /\/assets\/icons\/recommend\/wear-level-\d\.svg$/)
+  assert.match(results.outdoor.icon, /\/assets\/icons\/recommend\/wear-level-\d\.svg$/)
+  assert.match(results.sleep.icon, /\/assets\/icons\/recommend\/sleep-level-\d\.svg$/)
+  assert.ok(results.indoor.icon.endsWith(`wear-level-${results.indoor.level}.svg`))
+  assert.ok(results.sleep.icon.endsWith(`sleep-level-${results.sleep.level}.svg`))
+})
+
+test('调薄调厚之后配图会跟随新的等级变化', () => {
+  const base = buildRecommendation({ scene: 'indoor', temperature: 24, profile, weatherTypes: [] })
+  const thinner = adjustRecommendation(base, -1)
+  const thicker = adjustRecommendation(base, 1)
+  assert.notEqual(thinner.icon, base.icon)
+  assert.notEqual(thicker.icon, base.icon)
+  assert.ok(thinner.icon.endsWith(`wear-level-${thinner.level}.svg`))
+  assert.ok(thicker.icon.endsWith(`wear-level-${thicker.level}.svg`))
+})
