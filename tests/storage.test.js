@@ -100,6 +100,20 @@ test('天气缓存 30 分钟内有效', () => {
   assert.equal(isWeatherCacheFresh({ updateTime: now - 31 * 60 * 1000 }, now), false)
 })
 
+test('保存推荐来源的用品浏览上下文', () => {
+  const service = createStorageService(memoryAdapter())
+  service.initialize()
+  const focus = service.saveGoodsFocus({
+    scene: 'outdoor',
+    result: '轻薄内搭，备薄背心或薄外套'
+  })
+
+  assert.equal(focus.scene, 'outdoor')
+  assert.equal(focus.result, '轻薄内搭，备薄背心或薄外套')
+  assert.equal(service.getGoodsFocus().scene, 'outdoor')
+  assert.equal(service.getGoodsFocus().result, '轻薄内搭，备薄背心或薄外套')
+})
+
 test('清除数据后只保留新版本初始化状态', () => {
   const adapter = memoryAdapter()
   const service = createStorageService(adapter)

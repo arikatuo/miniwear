@@ -4,25 +4,14 @@
       <image class="tag-icon" src="{{sceneIcon}}" mode="aspectFit" />
       <text>{{tempLabel}} {{item.temperature}}℃</text>
     </view>
-    <text class="tag age-tag">{{item.ageText}}</text>
     <text wx:if="{{adjustmentLabel}}" class="tag adjust-tag">{{adjustmentLabel}}</text>
   </view>
 
   <view class="recommend-main">
     <text class="result">{{item.result}}</text>
     <text class="reason">{{item.reason}}</text>
-    <view class="warmth-meter" aria-label="保暖参考 {{item.level}}/6">
-      <text class="warmth-label">保暖参考</text>
-      <view class="warmth-dots">
-        <view
-          wx:for="{{gaugeSteps}}"
-          wx:for-item="step"
-          wx:key="*this"
-          class="warmth-dot {{step <= item.level ? 'filled' : ''}}"
-        ></view>
-      </view>
-    </view>
   </view>
+  <text wx:if="{{item.ageText}}" class="age-note">{{item.ageText}}</text>
 
   <view class="tip-toggle-row">
     <view class="tip-toggle tip-hot {{expandedTip === 'hot' ? 'open' : ''}}" data-tip="hot" bindtap="toggleTip">
@@ -36,6 +25,11 @@
   </view>
   <view wx:if="{{expandedTip === 'hot'}}" class="tip-expanded tip-expanded-hot">{{item.hotAction}}</view>
   <view wx:if="{{expandedTip === 'cold'}}" class="tip-expanded tip-expanded-cold">{{item.coldAction}}</view>
+
+  <button class="goods-link" bindtap="viewGoods" aria-label="查看这条建议的相关用品">
+    <text>查看相关用品</text>
+    <text class="goods-link-arrow">›</text>
+  </button>
 
   <view class="actions">
     <button class="adjust-button" data-delta="-1" bindtap="adjust">想薄一点</button>

@@ -43,6 +43,12 @@ Component({
     },
     confirmGood() {
       this.triggerEvent('good', { scene: this.data.item.scene })
+    },
+    viewGoods() {
+      this.triggerEvent('goods', {
+        scene: this.data.item.scene,
+        result: this.data.item.result
+      })
     }
   }
 })

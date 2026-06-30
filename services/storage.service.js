@@ -40,6 +40,15 @@ function normalizeProfile(profile = {}) {
   }
 }
 
+function validGoodsFocus(focus) {
+  if (!focus || typeof focus.scene !== 'string' || typeof focus.result !== 'string') return null
+  return {
+    scene: oneOf(focus.scene, ['indoor', 'outdoor', 'sleep'], 'indoor'),
+    result: focus.result.trim(),
+    savedAt: Number.isFinite(focus.savedAt) ? focus.savedAt : Date.now()
+  }
+}
+
 function createStorageService(adapter) {
   const read = (key) => adapter.get(key)
   const write = (key, value) => {
@@ -140,6 +149,15 @@ function createStorageService(adapter) {
       return write(STORAGE_KEYS.MANUAL_WEATHER, weather)
     },
 
+    getGoodsFocus() {
+      return validGoodsFocus(read(STORAGE_KEYS.GOODS_FOCUS))
+    },
+
+    saveGoodsFocus(focus) {
+      const normalized = validGoodsFocus(focus)
+      return normalized ? write(STORAGE_KEYS.GOODS_FOCUS, normalized) : null
+    },
+
     clearAll() {
       adapter.keys().filter((key) => key.startsWith('bbc_')).forEach((key) => adapter.remove(key))
       write(STORAGE_KEYS.APP_STATE, { ...defaults.appState })
@@ -176,5 +194,7 @@ module.exports = {
   saveWeatherCache: (...args) => storage && storage.saveWeatherCache(...args),
   getManualWeather: (...args) => storage && storage.getManualWeather(...args),
   saveManualWeather: (...args) => storage && storage.saveManualWeather(...args),
+  getGoodsFocus: (...args) => storage && storage.getGoodsFocus(...args),
+  saveGoodsFocus: (...args) => storage && storage.saveGoodsFocus(...args),
   clearAll: (...args) => storage && storage.clearAll(...args)
 }

@@ -61,11 +61,6 @@
       <text class="row-label">所在城市</text>
       <text class="value">{{city ? city.name : '未设置'}} ›</text>
     </view>
-    <view class="setting-row static">
-      <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/scene-outdoor.svg" mode="aspectFit" /></view>
-      <text class="row-label">定位状态</text>
-      <text class="value">{{locationStatusText}}</text>
-    </view>
   </view>
 
   <view class="section-heading">

@@ -72,12 +72,26 @@ test('今日天气卡提供明确的改城市和改天气入口', () => {
   assert.match(wxml, /改天气/)
 })
 
-test('首次设置偏好选项使用三等列网格且不会横向溢出', () => {
+test('首次设置偏好选项使用 Flexbox 等宽三列以避开小程序 Grid 兼容风险', () => {
   const wxss = fs.readFileSync(path.join(__dirname, '../pages/onboarding/index.wxss'), 'utf8')
 
-  assert.match(wxss, /grid-template-columns:\s*repeat\(3,\s*minmax\(0,\s*1fr\)\)/)
+  assert.doesNotMatch(wxss, /\.option-grid\s*\{[^}]*display:\s*grid/)
+  assert.match(wxss, /\.option-grid\s*\{[^}]*display:\s*flex/)
+  assert.match(wxss, /\.option\s*\{[^}]*flex:\s*1\s+1\s+0/)
   assert.match(wxss, /box-sizing:\s*border-box/)
   assert.match(wxss, /white-space:\s*normal/)
+})
+
+test('手动天气和用品分类入口也使用 Flexbox 避开真机 Grid 兼容风险', () => {
+  const manualWeather = fs.readFileSync(path.join(__dirname, '../pages/manual-weather/index.wxss'), 'utf8')
+  const goods = fs.readFileSync(path.join(__dirname, '../pages/goods/index.wxss'), 'utf8')
+
+  assert.doesNotMatch(manualWeather, /\.weather-options\s*\{[^}]*display:\s*grid/)
+  assert.match(manualWeather, /\.weather-options\s*\{[^}]*display:\s*flex/)
+  assert.match(manualWeather, /\.weather-options button\s*\{[^}]*flex:\s*1\s+1\s+0/)
+  assert.doesNotMatch(goods, /\.category-tabs\s*\{[^}]*display:\s*grid/)
+  assert.match(goods, /\.category-tabs\s*\{[^}]*display:\s*flex/)
+  assert.match(goods, /\.category-tabs button\s*\{[^}]*flex:\s*1\s+1\s+0/)
 })
 
 test('两处温度滚轮启用微信 picker-view 实时 change 事件', () => {
@@ -88,16 +102,16 @@ test('两处温度滚轮启用微信 picker-view 实时 change 事件', () => {
   assert.match(settings, /<picker-view[^>]+immediate-change="\{\{true\}\}"/)
 })
 
-test('裤子和配件补充条目使用存在的插画占位图', () => {
+test('用品清单不混入插画占位条目', () => {
   const { goods } = require('../config/goods.config')
-  const expectedIds = ['leggings', 'fleece_pants', 'sun_hat', 'warm_hat', 'belly_band']
+  const placeholderIds = ['leggings', 'fleece_pants', 'sun_hat', 'warm_hat', 'belly_band']
 
-  expectedIds.forEach((id) => {
-    const item = goods.find((entry) => entry.id === id)
-    assert.ok(item, `missing goods item ${id}`)
-    assert.match(item.desc, /插画示意/)
-    assert.ok(fs.existsSync(path.join(__dirname, '..', item.illustration)))
+  placeholderIds.forEach((id) => {
+    assert.equal(goods.some((entry) => entry.id === id), false, `placeholder goods item should be removed: ${id}`)
   })
+  assert.equal(goods.length, 50)
+  assert.equal(goods.some((entry) => entry.desc.includes('插画示意')), false)
+  assert.equal(goods.some((entry) => entry.illustration.endsWith('.svg')), false)
 })
 
 test('分享弹层预览完整缩放长图而不是裁切底部', () => {
@@ -110,12 +124,41 @@ test('分享弹层预览完整缩放长图而不是裁切底部', () => {
   assert.doesNotMatch(previewRule, /overflow:\s*hidden/)
 })
 
-test('推荐卡主文案不再被用途不清的大插画挤占', () => {
+test('推荐卡主文案不再被装饰图或长句年龄提示挤占', () => {
   const wxml = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.wxml'), 'utf8')
 
   assert.doesNotMatch(wxml, /illustration-thumb/)
   assert.doesNotMatch(wxml, /src="\{\{item\.icon\}\}"/)
-  assert.match(wxml, /class="warmth-meter"/)
+  assert.doesNotMatch(wxml, /class="tag age-tag"/)
+  assert.doesNotMatch(wxml, /class="warmth-meter"/)
+  assert.match(wxml, /class="age-note"/)
+})
+
+test('推荐卡提供低干扰的相关用品入口并由今日页承接', () => {
+  const cardWxml = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.wxml'), 'utf8')
+  const cardJs = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.js'), 'utf8')
+  const todayWxml = fs.readFileSync(path.join(__dirname, '../pages/today/index.wxml'), 'utf8')
+
+  assert.match(cardWxml, /bindtap="viewGoods"/)
+  assert.match(cardWxml, /相关用品/)
+  assert.match(cardJs, /triggerEvent\('goods'/)
+  assert.match(todayWxml, /bind:goods="viewGoods"/)
+})
+
+test('用品页能展示从穿衣建议带来的相关用品区', () => {
+  const wxml = fs.readFileSync(path.join(__dirname, '../pages/goods/index.wxml'), 'utf8')
+  const wxss = fs.readFileSync(path.join(__dirname, '../pages/goods/index.wxss'), 'utf8')
+
+  assert.match(wxml, /focusedGoods\.length/)
+  assert.match(wxml, /focus-panel/)
+  assert.match(wxml, /来自刚才的穿衣建议/)
+  assert.match(wxss, /\.focus-panel\s*\{/)
+})
+
+test('设置页不展示容易误解的定位状态行', () => {
+  const wxml = fs.readFileSync(path.join(__dirname, '../pages/settings/index.wxml'), 'utf8')
+
+  assert.doesNotMatch(wxml, /定位状态/)
 })
 
 test('定位命中内置城市时仍保存为定位来源', () => {
