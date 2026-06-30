@@ -99,3 +99,58 @@ test('裤子和配件补充条目使用存在的插画占位图', () => {
     assert.ok(fs.existsSync(path.join(__dirname, '..', item.illustration)))
   })
 })
+
+test('分享弹层预览完整缩放长图而不是裁切底部', () => {
+  const wxml = fs.readFileSync(path.join(__dirname, '../components/share-card/index.wxml'), 'utf8')
+  const wxss = fs.readFileSync(path.join(__dirname, '../components/share-card/index.wxss'), 'utf8')
+  const previewRule = wxss.match(/\.preview\s*\{[^}]+\}/)[0]
+
+  assert.match(wxml, /<image[^>]+mode="aspectFit"[^>]+class="image"/)
+  assert.match(wxss, /\.image\s*\{[^}]*height:\s*100%/)
+  assert.doesNotMatch(previewRule, /overflow:\s*hidden/)
+})
+
+test('推荐卡主文案不再被用途不清的大插画挤占', () => {
+  const wxml = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.wxml'), 'utf8')
+
+  assert.doesNotMatch(wxml, /illustration-thumb/)
+  assert.doesNotMatch(wxml, /src="\{\{item\.icon\}\}"/)
+  assert.match(wxml, /class="warmth-meter"/)
+})
+
+test('定位命中内置城市时仍保存为定位来源', () => {
+  const data = {}
+  global.wx = {
+    getStorageSync(key) { return data[key] },
+    setStorageSync(key, value) { data[key] = value },
+    removeStorageSync(key) { delete data[key] },
+    getStorageInfoSync() { return { keys: Object.keys(data) } },
+    request(options) {
+      options.success({
+        data: {
+          result: {
+            address_component: { city: '杭州市' },
+            ad_info: { adcode: '330100' }
+          }
+        }
+      })
+      options.complete()
+    },
+    showToast(options) { global.__lastToast = options },
+    navigateBack() {}
+  }
+  delete require.cache[require.resolve('../services/storage.service')]
+  delete require.cache[require.resolve('../pages/city/index')]
+  const storage = require('../services/storage.service')
+  storage.initialize()
+  const page = loadPage('../pages/city/index')
+  const context = {
+    data: JSON.parse(JSON.stringify(page.data)),
+    setData(patch) { applySetData(this, patch) }
+  }
+
+  page.reverseGeocode.call(context, 30.25, 120.16)
+
+  assert.equal(storage.getCity().name, '杭州')
+  assert.equal(storage.getCity().source, 'location')
+})

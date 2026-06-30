@@ -22,6 +22,7 @@ Page({
     sweatIndex: 0,
     tempValues: Array.from({ length: 25 }, (_, index) => index + 12),
     tempPickerValue: [12],
+    locationStatusText: '未开启',
     maxDate: ''
   },
 
@@ -44,6 +45,7 @@ Page({
       indoorTemp,
       draftIndoorTemp: indoorTemp,
       ageText: formatAge(profile.birthday),
+      locationStatusText: city ? (city.source === 'location' ? `已定位到${city.name}` : '手动选城') : '未开启',
       bodyIndex: bodyIndex >= 0 ? bodyIndex : 0,
       sweatIndex: sweatIndex >= 0 ? sweatIndex : 0,
       tempPickerValue: [this.data.tempValues.reduce((best, value, index, values) => (

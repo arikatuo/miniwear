@@ -101,7 +101,9 @@ Page({
         const name = component.city || component.province
         const adcode = data.result.ad_info && data.result.ad_info.adcode
         const matched = cities.find((item) => name.includes(item.name))
-        const city = matched || { name: name.replace(/市$/, ''), code: String(adcode || ''), lat: latitude, lng: longitude, source: 'location' }
+        const city = matched
+          ? { ...matched, lat: latitude, lng: longitude, source: 'location' }
+          : { name: name.replace(/市$/, ''), code: String(adcode || ''), lat: latitude, lng: longitude, source: 'location' }
         storage.saveCity(city)
         wx.showToast({ title: `已定位到${city.name}`, icon: 'success' })
         setTimeout(() => wx.navigateBack(), 300)

@@ -1,12 +1,12 @@
 .overlay { position: fixed; z-index: 110; top: 0; right: 0; bottom: 0; left: 0; display: flex; align-items: flex-end; background: rgba(74, 59, 48, .52); backdrop-filter: blur(8rpx); }
-.panel { width: 100%; max-height: 94vh; padding: 28rpx 30rpx calc(30rpx + env(safe-area-inset-bottom)); background: linear-gradient(180deg, #fffdf9, var(--color-bg)); border-radius: 44rpx 44rpx 0 0; box-shadow: 0 -24rpx 70rpx rgba(74, 59, 48, .18); }
+.panel { display: flex; width: 100%; max-height: 94vh; flex-direction: column; padding: 28rpx 30rpx calc(30rpx + env(safe-area-inset-bottom)); background: linear-gradient(180deg, #fffdf9, var(--color-bg)); border-radius: 44rpx 44rpx 0 0; box-shadow: 0 -24rpx 70rpx rgba(74, 59, 48, .18); }
 .panel-head { display: flex; align-items: center; justify-content: space-between; }
 .eyebrow { min-height: 42rpx; padding: 0 18rpx; font-size: 21rpx; }
 .title { display: block; margin-top: 8rpx; color: var(--color-ink); font-size: 36rpx; font-weight: 800; line-height: 1.2; }
 .subtitle { display: block; margin-top: 12rpx; color: var(--color-muted); font-size: 25rpx; }
 .close { min-width: 96rpx; min-height: 70rpx; margin: 0; padding: 0; color: var(--color-muted); background: var(--color-surface); border: 1.5rpx solid var(--color-border); border-radius: 22rpx; font-size: 25rpx; line-height: 70rpx; }
-.preview { height: 760rpx; margin-top: 24rpx; overflow: hidden; background: linear-gradient(180deg, var(--color-coral-soft), var(--color-bg)); border: 1.5rpx solid var(--color-border); border-radius: 34rpx; text-align: center; box-shadow: inset 0 0 0 1rpx rgba(255,255,255,.7); }
-.image { width: 100%; border-radius: 28rpx; }
+.preview { display: flex; height: 680rpx; max-height: 54vh; flex: none; align-items: center; justify-content: center; margin-top: 24rpx; background: linear-gradient(180deg, var(--color-coral-soft), var(--color-bg)); border: 1.5rpx solid var(--color-border); border-radius: 34rpx; text-align: center; box-shadow: inset 0 0 0 1rpx rgba(255,255,255,.7); }
+.image { width: 100%; height: 100%; border-radius: 28rpx; }
 .loading { display: flex; height: 760rpx; align-items: center; justify-content: center; color: var(--color-muted); font-size: 26rpx; }
 .loading-card { display: flex; width: 360rpx; min-height: 180rpx; flex-direction: column; align-items: center; justify-content: center; gap: 22rpx; background: rgba(255,255,255,.78); border: 1.5rpx solid var(--color-border); border-radius: 30rpx; box-shadow: var(--shadow-soft); }
 .loading-icon { width: 54rpx; height: 54rpx; border: 6rpx solid var(--color-coral-soft); border-top-color: var(--color-coral); border-radius: 50%; animation: spin 820ms linear infinite; }

@@ -64,7 +64,7 @@
     <view class="setting-row static">
       <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/scene-outdoor.svg" mode="aspectFit" /></view>
       <text class="row-label">定位状态</text>
-      <text class="value">{{city && city.source === 'location' ? '已用于选城' : '未开启'}}</text>
+      <text class="value">{{locationStatusText}}</text>
     </view>
   </view>
 

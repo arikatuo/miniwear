@@ -8,21 +8,19 @@
     <text wx:if="{{adjustmentLabel}}" class="tag adjust-tag">{{adjustmentLabel}}</text>
   </view>
 
-  <view class="illustration-row">
-    <view class="illustration-thumb">
-      <image class="illustration-img" src="{{item.icon}}" mode="aspectFit" />
-      <view class="gauge" aria-label="保暖程度 {{item.level}}/6">
+  <view class="recommend-main">
+    <text class="result">{{item.result}}</text>
+    <text class="reason">{{item.reason}}</text>
+    <view class="warmth-meter" aria-label="保暖参考 {{item.level}}/6">
+      <text class="warmth-label">保暖参考</text>
+      <view class="warmth-dots">
         <view
           wx:for="{{gaugeSteps}}"
           wx:for-item="step"
           wx:key="*this"
-          class="gauge-dot {{step <= item.level ? 'filled' : ''}}"
+          class="warmth-dot {{step <= item.level ? 'filled' : ''}}"
         ></view>
       </view>
-    </view>
-    <view class="illustration-text">
-      <text class="result">{{item.result}}</text>
-      <text class="reason">{{item.reason}}</text>
     </view>
   </view>
 

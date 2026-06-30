@@ -9,7 +9,7 @@
     </view>
     <text class="subtitle">保存后发给家人，方便一起照看宝宝状态。</text>
     <view class="preview">
-      <image wx:if="{{imagePath}}" src="{{imagePath}}" mode="widthFix" class="image" />
+      <image wx:if="{{imagePath}}" src="{{imagePath}}" mode="aspectFit" class="image" />
       <view wx:else class="loading">
         <view class="loading-card">
           <view class="loading-icon"></view>
