@@ -185,19 +185,6 @@ Page({
     wx.showToast({ title: '好的，请继续以后颈温热、不出汗为准。', icon: 'none', duration: 2500 })
   },
 
-  viewGoods(event) {
-    const detail = event.detail || {}
-    const scene = detail.scene || this.data.activeScene
-    const recommendation = typeof detail.result === 'object'
-      ? detail.result
-      : this.data.recommendations && this.data.recommendations[scene]
-    const result = typeof detail.result === 'string'
-      ? detail.result
-      : recommendation && recommendation.result
-    storage.saveGoodsFocus({ scene, result: result || '', savedAt: Date.now() })
-    wx.switchTab({ url: '/pages/goods/index' })
-  },
-
   share() {
     if (!this.data.recommendations) return
     this.selectComponent('#shareCard').open({

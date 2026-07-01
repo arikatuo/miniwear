@@ -98,28 +98,6 @@
 .tip-expanded-hot { background: var(--color-coral-soft); }
 .tip-expanded-cold { background: var(--color-sky-soft); }
 
-.goods-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 70rpx;
-  margin: 18rpx 0 0;
-  padding: 0 22rpx;
-  color: var(--scene-deep);
-  background: var(--color-surface-soft);
-  border: 1.5rpx solid var(--color-border);
-  border-radius: 20rpx;
-  font-size: 24rpx;
-  font-weight: 700;
-  line-height: 70rpx;
-}
-
-.goods-link-arrow {
-  color: var(--color-faint);
-  font-size: 30rpx;
-  font-weight: 800;
-}
-
 .actions {
   display: flex;
   gap: 12rpx;

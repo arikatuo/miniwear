@@ -42,7 +42,6 @@
       adjustment-label="{{adjustmentLabels[activeScene]}}"
       bind:adjust="adjust"
       bind:good="confirmGood"
-      bind:goods="viewGoods"
     />
 
     <button class="share-button" bindtap="share">

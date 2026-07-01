@@ -134,25 +134,30 @@ test('推荐卡主文案不再被装饰图或长句年龄提示挤占', () => {
   assert.match(wxml, /class="age-note"/)
 })
 
-test('推荐卡提供低干扰的相关用品入口并由今日页承接', () => {
+test('推荐卡不再包含查看相关用品入口', () => {
   const cardWxml = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.wxml'), 'utf8')
   const cardJs = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.js'), 'utf8')
   const todayWxml = fs.readFileSync(path.join(__dirname, '../pages/today/index.wxml'), 'utf8')
+  const todayJs = fs.readFileSync(path.join(__dirname, '../pages/today/index.js'), 'utf8')
 
-  assert.match(cardWxml, /bindtap="viewGoods"/)
-  assert.match(cardWxml, /相关用品/)
-  assert.match(cardJs, /triggerEvent\('goods'/)
-  assert.match(todayWxml, /bind:goods="viewGoods"/)
+  assert.doesNotMatch(cardWxml, /goods-link/)
+  assert.doesNotMatch(cardWxml, /查看相关用品/)
+  assert.doesNotMatch(cardJs, /triggerEvent\('goods'/)
+  assert.doesNotMatch(todayWxml, /bind:goods="viewGoods"/)
+  assert.doesNotMatch(todayJs, /viewGoods/)
 })
 
-test('用品页能展示从穿衣建议带来的相关用品区', () => {
+test('用品页不保留无入口触发的推荐焦点区', () => {
   const wxml = fs.readFileSync(path.join(__dirname, '../pages/goods/index.wxml'), 'utf8')
   const wxss = fs.readFileSync(path.join(__dirname, '../pages/goods/index.wxss'), 'utf8')
+  const js = fs.readFileSync(path.join(__dirname, '../pages/goods/index.js'), 'utf8')
 
-  assert.match(wxml, /focusedGoods\.length/)
-  assert.match(wxml, /focus-panel/)
-  assert.match(wxml, /来自刚才的穿衣建议/)
-  assert.match(wxss, /\.focus-panel\s*\{/)
+  assert.doesNotMatch(wxml, /focusedGoods/)
+  assert.doesNotMatch(wxml, /focus-panel/)
+  assert.doesNotMatch(wxml, /来自刚才的穿衣建议/)
+  assert.doesNotMatch(wxss, /\.focus-panel\s*\{/)
+  assert.doesNotMatch(js, /getGoodsFocus/)
+  assert.doesNotMatch(js, /buildFocusedGoods/)
 })
 
 test('设置页不展示容易误解的定位状态行', () => {
@@ -196,4 +201,14 @@ test('定位命中内置城市时仍保存为定位来源', () => {
 
   assert.equal(storage.getCity().name, '杭州')
   assert.equal(storage.getCity().source, 'location')
+})
+
+test('配件分类里厚袜子保暖值高于普通袜子', () => {
+  const { goods } = require('../config/goods.config')
+  const socks = goods.find((item) => item.id === 'socks')
+  const thickSocks = goods.find((item) => item.id === 'thick_socks')
+
+  assert.ok(socks && thickSocks, '袜子/厚袜子条目应该都存在')
+  assert.ok(thickSocks.warmValue > socks.warmValue)
+  assert.match(thickSocks.tempRange, new RegExp(`\\+${thickSocks.warmValue}℃`))
 })

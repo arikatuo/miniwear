@@ -74,24 +74,3 @@ test('刚刚好会重置当前场景的临时调薄调厚状态', () => {
   assert.equal(context.data.recommendations.outdoor.adjustment, 1)
   assert.match(global.__lastToast.title, /后颈温热/)
 })
-
-test('从今日建议查看相关用品会保存场景上下文并切到用品页', () => {
-  const todayPage = loadTodayPage()
-  const result = {
-    scene: 'outdoor',
-    result: '轻薄内搭，备薄背心或薄外套'
-  }
-  const context = {
-    data: {
-      activeScene: 'outdoor',
-      recommendations: { outdoor: result }
-    }
-  }
-
-  todayPage.viewGoods.call(context, { detail: { scene: 'outdoor', result } })
-
-  const storage = require('../services/storage.service')
-  assert.equal(storage.getGoodsFocus().scene, 'outdoor')
-  assert.equal(storage.getGoodsFocus().result, '轻薄内搭，备薄背心或薄外套')
-  assert.equal(global.__lastSwitchTab.url, '/pages/goods/index')
-})

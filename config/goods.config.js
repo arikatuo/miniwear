@@ -27,7 +27,7 @@ const goods = [
   { id: 'fleece_jacket', name: '加绒外套', category: 'clothing', subCategory: 'outer', warmValue: 4, tempRange: '加温参考 +4℃', scenes: ['出门'], desc: '偏保暖外套，适合冷风天气。', illustration: '/assets/goods/fleece-jacket.jpg' },
   { id: 'padded_jacket', name: '夹棉外套', category: 'clothing', subCategory: 'outer', warmValue: 5, tempRange: '加温参考 +5℃', scenes: ['出门'], desc: '夹棉外层，冷天外出参考。', illustration: '/assets/goods/padded-jacket.jpg' },
   { id: 'socks', name: '袜子', category: 'clothing', subCategory: 'accessory', warmValue: 0, tempRange: '加温参考 +0℃', scenes: ['在家', '出门'], desc: '脚部偏凉时作为轻量补充。', illustration: '/assets/goods/socks.jpg' },
-  { id: 'thick_socks', name: '厚袜子', category: 'clothing', subCategory: 'accessory', warmValue: 0, tempRange: '加温参考 +0℃', scenes: ['在家', '出门'], desc: '脚部保暖补充，请避免过厚出汗。', illustration: '/assets/goods/thick-socks.jpg' },
+  { id: 'thick_socks', name: '厚袜子', category: 'clothing', subCategory: 'accessory', warmValue: 1, tempRange: '加温参考 +1℃', scenes: ['在家', '出门'], desc: '脚部保暖补充，请避免过厚出汗。', illustration: '/assets/goods/thick-socks.jpg' },
   { id: 'short_sleeve_tshirt', name: '短袖T恤', category: 'clothing', subCategory: 'inner', warmValue: 1, tempRange: '加温参考 +1℃', scenes: ['在家', '出门'], desc: '轻薄上衣，适合偏暖环境。', illustration: '/assets/goods/short-sleeve-tshirt.jpg' },
   { id: 'shorts', name: '短裤', category: 'clothing', subCategory: 'pants', warmValue: 0, tempRange: '加温参考 +0℃', scenes: ['在家', '出门'], desc: '高温天气下的轻薄下装。', illustration: '/assets/goods/shorts.jpg' },
   { id: 'short_sleeve_dress', name: '短袖连衣裙', category: 'clothing', subCategory: 'inner', warmValue: 1, tempRange: '加温参考 +1℃', scenes: ['在家', '出门'], desc: '偏暖天气的轻薄穿搭。', illustration: '/assets/goods/short-sleeve-dress.jpg' },

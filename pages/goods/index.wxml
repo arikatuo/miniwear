@@ -9,32 +9,6 @@
     <text>保暖值仅供参考，重点观察后颈温度、出汗和精神状态。</text>
   </view>
 
-  <view wx:if="{{focusedGoods.length}}" class="focus-panel">
-    <view class="focus-head">
-      <view>
-        <text class="focus-eyebrow">来自刚才的穿衣建议</text>
-        <text class="focus-title">{{focusTitle}}</text>
-      </view>
-      <text class="focus-count">{{focusedGoods.length}} 件</text>
-    </view>
-    <text class="focus-desc">{{focusDesc}}</text>
-    <scroll-view class="focus-row" scroll-x enhanced show-scrollbar="{{false}}">
-      <view wx:for="{{focusedGoods}}" wx:for-item="goodsItem" wx:for-index="goodsIndex" wx:key="id" class="focus-card">
-        <image
-          class="focus-image"
-          src="{{goodsItem.illustration}}"
-          mode="aspectFit"
-          data-key="focus"
-          data-index="{{goodsIndex}}"
-          binderror="imageError"
-          aria-label="{{goodsItem.name}}图片"
-        />
-        <text class="focus-name">{{goodsItem.name}}</text>
-        <text class="focus-warm">{{goodsItem.warmText}}</text>
-      </view>
-    </scroll-view>
-  </view>
-
   <view class="category-tabs">
     <button class="{{category === 'clothing' ? 'active' : ''}}" data-value="clothing" bindtap="chooseCategory">
       <image class="tab-icon" src="/assets/icons/icon-hanger.svg" mode="aspectFit" />

@@ -26,11 +26,6 @@
   <view wx:if="{{expandedTip === 'hot'}}" class="tip-expanded tip-expanded-hot">{{item.hotAction}}</view>
   <view wx:if="{{expandedTip === 'cold'}}" class="tip-expanded tip-expanded-cold">{{item.coldAction}}</view>
 
-  <button class="goods-link" bindtap="viewGoods" aria-label="查看这条建议的相关用品">
-    <text>查看相关用品</text>
-    <text class="goods-link-arrow">›</text>
-  </button>
-
   <view class="actions">
     <button class="adjust-button" data-delta="-1" bindtap="adjust">想薄一点</button>
     <button class="good-button" bindtap="confirmGood">

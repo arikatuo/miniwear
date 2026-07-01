@@ -74,7 +74,7 @@ Component({
         ctx.fillText(scene.label, 76, y + 52)
         ctx.setFillStyle('#4A3B30')
         ctx.setFontSize(25)
-        this.drawWrappedText(ctx, result, 156, y + 40, 370, 30, 2)
+        this.drawCenteredWrappedText(ctx, result, 156, y + 43, 370, 30, 25, 2)
       })
 
       ctx.setFillStyle('#FFF0C7')
@@ -154,6 +154,32 @@ Component({
         return false
       })
       if (line && lines <= maxLines) ctx.fillText(line, x, currentY)
+    },
+    wrapLines(ctx, text, maxWidth, maxLines) {
+      const lines = []
+      let line = ''
+      const chars = String(text).split('')
+      for (let i = 0; i < chars.length; i++) {
+        const next = line + chars[i]
+        if (ctx.measureText(next).width > maxWidth && line) {
+          lines.push(line)
+          line = chars[i]
+          if (lines.length >= maxLines) {
+            line = ''
+            break
+          }
+        } else {
+          line = next
+        }
+      }
+      if (line) lines.push(line)
+      return lines.slice(0, maxLines)
+    },
+    drawCenteredWrappedText(ctx, text, x, boxCenterY, maxWidth, lineHeight, fontSize, maxLines = 2) {
+      const lines = this.wrapLines(ctx, text, maxWidth, maxLines)
+      const visualOffset = fontSize * 0.35
+      const firstBaseline = boxCenterY + visualOffset - ((lines.length - 1) * lineHeight) / 2
+      lines.forEach((line, index) => ctx.fillText(line, x, firstBaseline + index * lineHeight))
     },
     save() {
       if (!this.data.imagePath) return
