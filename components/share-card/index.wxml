@@ -17,7 +17,7 @@
         </view>
       </view>
     </view>
-    <canvas canvas-id="shareCanvas" class="canvas"></canvas>
+    <canvas id="posterCanvas" type="2d" class="canvas"></canvas>
     <button class="save" bindtap="save" disabled="{{!imagePath}}">保存图片到相册</button>
     <text class="note">分享前请再次结合宝宝实际状态判断。</text>
   </view>

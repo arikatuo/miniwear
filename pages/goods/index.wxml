@@ -2,7 +2,6 @@
   <view class="goods-hero">
     <text class="eyebrow">用品图鉴</text>
     <text class="page-title">宝宝用品</text>
-    <text class="page-subtitle">穿衣和睡觉用品参考清单，不代表必须全部准备，请按家里实际情况选择。</text>
   </view>
   <view class="notice">
     <image class="notice-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" />

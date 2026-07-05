@@ -1,3 +1,3 @@
 module.exports = {
-  MINI_PROGRAM_CODE_PATH: ''
+  MINI_PROGRAM_CODE_PATH: '/assets/qrcode.png'
 }

@@ -14,10 +14,13 @@
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 12rpx;
+  gap: 14rpx;
   min-width: 0;
-  padding: 22rpx 18rpx;
+  padding: 22rpx 20rpx;
 }
+
+.weather-half { flex: 1.06 1 0; }
+.temp-half { flex: 0.94 1 0; }
 
 .combo-divider {
   width: 1.5rpx;
@@ -40,9 +43,24 @@
 .combo-icon-wrap.muted { background: var(--color-bg-deep); }
 .combo-icon { width: 44rpx; height: 44rpx; }
 
-.combo-text { flex: 1; min-width: 0; }
+.combo-body {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.combo-topline {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 10rpx;
+}
+
 .combo-label {
   display: block;
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
   color: var(--color-faint);
   font-size: 22rpx;
@@ -51,10 +69,17 @@
   white-space: nowrap;
 }
 
-.combo-value { display: block; margin-top: 2rpx; color: var(--color-ink); font-size: 30rpx; font-weight: 750; }
+.combo-mainline {
+  display: flex;
+  align-items: baseline;
+  min-height: 40rpx;
+  margin-top: 4rpx;
+}
+
+.combo-value { display: block; color: var(--color-ink); font-size: 33rpx; font-weight: 750; line-height: 1.12; }
 .combo-value.small { color: var(--color-coral-deep); font-size: 25rpx; }
-.combo-range { color: var(--color-faint); font-size: 22rpx; font-weight: 600; }
-.combo-action { flex: none; color: var(--color-coral-deep); font-size: 24rpx; font-weight: 700; white-space: nowrap; }
+.combo-range { display: block; margin-top: 4rpx; color: var(--color-faint); font-size: 21rpx; font-weight: 600; line-height: 1.2; }
+.combo-action { flex: none; color: var(--color-coral-deep); font-size: 22rpx; font-weight: 700; white-space: nowrap; }
 .city-action { font-size: 21rpx; }
 
 .spinner {

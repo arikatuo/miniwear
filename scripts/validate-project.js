@@ -125,6 +125,7 @@ for (const file of [...walk('pages', '.wxml'), ...walk('components', '.wxml')]) 
 const today = read('pages/today/index.wxml')
 const privacy = read('pages/privacy/index.wxml')
 const share = read('components/share-card/index.js')
+const shareMarkup = read('components/share-card/index.wxml')
 const shareStyle = read('components/share-card/index.wxss')
 const shareConfig = require(path.join(root, 'config/share.config'))
 if (!today.includes('不构成医疗建议')) errors.push('今日页缺少健康免责声明')
@@ -132,7 +133,24 @@ if (!privacy.includes('不构成医疗建议')) errors.push('隐私页缺少健�
 if (!share.includes('不构成医疗建议')) errors.push('分享卡缺少健康免责声明')
 if (!share.includes('如宝宝出现明显不适，请及时咨询医生')) errors.push('分享卡免责声明不完整')
 if (!share.includes('MINI_PROGRAM_CODE_PATH') || !share.includes('drawImage')) errors.push('分享卡未实现固定小程序码绘制')
-if (!share.includes('CARD_HEIGHT = 900') || !share.includes('destHeight: 1800') || !shareStyle.includes('height: 900px')) {
+if (!shareMarkup.includes('id="posterCanvas"') || !shareMarkup.includes('type="2d"')) {
+  errors.push('分享卡必须使用 Canvas 2D 节点绘制海报')
+}
+if (shareMarkup.includes('canvas-id=') || share.includes('wx.createCanvasContext') || share.includes('canvasId:')) {
+  errors.push('分享卡不能继续使用旧版 canvas-id/createCanvasContext 导出链路')
+}
+if (!share.includes('canvas.createImage()') || !share.includes('image.onload') || !share.includes('drawPoster({ ctx, images, data })')) {
+  errors.push('分享卡绘制前必须预加载小程序码图片对象')
+}
+if (share.includes('ctx.drawImage(MINI_PROGRAM_CODE_PATH') || share.includes('ctx.drawImage(codeImagePath')) {
+  errors.push('分享卡 drawPoster 不能直接绘制小程序码路径字符串')
+}
+if (
+  !share.includes('CARD_HEIGHT = 900') ||
+  !share.includes('RENDER_SCALE = 2') ||
+  !share.includes('destHeight: CARD_HEIGHT * RENDER_SCALE') ||
+  !shareStyle.includes('height: 900px')
+) {
   errors.push('分享卡画布尺寸未同步到高清输出高度')
 }
 if (shareConfig.MINI_PROGRAM_CODE_PATH && !exists(shareConfig.MINI_PROGRAM_CODE_PATH.replace(/^\//, ''))) {

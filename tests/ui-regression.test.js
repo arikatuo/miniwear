@@ -72,6 +72,27 @@ test('今日天气卡提供明确的改城市和改天气入口', () => {
   assert.match(wxml, /改天气/)
 })
 
+test('今日天气卡主温度和温度范围分层展示避免挤压', () => {
+  const wxml = fs.readFileSync(path.join(__dirname, '../components/weather-bar/index.wxml'), 'utf8')
+  const wxss = fs.readFileSync(path.join(__dirname, '../components/weather-bar/index.wxss'), 'utf8')
+
+  assert.match(wxml, /class="combo-body"/)
+  assert.match(wxml, /class="combo-topline"/)
+  assert.match(wxml, /class="combo-mainline"/)
+  assert.match(wxml, /class="combo-range"/)
+  assert.doesNotMatch(wxml, /class="combo-value"[^>]*>[^<]*<text[^>]+class="combo-range"/)
+  assert.match(wxss, /\.combo-topline\s*\{[^}]*display:\s*flex/)
+  assert.match(wxss, /\.combo-mainline\s*\{[^}]*display:\s*flex/)
+  assert.match(wxss, /\.combo-range\s*\{[^}]*display:\s*block/)
+})
+
+test('用品页不展示顶部说明长文', () => {
+  const wxml = fs.readFileSync(path.join(__dirname, '../pages/goods/index.wxml'), 'utf8')
+
+  assert.doesNotMatch(wxml, /穿衣和睡觉用品参考清单，不代表必须全部准备，请按家里实际情况选择。/)
+  assert.doesNotMatch(wxml, /page-subtitle/)
+})
+
 test('首次设置偏好选项使用 Flexbox 等宽三列以避开小程序 Grid 兼容风险', () => {
   const wxss = fs.readFileSync(path.join(__dirname, '../pages/onboarding/index.wxss'), 'utf8')
 
@@ -122,6 +143,49 @@ test('分享弹层预览完整缩放长图而不是裁切底部', () => {
   assert.match(wxml, /<image[^>]+mode="aspectFit"[^>]+class="image"/)
   assert.match(wxss, /\.image\s*\{[^}]*height:\s*100%/)
   assert.doesNotMatch(previewRule, /overflow:\s*hidden/)
+})
+
+test('分享卡使用稳定的小程序码资源路径', () => {
+  const shareConfig = require('../config/share.config')
+  const qrcodePath = path.join(__dirname, '..', shareConfig.MINI_PROGRAM_CODE_PATH.replace(/^\//, ''))
+
+  assert.equal(shareConfig.MINI_PROGRAM_CODE_PATH, '/assets/qrcode.png')
+  assert.equal(fs.existsSync(qrcodePath), true)
+})
+
+test('分享卡使用 Canvas 2D 节点并预加载小程序码后再绘制', () => {
+  const wxml = fs.readFileSync(path.join(__dirname, '../components/share-card/index.wxml'), 'utf8')
+  const js = fs.readFileSync(path.join(__dirname, '../components/share-card/index.js'), 'utf8')
+
+  assert.match(wxml, /<canvas[^>]+id="posterCanvas"[^>]+type="2d"/)
+  assert.doesNotMatch(wxml, /canvas-id="shareCanvas"/)
+  assert.doesNotMatch(js, /wx\.createCanvasContext/)
+  assert.doesNotMatch(js, /canvasId:\s*['"]shareCanvas['"]/)
+  assert.match(js, /createSelectorQuery\(\)[\s\S]+select\('#posterCanvas'\)[\s\S]+fields\(\{\s*node:\s*true,\s*size:\s*true\s*\}\)/)
+  assert.match(js, /canvas\.createImage\(\)/)
+  assert.match(js, /image\.onload\s*=\s*\(\)\s*=>\s*resolve\(image\)/)
+  assert.match(js, /await this\.loadPosterImages\(canvas\)/)
+  assert.match(js, /this\.drawPoster\(\{\s*ctx,\s*images,\s*data\s*\}\)/)
+  assert.match(js, /wx\.canvasToTempFilePath\(\{\s*canvas,/)
+})
+
+test('分享卡绘制函数只使用已加载的小程序码 image 对象', () => {
+  const js = fs.readFileSync(path.join(__dirname, '../components/share-card/index.js'), 'utf8')
+
+  assert.match(js, /ctx\.drawImage\(images\.qrcode,\s*424,\s*734,\s*124,\s*124\)/)
+  assert.doesNotMatch(js, /ctx\.drawImage\(\s*MINI_PROGRAM_CODE_PATH/)
+  assert.doesNotMatch(js, /ctx\.drawImage\(\s*['"]\/assets\//)
+  assert.doesNotMatch(js, /ctx\.drawImage\(\s*codeImagePath/)
+  assert.doesNotMatch(js, /wx\.getImageInfo\(/)
+})
+
+test('app.json 中每个页面都提供微信好友分享入口', () => {
+  const appConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '../app.json'), 'utf8'))
+
+  appConfig.pages.forEach((pagePath) => {
+    const js = fs.readFileSync(path.join(__dirname, '..', `${pagePath}.js`), 'utf8')
+    assert.match(js, /onShareAppMessage\s*\(/, `${pagePath}.js should define onShareAppMessage`)
+  })
 })
 
 test('推荐卡主文案不再被装饰图或长句年龄提示挤占', () => {

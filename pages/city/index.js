@@ -111,5 +111,12 @@ Page({
       fail: () => wx.showToast({ title: '定位失败，请手动选择', icon: 'none' }),
       complete: () => this.setData({ locating: false })
     })
+  },
+
+  onShareAppMessage() {
+    return {
+      title: '宝宝今天怎么穿？看看三种场景建议',
+      path: '/pages/today/index'
+    }
   }
 })

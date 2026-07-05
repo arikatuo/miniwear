@@ -64,5 +64,12 @@ Page({
     if (!group) return
     const groupIndex = this.data.groupedGoods.indexOf(group)
     this.setData({ [`groupedGoods[${groupIndex}].goods[${index}].illustration`]: '/assets/goods/default.jpg' })
+  },
+
+  onShareAppMessage() {
+    return {
+      title: '宝宝用品怎么选？看看穿衣和睡觉参考清单',
+      path: '/pages/goods/index'
+    }
   }
 })

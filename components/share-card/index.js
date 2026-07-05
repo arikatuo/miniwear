@@ -2,6 +2,7 @@ const { MINI_PROGRAM_CODE_PATH } = require('../../config/share.config')
 
 const CARD_WIDTH = 600
 const CARD_HEIGHT = 900
+const RENDER_SCALE = 2
 
 Component({
   data: {
@@ -16,113 +17,136 @@ Component({
     },
     close() { this.setData({ visible: false }) },
     stop() {},
-    draw() {
+    async draw() {
       const data = this.data.cardData
       if (!data) return
       this.setData({ generating: true })
-      if (MINI_PROGRAM_CODE_PATH) {
-        wx.getImageInfo({
-          src: MINI_PROGRAM_CODE_PATH,
-          success: ({ path }) => this.drawCanvas(path),
-          fail: () => this.drawCanvas('')
-        })
-        return
-      }
-      this.drawCanvas('')
-    },
-    drawCanvas(codeImagePath) {
-      const data = this.data.cardData
-      const ctx = wx.createCanvasContext('shareCanvas', this)
-      const SCENES = [
-        { key: 'indoor', label: '在家', color: '#FF8A65', soft: '#FFE0D1', deep: '#E8643A' },
-        { key: 'outdoor', label: '出门', color: '#4FB8D6', soft: '#DFF4F8', deep: '#2E86A8' },
-        { key: 'sleep', label: '睡觉', color: '#8B8FE0', soft: '#ECECFB', deep: '#5A5EC9' }
-      ]
-      ctx.setFillStyle('#FFF8EF')
-      ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT)
-      ctx.setFillStyle('#FFE5D8')
-      this.fillRoundRect(ctx, 32, 30, 536, 142, 28)
-      ctx.setFillStyle('#FF8A65')
-      this.fillRoundRect(ctx, 48, 52, 78, 78, 22)
-      ctx.setFillStyle('#FFFFFF')
-      ctx.setFontSize(38)
-      ctx.fillText('衣', 72, 102)
-      ctx.setFillStyle('#4A3B30')
-      ctx.setFontSize(32)
-      ctx.fillText('宝宝今天穿什么', 150, 78)
-      ctx.setFillStyle('#8A7868')
-      ctx.setFontSize(20)
-      ctx.fillText(`${data.cityName} · ${data.weatherText} · ${data.outdoorTemp}℃`, 150, 112)
-      ctx.fillText(`家里 ${data.indoorTemp}℃ · 给家人的穿衣参考`, 150, 144)
-
-      ctx.setFillStyle('#4A3B30')
-      ctx.setFontSize(27)
-      ctx.fillText('今天这样照看', 42, 220)
-      ctx.setFillStyle('#B7A99B')
-      ctx.setFontSize(18)
-      ctx.fillText('三种场景分别看，按宝宝状态再微调', 234, 220)
-
-      SCENES.forEach((scene, index) => {
-        const result = data.recommendations[scene.key].result
-        const y = 248 + index * 112
-        ctx.setFillStyle('#FFFFFF')
-        this.fillRoundRect(ctx, 38, y, 524, 86, 22)
-        ctx.setFillStyle(scene.soft)
-        this.fillRoundRect(ctx, 56, y + 18, 78, 50, 22)
-        ctx.setFillStyle(scene.deep)
-        ctx.setFontSize(20)
-        ctx.fillText(scene.label, 76, y + 52)
-        ctx.setFillStyle('#4A3B30')
-        ctx.setFontSize(25)
-        this.drawCenteredWrappedText(ctx, result, 156, y + 43, 370, 30, 25, 2)
-      })
-
-      ctx.setFillStyle('#FFF0C7')
-      this.fillRoundRect(ctx, 38, 604, 524, 82, 24)
-      ctx.setFillStyle('#E8643A')
-      ctx.setFontSize(21)
-      ctx.fillText('判断小窍门', 64, 642)
-      ctx.setFillStyle('#8A6234')
-      ctx.setFontSize(19)
-      this.drawWrappedText(ctx, '摸宝宝后颈，温热、不出汗，通常比较合适。', 180, 642, 336, 26, 2)
-
-      ctx.setFillStyle('#8A7868')
-      ctx.setFontSize(17)
-      this.drawWrappedText(ctx, '本建议仅供日常穿衣参考，不构成医疗建议。请结合宝宝实际状态判断；如宝宝出现明显不适，请及时咨询医生。', 44, 746, 340, 25, 4)
-
-      if (codeImagePath) {
-        ctx.drawImage(codeImagePath, 424, 734, 124, 124)
-      } else {
-        ctx.setStrokeStyle('#E8D9C8')
-        ctx.strokeRect(424, 734, 124, 124)
-        ctx.setFillStyle('#8A7868')
-        ctx.setFontSize(16)
-        ctx.fillText('小程序码', 458, 790)
-        ctx.fillText('上线前配置', 450, 816)
-      }
-      ctx.setFillStyle('#B7A99B')
-      ctx.setFontSize(15)
-      ctx.fillText('宝宝今天穿什么', 44, 862)
-      ctx.draw(false, () => {
+      try {
+        const canvas = await this.getPosterCanvas()
+        canvas.width = CARD_WIDTH * RENDER_SCALE
+        canvas.height = CARD_HEIGHT * RENDER_SCALE
+        const ctx = canvas.getContext('2d')
+        ctx.scale(RENDER_SCALE, RENDER_SCALE)
+        const images = await this.loadPosterImages(canvas)
+        this.drawPoster({ ctx, images, data })
         wx.canvasToTempFilePath({
-          canvasId: 'shareCanvas',
-          width: CARD_WIDTH,
-          height: CARD_HEIGHT,
-          destWidth: 1200,
-          destHeight: 1800,
+          canvas,
+          width: CARD_WIDTH * RENDER_SCALE,
+          height: CARD_HEIGHT * RENDER_SCALE,
+          destWidth: CARD_WIDTH * RENDER_SCALE,
+          destHeight: CARD_HEIGHT * RENDER_SCALE,
           success: ({ tempFilePath }) => this.setData({ imagePath: tempFilePath, generating: false }),
           fail: () => {
             this.setData({ generating: false })
             wx.showToast({ title: '生成失败，请稍后重试', icon: 'none' })
           }
         }, this)
+      } catch (error) {
+        this.setData({ generating: false })
+        wx.showToast({ title: '生成失败，请稍后重试', icon: 'none' })
+      }
+    },
+    getPosterCanvas() {
+      return new Promise((resolve, reject) => {
+        wx.createSelectorQuery()
+          .in(this)
+          .select('#posterCanvas')
+          .fields({ node: true, size: true })
+          .exec((res) => {
+            const canvas = res && res[0] && res[0].node
+            if (canvas) resolve(canvas)
+            else reject(new Error('poster canvas not found'))
+          })
       })
     },
-    fillRoundRect(ctx, x, y, width, height, radius) {
-      if (!ctx.beginPath || !ctx.quadraticCurveTo) {
-        ctx.fillRect(x, y, width, height)
-        return
+    loadCanvasImage(canvas, src) {
+      return new Promise((resolve, reject) => {
+        const image = canvas.createImage()
+        image.onload = () => resolve(image)
+        image.onerror = () => reject(new Error(`failed to load canvas image: ${src}`))
+        image.src = src
+      })
+    },
+    async loadPosterImages(canvas) {
+      const images = {}
+      if (MINI_PROGRAM_CODE_PATH) {
+        images.qrcode = await this.loadCanvasImage(canvas, MINI_PROGRAM_CODE_PATH)
       }
+      return images
+    },
+    drawPoster({ ctx, images, data }) {
+      const SCENES = [
+        { key: 'indoor', label: '在家', color: '#FF8A65', soft: '#FFE0D1', deep: '#E8643A' },
+        { key: 'outdoor', label: '出门', color: '#4FB8D6', soft: '#DFF4F8', deep: '#2E86A8' },
+        { key: 'sleep', label: '睡觉', color: '#8B8FE0', soft: '#ECECFB', deep: '#5A5EC9' }
+      ]
+      ctx.fillStyle = '#FFF8EF'
+      ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT)
+      ctx.fillStyle = '#FFE5D8'
+      this.fillRoundRect(ctx, 32, 30, 536, 142, 28)
+      ctx.fillStyle = '#FF8A65'
+      this.fillRoundRect(ctx, 48, 52, 78, 78, 22)
+      ctx.fillStyle = '#FFFFFF'
+      ctx.font = '38px sans-serif'
+      ctx.fillText('衣', 72, 102)
+      ctx.fillStyle = '#4A3B30'
+      ctx.font = '32px sans-serif'
+      ctx.fillText('宝宝今天穿什么', 150, 78)
+      ctx.fillStyle = '#8A7868'
+      ctx.font = '20px sans-serif'
+      ctx.fillText(`${data.cityName} · ${data.weatherText} · ${data.outdoorTemp}℃`, 150, 112)
+      ctx.fillText(`家里 ${data.indoorTemp}℃ · 给家人的穿衣参考`, 150, 144)
+
+      ctx.fillStyle = '#4A3B30'
+      ctx.font = '27px sans-serif'
+      ctx.fillText('今天这样照看', 42, 220)
+      ctx.fillStyle = '#B7A99B'
+      ctx.font = '18px sans-serif'
+      ctx.fillText('三种场景分别看，按宝宝状态再微调', 234, 220)
+
+      SCENES.forEach((scene, index) => {
+        const result = data.recommendations[scene.key].result
+        const y = 248 + index * 112
+        ctx.fillStyle = '#FFFFFF'
+        this.fillRoundRect(ctx, 38, y, 524, 86, 22)
+        ctx.fillStyle = scene.soft
+        this.fillRoundRect(ctx, 56, y + 18, 78, 50, 22)
+        ctx.fillStyle = scene.deep
+        ctx.font = '20px sans-serif'
+        ctx.fillText(scene.label, 76, y + 52)
+        ctx.fillStyle = '#4A3B30'
+        ctx.font = '25px sans-serif'
+        this.drawCenteredWrappedText(ctx, result, 156, y + 43, 370, 30, 25, 2)
+      })
+
+      ctx.fillStyle = '#FFF0C7'
+      this.fillRoundRect(ctx, 38, 604, 524, 82, 24)
+      ctx.fillStyle = '#E8643A'
+      ctx.font = '21px sans-serif'
+      ctx.fillText('判断小窍门', 64, 642)
+      ctx.fillStyle = '#8A6234'
+      ctx.font = '19px sans-serif'
+      this.drawWrappedText(ctx, '摸宝宝后颈，温热、不出汗，通常比较合适。', 180, 642, 336, 26, 2)
+
+      ctx.fillStyle = '#8A7868'
+      ctx.font = '17px sans-serif'
+      this.drawWrappedText(ctx, '本建议仅供日常穿衣参考，不构成医疗建议。请结合宝宝实际状态判断；如宝宝出现明显不适，请及时咨询医生。', 44, 746, 340, 25, 4)
+
+      if (images.qrcode) {
+        ctx.drawImage(images.qrcode, 424, 734, 124, 124)
+      } else {
+        ctx.strokeStyle = '#E8D9C8'
+        ctx.strokeRect(424, 734, 124, 124)
+        ctx.fillStyle = '#8A7868'
+        ctx.font = '16px sans-serif'
+        ctx.fillText('小程序码', 458, 790)
+        ctx.fillText('上线前配置', 450, 816)
+      }
+      ctx.fillStyle = '#B7A99B'
+      ctx.font = '15px sans-serif'
+      ctx.fillText('宝宝今天穿什么', 44, 862)
+    },
+    fillRoundRect(ctx, x, y, width, height, radius) {
       ctx.beginPath()
       ctx.moveTo(x + radius, y)
       ctx.lineTo(x + width - radius, y)
