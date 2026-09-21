@@ -1,0 +1,124 @@
+{
+  "date": "2026-09-20",
+  "method": "Authorized WeChat DevTools MCP: rendered simulator UI with tap, input, scroll and native navigation; not a physical device or user study.",
+  "device": {
+    "model": "iPhone 12/13 (Pro)",
+    "logicalWidth": 390,
+    "logicalHeight": 844
+  },
+  "observed": [
+    {
+      "id": "first-use",
+      "outcome": "Three skips lead to no result; confirming indoor temperature 22 still leaves no recommendation.",
+      "screenshots": [
+        "02-current.jpg",
+        "05-after-skip.jpg",
+        "07-room-saved-no-result.jpg"
+      ]
+    },
+    {
+      "id": "manual-first-result",
+      "outcome": "With no city, manual submission produces all three scene recommendations.",
+      "screenshots": [
+        "08-manual-weather.jpg",
+        "09-first-result.jpg",
+        "12-outdoor.jpg",
+        "13-sleep-with-tip.jpg"
+      ]
+    },
+    {
+      "id": "confirm-reverts",
+      "outcome": "Thinner adjustment changes long-sleeve outfit to short-sleeve; tapping just right reverts it.",
+      "screenshots": [
+        "10-adjust-thinner.jpg",
+        "11-confirm-resets-result.jpg"
+      ]
+    },
+    {
+      "id": "return-reverts",
+      "outcome": "After a new thinner adjustment, opening goods and returning clears the adjustment.",
+      "screenshots": [
+        "15-goods-clothing.jpg",
+        "18-return-loses-adjustment.jpg"
+      ]
+    },
+    {
+      "id": "manual-override-ignored",
+      "submitted": {
+        "outdoorTemp": 30,
+        "indoorTemp": 22
+      },
+      "observedWeather": {
+        "currentTemp": 25,
+        "source": "api",
+        "cityName": "杭州"
+      },
+      "observedOutdoorRecommendationTemperature": 25,
+      "screenshots": [
+        "25-manual-override-30.jpg",
+        "26-manual-override-result.jpg",
+        "27-outdoor-after-manual-override.jpg"
+      ]
+    },
+    {
+      "id": "weather-success",
+      "outcome": "Searching and selecting Hangzhou succeeds; real API weather is displayed.",
+      "screenshots": [
+        "23-city-search.jpg",
+        "24-city-weather-result.jpg"
+      ]
+    },
+    {
+      "id": "poster-preview",
+      "outcome": "Three-scene poster and configured mini program code render. No album save or external send performed.",
+      "screenshots": [
+        "14-share-preview.jpg"
+      ]
+    }
+  ],
+  "stateRestoration": {
+    "verified": true,
+    "verification": "Compared all bbc_ storage keys and values with pre-experience backup; contents intentionally excluded.",
+    "finalRoute": "pages/onboarding/index"
+  },
+  "excludedArtifact": {
+    "file": "02-indoor-step.jpg",
+    "reason": "Transient blank frame during developer-tools hot reload caused by writing audit files into project; not a product defect and removed from deliverable."
+  },
+  "notVerified": [
+    "physical device interaction",
+    "native location/album permissions",
+    "recipient or QR scan",
+    "actual cross-day use",
+    "medical validity",
+    "production activation and retention"
+  ],
+  "screenshots": [
+    "live/02-current.jpg",
+    "live/03-temperature.jpg",
+    "live/04-profile.jpg",
+    "live/05-after-skip.jpg",
+    "live/06-room-temperature-modal.jpg",
+    "live/07-room-saved-no-result.jpg",
+    "live/08-manual-weather.jpg",
+    "live/09-first-result.jpg",
+    "live/10-adjust-thinner.jpg",
+    "live/11-confirm-resets-result.jpg",
+    "live/12-outdoor.jpg",
+    "live/13-sleep-with-tip.jpg",
+    "live/14-share-preview.jpg",
+    "live/15-goods-clothing.jpg",
+    "live/16-goods-horizontal.jpg",
+    "live/17-goods-sleep.jpg",
+    "live/18-return-loses-adjustment.jpg",
+    "live/19-settings.jpg",
+    "live/20-settings-bottom.jpg",
+    "live/21-privacy.jpg",
+    "live/22-city.jpg",
+    "live/23-city-search.jpg",
+    "live/24-city-weather-result.jpg",
+    "live/25-manual-override-30.jpg",
+    "live/26-manual-override-result.jpg",
+    "live/27-outdoor-after-manual-override.jpg"
+  ]
+}

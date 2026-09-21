@@ -1,0 +1,131 @@
+{
+  "method": "Execute existing page handlers with isolated in-memory wx storage and simulated network failure. No real WeChat UI, no real latency, no real sharing, no external requests.",
+  "createdAt": "2026-09-20T08:02:27.989Z",
+  "records": [
+    {
+      "name": "fresh-entry",
+      "observed": {
+        "navigation": {
+          "action": "reLaunch",
+          "url": "/pages/onboarding/index"
+        },
+        "recommendations": null
+      }
+    },
+    {
+      "name": "skip-all-three-steps",
+      "observed": {
+        "steps": [
+          0,
+          1,
+          2,
+          2
+        ],
+        "initialized": true,
+        "indoorTemp": 24,
+        "city": null,
+        "recommendations": null,
+        "noWeather": true
+      }
+    },
+    {
+      "name": "change-indoor-temperature-without-weather",
+      "observed": {
+        "indoorTemp": 23,
+        "recommendations": null
+      }
+    },
+    {
+      "name": "manual-defaults-produce-results",
+      "observed": {
+        "enteredByUser": false,
+        "indoorTemp": 23,
+        "outdoorTemp": 21,
+        "source": "manual",
+        "results": {
+          "indoor": "长袖包屁衣 + 薄裤",
+          "outdoor": "轻薄内搭，备薄背心或薄外套",
+          "sleep": "薄睡袋 / 4 层纱布睡袋"
+        }
+      }
+    },
+    {
+      "name": "confirm-good-after-adjustment",
+      "observed": {
+        "beforeConfirm": "短袖包屁衣 / 薄连体衣",
+        "afterConfirm": "长袖包屁衣 + 薄裤",
+        "adjustment": 0,
+        "feedback": {
+          "action": "toast",
+          "title": "好的，请继续以后颈温热、不出汗为准。"
+        }
+      }
+    },
+    {
+      "name": "return-to-today-after-adjustment",
+      "observed": {
+        "beforeReturn": "短袖包屁衣 / 薄连体衣",
+        "afterReturn": "长袖包屁衣 + 薄裤",
+        "adjustment": 0
+      }
+    },
+    {
+      "name": "manual-weather-persistence",
+      "observed": {
+        "storedFields": [
+          "outdoorTemp",
+          "indoorTemp",
+          "weatherType"
+        ],
+        "storedData": {
+          "outdoorTemp": 21,
+          "indoorTemp": 23,
+          "weatherType": []
+        }
+      }
+    },
+    {
+      "name": "offline-selected-city-no-cache",
+      "observed": {
+        "recommendations": null,
+        "indoorTemp": 24,
+        "feedback": {
+          "action": "modal",
+          "title": "暂时获取不到天气",
+          "content": "可以手动填写温度后立即生成建议。"
+        }
+      }
+    },
+    {
+      "name": "offline-one-day-old-cache",
+      "observed": {
+        "recommendationsAvailable": true,
+        "staleText": "天气更新失败，已使用 1440 分钟前的天气。"
+      }
+    },
+    {
+      "name": "goods-navigation",
+      "observed": {
+        "clothingCount": 37,
+        "sleepCount": 13,
+        "sleepGroups": [
+          "睡袋",
+          "床品"
+        ]
+      }
+    },
+    {
+      "name": "share-entry",
+      "observed": {
+        "today": {
+          "title": "宝宝今天怎么穿？看看三种场景建议",
+          "path": "/pages/today/index"
+        },
+        "goods": {
+          "title": "宝宝用品怎么选？看看穿衣和睡觉参考清单",
+          "path": "/pages/goods/index"
+        }
+      }
+    }
+  ]
+}
