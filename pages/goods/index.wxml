@@ -44,7 +44,7 @@
       </view>
       <scroll-view class="mini-row" scroll-x enhanced show-scrollbar="{{false}}">
         <view wx:for="{{item.goods}}" wx:for-item="goodsItem" wx:for-index="goodsIndex" wx:key="id" class="mini-card" data-key="{{item.key}}" data-index="{{goodsIndex}}" bindtap="showGoodsDetail" role="button" aria-label="查看{{goodsItem.name}}说明">
-          <image
+          <image wx:if="{{!goodsItem.imageMissing}}"
             class="mini-image"
             src="{{goodsItem.illustration}}"
             mode="aspectFit"
@@ -53,6 +53,7 @@
             binderror="imageError"
             aria-label="{{goodsItem.name}}图片"
           />
+          <view wx:else class="mini-image image-missing" role="img" aria-label="{{goodsItem.name}}图片暂缺"><text>图片暂缺</text></view>
           <text class="mini-name">{{goodsItem.name}}</text>
           <text class="mini-warm">{{goodsItem.warmText}}</text>
         </view>
@@ -60,5 +61,5 @@
     </view>
   </view>
   <empty-state wx:else title="当前分类暂无用品" description="换一个分类看看吧。" />
-  <view wx:if="{{selectedGoods}}" class="goods-detail-mask" bindtap="closeGoodsDetail"><view class="goods-detail" catchtap="noop"><image src="{{selectedGoods.illustration}}" mode="aspectFit" /><text class="detail-title">{{selectedGoods.name}}</text><text>{{selectedGoods.desc}}</text><text class="detail-note">{{selectedGoods.sceneText}}适用 · {{selectedGoods.warmText}}</text><button class="primary-button" bindtap="closeGoodsDetail">知道了</button></view></view>
+  <view wx:if="{{selectedGoods}}" class="goods-detail-mask" bindtap="closeGoodsDetail"><view class="goods-detail" catchtap="noop"><image src="{{selectedGoods.illustration}}" mode="aspectFit" /><text class="detail-title">{{selectedGoods.name}}</text><text>{{selectedGoods.desc}}</text><view wx:if="{{selectedGoods.variants}}" class="variant-list"><text class="variant-title">可选规格</text><text wx:for="{{selectedGoods.variants}}" wx:key="label" class="variant-item">{{item.label}} · 保暖值 +{{item.warmValue}}℃</text></view><text class="detail-note">{{selectedGoods.sceneText}}适用 · {{selectedGoods.warmText}}</text><button class="primary-button" bindtap="closeGoodsDetail">知道了</button></view></view>
 </view>

@@ -28,7 +28,7 @@ Page({
 
   filterGoods() {
     const decoratedGoods = goods
-      .filter((item) => item.category === this.data.category)
+      .filter((item) => item.category === this.data.category && !item.catalogHidden)
       .map(decorateGoods)
     const groupedGoods = subCategories[this.data.category]
       .filter((item) => item.key !== 'all')
@@ -63,7 +63,7 @@ Page({
     const group = this.data.groupedGoods.find((item) => item.key === key)
     if (!group) return
     const groupIndex = this.data.groupedGoods.indexOf(group)
-    this.setData({ [`groupedGoods[${groupIndex}].goods[${index}].illustration`]: '/assets/goods/default.jpg' })
+    this.setData({ [`groupedGoods[${groupIndex}].goods[${index}].imageMissing`]: true })
   },
 
   showGoodsDetail(event) {

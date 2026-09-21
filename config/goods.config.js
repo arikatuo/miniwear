@@ -4,21 +4,25 @@ const goods = [
   { id: 'cotton_vest', name: '纯棉背心', category: 'clothing', subCategory: 'inner', warmValue: 2, tempRange: '加温参考 +2℃', scenes: ['在家', '出门'], desc: '适合在基础层上轻量叠穿。', illustration: '/assets/goods/cotton-vest.jpg' },
   { id: 'air_cotton_romper', name: '空气棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 3, tempRange: '加温参考 +3℃', scenes: ['在家', '睡觉'], desc: '比普通连体衣略厚，适合室温稍凉时。', illustration: '/assets/goods/air-cotton-romper.jpg' },
   { id: 'fleece_romper', name: '加绒连体衣', category: 'clothing', subCategory: 'inner', warmValue: 5, tempRange: '加温参考 +5℃', scenes: ['在家', '睡觉'], desc: '偏保暖的一体衣，注意观察出汗。', illustration: '/assets/goods/fleece-romper.jpg' },
-  { id: 'padded_romper_40g', name: '40克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 4, tempRange: '加温参考 +4℃', scenes: ['在家', '睡觉'], desc: '轻量夹棉款，适合偏凉环境。', illustration: '/assets/goods/padded-romper-40g.jpg' },
-  { id: 'padded_romper_60g', name: '60克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 5, tempRange: '加温参考 +5℃', scenes: ['在家', '睡觉'], desc: '中等保暖夹棉款，适合室温较低时。', illustration: '/assets/goods/padded-romper-60g.jpg' },
-  { id: 'padded_romper_80g', name: '80克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 6, tempRange: '加温参考 +6℃', scenes: ['在家', '睡觉'], desc: '保暖性更强，需避免捂热。', illustration: '/assets/goods/padded-romper-80g.jpg' },
-  { id: 'padded_romper_120g', name: '120克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 7, tempRange: '加温参考 +7℃', scenes: ['在家', '睡觉'], desc: '厚夹棉款，适合低温时短时参考。', illustration: '/assets/goods/padded-romper-120g.jpg' },
-  { id: 'padded_romper_160g', name: '160克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 9, tempRange: '加温参考 +9℃', scenes: ['在家', '睡觉'], desc: '偏厚连体衣，使用时重点观察后颈和出汗。', illustration: '/assets/goods/padded-romper-160g.jpg' },
-  { id: 'padded_romper_180g', name: '180克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 10, tempRange: '加温参考 +10℃', scenes: ['在家', '睡觉'], desc: '厚保暖款，建议低温环境谨慎使用。', illustration: '/assets/goods/padded-romper-180g.jpg' },
-  { id: 'fleece_padded_romper_180g', name: '180克夹棉加绒连体衣', category: 'clothing', subCategory: 'inner', warmValue: 22, tempRange: '加温参考 +22℃', scenes: ['在家', '睡觉'], desc: '非常厚的保暖款，优先用于极低温短时参考。', illustration: '/assets/goods/fleece-padded-romper-180g.jpg' },
-  { id: 'padded_romper_200g', name: '200克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 11, tempRange: '加温参考 +11℃', scenes: ['在家', '睡觉'], desc: '厚夹棉款，注意避免长时间过热。', illustration: '/assets/goods/padded-romper-200g.jpg' },
-  { id: 'padded_romper_240g', name: '240克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 12, tempRange: '加温参考 +12℃', scenes: ['在家', '睡觉'], desc: '厚保暖款，适合低温时作为参考。', illustration: '/assets/goods/padded-romper-240g.jpg' },
+  { id: 'padded_romper', name: '夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 6, tempRange: '按规格 +4～12℃', scenes: ['在家', '睡觉'], desc: '同一款式按夹棉厚度选择，低温时重点观察后颈和出汗。', illustration: '/assets/goods/padded-romper.jpg', variants: [{ label: '轻薄 40～60g', warmValue: 4 }, { label: '中等 80～120g', warmValue: 6 }, { label: '厚 160～180g', warmValue: 9 }, { label: '极厚 200～240g', warmValue: 12 }] },
+  { id: 'padded_romper_40g', name: '40克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 4, tempRange: '加温参考 +4℃', scenes: ['在家', '睡觉'], desc: '兼容历史记录的轻薄规格。', illustration: '/assets/goods/padded-romper.jpg', catalogHidden: true, catalogParent: 'padded_romper' },
+  { id: 'padded_romper_60g', name: '60克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 5, tempRange: '加温参考 +5℃', scenes: ['在家', '睡觉'], desc: '兼容历史记录的轻薄规格。', illustration: '/assets/goods/padded-romper.jpg', catalogHidden: true, catalogParent: 'padded_romper' },
+  { id: 'padded_romper_80g', name: '80克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 6, tempRange: '加温参考 +6℃', scenes: ['在家', '睡觉'], desc: '兼容历史记录的中等规格。', illustration: '/assets/goods/padded-romper.jpg', catalogHidden: true, catalogParent: 'padded_romper' },
+  { id: 'padded_romper_120g', name: '120克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 7, tempRange: '加温参考 +7℃', scenes: ['在家', '睡觉'], desc: '兼容历史记录的中等规格。', illustration: '/assets/goods/padded-romper.jpg', catalogHidden: true, catalogParent: 'padded_romper' },
+  { id: 'padded_romper_160g', name: '160克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 9, tempRange: '加温参考 +9℃', scenes: ['在家', '睡觉'], desc: '兼容历史记录的厚规格。', illustration: '/assets/goods/padded-romper.jpg', catalogHidden: true, catalogParent: 'padded_romper' },
+  { id: 'padded_romper_180g', name: '180克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 10, tempRange: '加温参考 +10℃', scenes: ['在家', '睡觉'], desc: '兼容历史记录的厚规格。', illustration: '/assets/goods/padded-romper.jpg', catalogHidden: true, catalogParent: 'padded_romper' },
+  { id: 'fleece_padded_romper_180g', name: '180克夹棉加绒连体衣', category: 'clothing', subCategory: 'inner', warmValue: 22, tempRange: '加温参考 +22℃', scenes: ['在家', '睡觉'], desc: '兼容历史记录的极厚规格。', illustration: '/assets/goods/padded-romper.jpg', catalogHidden: true, catalogParent: 'padded_romper' },
+  { id: 'padded_romper_200g', name: '200克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 11, tempRange: '加温参考 +11℃', scenes: ['在家', '睡觉'], desc: '兼容历史记录的极厚规格。', illustration: '/assets/goods/padded-romper.jpg', catalogHidden: true, catalogParent: 'padded_romper' },
+  { id: 'padded_romper_240g', name: '240克夹棉连体衣', category: 'clothing', subCategory: 'inner', warmValue: 12, tempRange: '加温参考 +12℃', scenes: ['在家', '睡觉'], desc: '兼容历史记录的极厚规格。', illustration: '/assets/goods/padded-romper.jpg', catalogHidden: true, catalogParent: 'padded_romper' },
   { id: 'light_down_jacket', name: '轻薄羽绒服', category: 'clothing', subCategory: 'outer', warmValue: 5, tempRange: '加温参考 +5℃', scenes: ['出门'], desc: '低温外出时增加保暖，进室内及时调整。', illustration: '/assets/goods/light-down-jacket.jpg' },
   { id: 'down_suit', name: '羽绒服', category: 'clothing', subCategory: 'outer', warmValue: 12, tempRange: '加温参考 +12℃', scenes: ['出门'], desc: '强保暖外层，适合冷天外出。', illustration: '/assets/goods/down-suit.jpg' },
   { id: 'air_cotton_vest', name: '空气棉马甲', category: 'clothing', subCategory: 'outer', warmValue: 3, tempRange: '加温参考 +3℃', scenes: ['在家', '出门'], desc: '方便增减的一层，适合护住前胸后背。', illustration: '/assets/goods/air-cotton-vest.jpg' },
   { id: 'padded_vest', name: '夹棉马甲', category: 'clothing', subCategory: 'outer', warmValue: 4, tempRange: '加温参考 +4℃', scenes: ['在家', '出门'], desc: '比普通马甲更保暖，便于活动。', illustration: '/assets/goods/padded-vest.jpg' },
   { id: 'cotton_autumn_top', name: '纯棉秋衣', category: 'clothing', subCategory: 'inner', warmValue: 1, tempRange: '加温参考 +1℃', scenes: ['在家', '睡觉'], desc: '长袖棉质上衣，作为贴身基础层。', illustration: '/assets/goods/cotton-autumn-top.jpg' },
   { id: 'cotton_autumn_pants', name: '纯棉秋裤', category: 'clothing', subCategory: 'pants', warmValue: 1, tempRange: '加温参考 +1℃', scenes: ['在家', '出门'], desc: '柔软长裤，方便宝宝活动。', illustration: '/assets/goods/cotton-autumn-pants.jpg' },
+  { id: 'thin_long_pants', name: '薄长裤', category: 'clothing', subCategory: 'pants', warmValue: 1, tempRange: '加温参考 +1℃', scenes: ['在家', '出门'], desc: '室内偏暖或换季时的轻薄下装。', illustration: '/assets/goods/thin-long-pants.jpg' },
+  { id: 'regular_long_pants', name: '常规长裤', category: 'clothing', subCategory: 'pants', warmValue: 2, tempRange: '加温参考 +2℃', scenes: ['在家', '出门'], desc: '日常出门可与长袖内搭配成完整上下装。', illustration: '/assets/goods/regular-long-pants.jpg' },
+  { id: 'fleece_long_pants', name: '加绒长裤', category: 'clothing', subCategory: 'pants', warmValue: 4, tempRange: '加温参考 +4℃', scenes: ['在家', '出门'], desc: '冷天户外的保暖下装，活动后注意出汗。', illustration: '/assets/goods/fleece-long-pants.jpg' },
   { id: 'sweatshirt', name: '卫衣', category: 'clothing', subCategory: 'outer', warmValue: 3, tempRange: '加温参考 +3℃', scenes: ['在家', '出门'], desc: '日常外层，适合温和偏凉环境。', illustration: '/assets/goods/sweatshirt.jpg' },
   { id: 'fleece_sweatshirt', name: '加绒卫衣', category: 'clothing', subCategory: 'outer', warmValue: 4, tempRange: '加温参考 +4℃', scenes: ['在家', '出门'], desc: '比普通卫衣更保暖，活动后注意出汗。', illustration: '/assets/goods/fleece-sweatshirt.jpg' },
   { id: 'cardigan', name: '毛衣', category: 'clothing', subCategory: 'outer', warmValue: 3, tempRange: '加温参考 +3℃', scenes: ['在家', '出门'], desc: '适合叠穿的柔软外层。', illustration: '/assets/goods/cardigan.jpg' },
@@ -36,19 +40,19 @@ const goods = [
   { id: 'sleeveless_top', name: '无袖', category: 'clothing', subCategory: 'inner', warmValue: 0, tempRange: '加温参考 +0℃', scenes: ['在家'], desc: '炎热环境下的轻薄选择。', illustration: '/assets/goods/sleeveless-top.jpg' },
   { id: 'short_sleeve_bodysuit', name: '短袖包屁衣', category: 'clothing', subCategory: 'inner', warmValue: 1, tempRange: '加温参考 +1℃', scenes: ['在家', '睡觉'], desc: '轻薄贴身，适合偏暖环境。', illustration: '/assets/goods/short-sleeve-bodysuit.jpg' },
   { id: 'short_sleeve_romper', name: '短袖连体衣', category: 'clothing', subCategory: 'inner', warmValue: 1, tempRange: '加温参考 +1℃', scenes: ['在家', '睡觉'], desc: '短袖一体款，适合偏暖室温。', illustration: '/assets/goods/short-sleeve-romper.jpg' },
-  { id: 'thick_padded_sleeping_bag', name: '厚夹棉睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 6, tempRange: '适合 0-10℃', scenes: ['睡觉'], desc: '克数 220-260，低温睡眠环境参考。', illustration: '/assets/goods/thick-padded-sleeping-bag.jpg' },
-  { id: 'medium_padded_sleeping_bag', name: '偏厚夹棉睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 5, tempRange: '适合 5-15℃', scenes: ['睡觉'], desc: '克数 160-200，偏冷睡眠环境参考。', illustration: '/assets/goods/medium-padded-sleeping-bag.jpg' },
-  { id: 'cotton_padded_sleeping_bag', name: '夹棉睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 4, tempRange: '适合 10-18℃', scenes: ['睡觉'], desc: '克数 120-160，适合较凉室温。', illustration: '/assets/goods/cotton-padded-sleeping-bag.jpg' },
-  { id: 'thin_padded_sleeping_bag', name: '薄夹棉睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 3, tempRange: '适合 15-20℃', scenes: ['睡觉'], desc: '克数 60-100，适合室温稍凉时。', illustration: '/assets/goods/thin-padded-sleeping-bag.jpg' },
-  { id: 'six_layer_gauze_sleeping_bag', name: '6层纱布睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 2, tempRange: '适合 19-23℃', scenes: ['睡觉'], desc: '透气纱布睡袋，适合舒适室温。', illustration: '/assets/goods/six-layer-gauze-sleeping-bag.jpg' },
-  { id: 'four_layer_gauze_sleeping_bag', name: '4层纱布睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 2, tempRange: '适合 21-26℃', scenes: ['睡觉'], desc: '更轻薄的纱布睡袋，适合偏暖室温。', illustration: '/assets/goods/four-layer-gauze-sleeping-bag.jpg' },
+  { id: 'thick_padded_sleeping_bag', name: '厚夹棉睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 6, tempRange: '适合 0-10℃', scenes: ['睡觉'], desc: '一体袋摆，克数 220-260，低温睡眠环境参考。', illustration: '/assets/goods/padded-sleeping-bag.jpg' },
+  { id: 'medium_padded_sleeping_bag', name: '偏厚夹棉睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 5, tempRange: '适合 5-15℃', scenes: ['睡觉'], desc: '一体袋摆，克数 160-200，偏冷睡眠环境参考。', illustration: '/assets/goods/padded-sleeping-bag.jpg' },
+  { id: 'cotton_padded_sleeping_bag', name: '夹棉睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 4, tempRange: '适合 10-18℃', scenes: ['睡觉'], desc: '一体袋摆，克数 120-160，适合较凉室温。', illustration: '/assets/goods/padded-sleeping-bag.jpg' },
+  { id: 'thin_padded_sleeping_bag', name: '薄夹棉分腿睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 3, tempRange: '适合 15-20℃', scenes: ['睡觉'], desc: '分腿款，克数 60-100，适合室温稍凉时。', illustration: '/assets/goods/split-leg-sleeping-bag.jpg' },
+  { id: 'six_layer_gauze_sleeping_bag', name: '6层纱布睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 2, tempRange: '适合 19-23℃', scenes: ['睡觉'], desc: '一体袋摆，透气纱布，适合舒适室温。', illustration: '/assets/goods/gauze-sleeping-bag.jpg' },
+  { id: 'four_layer_gauze_sleeping_bag', name: '4层纱布睡袋', category: 'sleep', subCategory: 'sleeping_bag', warmValue: 2, tempRange: '适合 21-26℃', scenes: ['睡觉'], desc: '一体袋摆，更轻薄的纱布款，适合偏暖室温。', illustration: '/assets/goods/gauze-sleeping-bag.jpg' },
   { id: 'six_layer_gauze_blanket', name: '6层纱布', category: 'sleep', subCategory: 'blanket', warmValue: 1, tempRange: '适合 22-26℃', scenes: ['睡觉'], desc: '纱布盖毯类用品，按宝宝状态轻盖。', illustration: '/assets/goods/six-layer-gauze-blanket.jpg' },
   { id: 'four_layer_gauze_blanket', name: '4层纱布', category: 'sleep', subCategory: 'blanket', warmValue: 1, tempRange: '适合 25-27℃', scenes: ['睡觉'], desc: '偏薄纱布盖毯，适合偏暖环境。', illustration: '/assets/goods/four-layer-gauze-blanket.jpg' },
   { id: 'padded_small_quilt', name: '夹棉小被子', category: 'sleep', subCategory: 'blanket', warmValue: 4, tempRange: '适合 10-15℃', scenes: ['睡觉'], desc: '小被子类用品，使用时避免遮盖口鼻。', illustration: '/assets/goods/padded-small-quilt.jpg' },
   { id: 'fleece_blanket', name: '绒毯', category: 'sleep', subCategory: 'blanket', warmValue: 3, tempRange: '适合 18-20℃', scenes: ['睡觉'], desc: '绒面盖毯，按室温和宝宝状态使用。', illustration: '/assets/goods/fleece-blanket.jpg' },
   { id: 'swaddle', name: '包巾', category: 'sleep', subCategory: 'blanket', warmValue: 1, tempRange: '适合 26-30℃', scenes: ['睡觉'], desc: '包裹类用品，注意松紧和安全。', illustration: '/assets/goods/swaddle.jpg' },
-  { id: 'small_towel', name: '小毛巾', category: 'sleep', subCategory: 'blanket', warmValue: 0, tempRange: '适合 30-37℃', scenes: ['睡觉'], desc: '高温环境下轻量遮盖参考。', illustration: '/assets/goods/small-towel.jpg' },
-  { id: 'adult_quilt', name: '大人被子', category: 'sleep', subCategory: 'blanket', warmValue: 5, tempRange: '适合 6-20℃', scenes: ['睡觉'], desc: '仅作温度对照参考，宝宝睡眠请优先使用安全合适的婴幼儿用品。', illustration: '/assets/goods/adult-quilt.jpg' }
+  { id: 'small_towel', name: '小毛巾', category: 'care', subCategory: 'care', warmValue: 0, tempRange: '不作睡眠保暖推荐', scenes: ['护理'], desc: '用于擦汗、清洁或垫背，不作为睡眠覆盖用品。', illustration: '/assets/goods/small-towel.jpg', catalogHidden: true },
+  { id: 'adult_quilt', name: '大人被子（温度对照）', category: 'sleep', subCategory: 'reference', warmValue: 5, tempRange: '仅作 6-20℃ 温度对照', scenes: ['温度对照'], desc: '仅作温度对照；宝宝睡眠请优先使用安全、合适的婴幼儿用品。', illustration: '/assets/goods/adult-quilt.jpg', referenceOnly: true }
 ]
 
 const subCategories = {
@@ -62,7 +66,8 @@ const subCategories = {
   sleep: [
     { key: 'all', label: '全部' },
     { key: 'sleeping_bag', label: '睡袋' },
-    { key: 'blanket', label: '床品' }
+    { key: 'blanket', label: '床品' },
+    { key: 'reference', label: '温度对照' }
   ]
 }
 

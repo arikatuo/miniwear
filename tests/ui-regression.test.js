@@ -129,9 +129,16 @@ test('用品清单不混入插画占位条目', () => {
   placeholderIds.forEach((id) => {
     assert.equal(goods.some((entry) => entry.id === id), false, `placeholder goods item should be removed: ${id}`)
   })
-  assert.equal(goods.length, 50)
+  assert.equal(goods.length, 54)
   assert.equal(goods.some((entry) => entry.desc.includes('插画示意')), false)
   assert.equal(goods.some((entry) => entry.illustration.endsWith('.svg')), false)
+  assert.equal(goods.filter((entry) => entry.catalogParent === 'padded_romper').length, 9, '夹棉连体衣历史克重仅保留兼容数据')
+  assert.deepEqual(goods.find((entry) => entry.id === 'padded_romper').variants.map((item) => item.label), ['轻薄 40～60g', '中等 80～120g', '厚 160～180g', '极厚 200～240g'])
+  ;['thin_long_pants', 'regular_long_pants', 'fleece_long_pants'].forEach((id) => assert.ok(goods.some((entry) => entry.id === id), `缺少${id}`))
+  assert.equal(goods.find((entry) => entry.id === 'thin_padded_sleeping_bag').name, '薄夹棉分腿睡袋')
+  assert.equal(goods.find((entry) => entry.id === 'small_towel').category, 'care')
+  assert.equal(goods.find((entry) => entry.id === 'small_towel').catalogHidden, true)
+  assert.equal(goods.find((entry) => entry.id === 'adult_quilt').referenceOnly, true)
 })
 
 test('分享弹层预览完整缩放长图而不是裁切底部', () => {

@@ -36,6 +36,13 @@ test('衣物图例覆盖三个场景全部档位，睡觉标准档对应现有�
   assert.equal(outfitGoods('sleep', 3)[0].id, 'four_layer_gauze_sleeping_bag')
 })
 
+test('冷天出门图例对应完整上下装，且不把历史夹棉规格重复展示', () => {
+  const coldOutdoor = outfitGoods('outdoor', 6).map((item) => item.id)
+  assert.deepEqual(coldOutdoor, ['long_sleeve_tshirt', 'padded_jacket', 'fleece_long_pants'])
+  assert.equal(outfitGoods('indoor', 6)[0].id, 'padded_romper')
+  assert.deepEqual(outfitGoods('sleep', 6).map((item) => item.id), ['padded_romper', 'medium_padded_sleeping_bag'])
+})
+
 function pageHarness(path) {
   const values = {}
   global.wx = { getStorageSync: k => values[k], setStorageSync: (k,v) => { values[k] = v }, removeStorageSync: k => { delete values[k] }, getStorageInfoSync: () => ({ keys: Object.keys(values) }), showToast: () => {}, switchTab: () => {} }
