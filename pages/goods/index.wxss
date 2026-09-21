@@ -135,3 +135,5 @@
 .mini-warm { display: block; margin-top: 6rpx; color: var(--color-butter-deep); font-size: 21rpx; }
 
 button::after { border: 0; }
+.goods-detail-mask { position: fixed; z-index: 20; inset: 0; display: flex; align-items: flex-end; background: rgba(74, 59, 48, .35); }
+.goods-detail { width: 100%; padding: 32rpx; box-sizing: border-box; background: var(--color-surface); border-radius: 32rpx 32rpx 0 0; color: var(--color-ink); font-size: 25rpx; line-height: 1.6; }.goods-detail image { width: 180rpx; height: 180rpx; display: block; margin: 0 auto; }.detail-title, .detail-note { display: block; margin: 14rpx 0; }.detail-title { font-size: 32rpx; font-weight: 800; }.detail-note { color: var(--color-muted); font-size: 22rpx; }

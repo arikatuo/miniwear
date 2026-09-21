@@ -1,91 +1,10 @@
 <view class="page onboarding">
-  <view class="progress-shell">
-    <view class="progress">
-      <view wx:for="{{progressSteps}}" wx:key="*this" class="progress-item {{step >= item ? 'active' : ''}}"></view>
-    </view>
-    <text class="step-label">第 {{step + 1}} 步 / 共 3 步</text>
+  <view class="hero-copy"><text class="eyebrow">宝宝今天穿什么</text><text class="page-title">先看看这一刻怎么穿</text><text class="page-subtitle">选场景、确认温度和年龄段，就能得到第一套参考。</text></view>
+  <view class="form-card"><text class="form-label">现在要看哪个场景？</text><view class="option-grid"><button wx:for="{{scenes}}" wx:key="value" class="option {{selectedScene === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectScene"><image class="option-icon" src="{{item.icon}}" mode="aspectFit"/><text>{{item.label}}</text></button></view></view>
+  <view class="form-card"><text class="form-label">{{selectedScene === 'outdoor' ? '室外现在多少度？' : '房间现在多少度？'}}</text>
+    <view class="temperature-input"><input wx:if="{{selectedScene === 'outdoor'}}" type="text" value="{{draftOutdoorTemp}}" placeholder="例如 22" bindinput="inputOutdoor" aria-label="室外温度"/><input wx:else type="digit" value="{{draftIndoorTemp}}" bindinput="inputIndoor" aria-label="室内温度"/><text>℃</text></view>
+    <text class="form-note">{{selectedScene === 'outdoor' ? '按你填写的室外温度生成，可稍后切换实时天气。' : '默认显示 24℃，请按温度计修改或确认。无需先选城市。'}}</text>
   </view>
-
-  <block wx:if="{{step === 0}}">
-    <view class="hero-copy">
-      <text class="eyebrow">天气基准</text>
-      <text class="page-title">今天从哪里出发？</text>
-      <text class="page-subtitle">只用城市获取天气，不持续追踪定位。拒绝授权也可以手动选择。</text>
-    </view>
-    <view class="illustration city-art">
-      <image class="mascot-img" src="/assets/icons/mascot-cloud.svg" mode="aspectFit" />
-    </view>
-    <view class="selection-card" bindtap="chooseCity" role="button">
-      <view class="selection-icon-wrap">
-        <image class="selection-icon" src="/assets/icons/icon-pin.svg" mode="aspectFit" />
-      </view>
-      <view class="selection-text">
-        <text class="selection-label">当前城市</text>
-        <text class="selection-value">{{city ? city.name : '选择城市'}}</text>
-      </view>
-      <text class="selection-action">{{city ? '重新选择' : '去选择'}} ›</text>
-    </view>
-  </block>
-
-  <block wx:elif="{{step === 1}}">
-    <view class="hero-copy">
-      <text class="eyebrow">室内体感</text>
-      <text class="page-title">家里大约多少度？</text>
-      <text class="page-subtitle">用于在家和睡觉建议。不确定时，24℃ 是一个温和默认值。</text>
-    </view>
-    <view class="temperature-panel">
-      <image class="thermo-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" />
-      <view class="temperature-readout">
-        <text>{{draftIndoorTemp}}</text><text class="unit">℃</text>
-      </view>
-      <view class="wheel-wrap">
-        <view class="wheel-highlight"></view>
-        <picker-view class="temperature-wheel" value="{{temperaturePickerValue}}" bindchange="temperatureChange" immediate-change="{{true}}" indicator-style="height: 80rpx;">
-          <picker-view-column>
-            <view wx:for="{{temperatureValues}}" wx:key="*this" class="wheel-item">{{item}}℃</view>
-          </picker-view-column>
-        </picker-view>
-      </view>
-      <text class="panel-note">上下滑动调整温度</text>
-    </view>
-  </block>
-
-  <block wx:else>
-    <view class="hero-copy">
-      <text class="eyebrow">宝宝偏好</text>
-      <text class="page-title">再了解一点宝宝</text>
-      <text class="page-subtitle">信息只保存在当前小程序本地，也可以先跳过。</text>
-    </view>
-    <view class="form-card">
-      <text class="form-label">出生日期</text>
-      <picker mode="date" value="{{birthday}}" end="{{maxDate}}" bindchange="selectBirthday">
-        <view class="picker-value">
-          <text>{{birthday || '未设置，默认按 6 个月处理'}}</text>
-          <text>›</text>
-        </view>
-      </picker>
-
-      <text class="form-label spaced">宝宝体质</text>
-      <view class="option-grid">
-        <button wx:for="{{bodyTypes}}" wx:key="value" class="option {{bodyType === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectBodyType">
-          <image class="option-icon" src="{{item.value === 'hot' ? '/assets/icons/weather-hot.svg' : item.value === 'cold' ? '/assets/icons/weather-cold.svg' : '/assets/icons/icon-heart.svg'}}" mode="aspectFit" />
-          <text>{{item.label}}</text>
-        </button>
-      </view>
-
-      <text class="form-label spaced">出汗情况</text>
-      <view class="option-grid">
-        <button wx:for="{{sweatTypes}}" wx:key="value" class="option {{easySweat === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectSweat">
-          <image class="option-icon" src="{{item.value === 'yes' ? '/assets/icons/weather-rain.svg' : item.value === 'no' ? '/assets/icons/icon-check.svg' : '/assets/icons/icon-heart.svg'}}" mode="aspectFit" />
-          <text>{{item.label}}</text>
-        </button>
-      </view>
-    </view>
-  </block>
-
-  <view class="footer-actions">
-    <button wx:if="{{step > 0}}" class="ghost-button half" bindtap="previous">上一步</button>
-    <button class="primary-button grow" bindtap="next">{{step === 2 ? '完成设置' : '下一步'}}</button>
-  </view>
-  <button class="skip" bindtap="skip">{{step === 2 ? '暂时跳过并开始使用' : '暂时跳过'}}</button>
+  <view class="form-card"><text class="form-label">宝宝年龄段</text><view class="age-grid"><button wx:for="{{ageGroups}}" wx:key="value" class="age-option {{selectedAgeGroup === item.value ? 'active' : ''}}" data-value="{{item.value}}" bindtap="selectAgeGroup">{{item.label}}</button></view><text class="form-note">不需要填写生日，稍后可在设置中完善。</text></view>
+  <button class="primary-button" bindtap="finish">查看{{selectedScene === 'indoor' ? '在家' : selectedScene === 'outdoor' ? '出门' : '睡觉'}}穿搭</button>
 </view>

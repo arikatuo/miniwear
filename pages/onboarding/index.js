@@ -1,124 +1,32 @@
 const storage = require('../../services/storage.service')
-
 Page({
   data: {
-    step: 0,
-    progressSteps: [0, 1, 2],
-    city: null,
-    indoorTemp: 24,
-    draftIndoorTemp: 24,
-    temperatureValues: Array.from({ length: 25 }, (_, index) => index + 12),
-    temperaturePickerValue: [12],
-    birthday: '',
-    bodyTypes: [
-      { value: 'unknown', label: '正常' },
-      { value: 'hot', label: '偏怕热' },
-      { value: 'cold', label: '偏怕冷' }
-    ],
-    sweatTypes: [
-      { value: 'unknown', label: '正常' },
-      { value: 'yes', label: '容易出汗' },
-      { value: 'no', label: '不太出汗' }
-    ],
-    bodyType: 'unknown',
-    easySweat: 'unknown',
-    maxDate: ''
+    indoorTemp: 24, draftIndoorTemp: 24, draftOutdoorTemp: '', temperatureValues: Array.from({ length: 25 }, (_, index) => index + 12), temperaturePickerValue: [12], birthday: '', maxDate: '',
+    selectedScene: 'indoor', showExample: false,
+    scenes: [{ value: 'indoor', label: '在家', icon: '/assets/icons/scene-home.svg' }, { value: 'outdoor', label: '出门', icon: '/assets/icons/scene-outdoor.svg' }, { value: 'sleep', label: '睡觉', icon: '/assets/icons/scene-sleep.svg' }],
+    ageGroups: [{ value: 'baby_0_6m', label: '0–6 个月' }, { value: 'baby_6_12m', label: '6–12 个月' }, { value: 'baby_1_3y', label: '1–3 岁' }], selectedAgeGroup: 'baby_6_12m'
   },
-
-  onLoad() {
-    storage.initialize()
-    const profile = storage.getBabyProfile()
-    const indoorTemp = storage.getEnvironment().indoorTemp
-    this.setData({
-      city: storage.getCity(),
-      indoorTemp,
-      draftIndoorTemp: indoorTemp,
-      temperaturePickerValue: [this.getTemperatureIndex(indoorTemp)],
-      birthday: profile.birthday,
-      bodyType: profile.bodyType,
-      easySweat: profile.easySweat,
-      maxDate: (() => {
-        const now = new Date()
-        return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
-      })()
-    })
-  },
-
-  onShow() {
-    const city = storage.getCity()
-    if (city) this.setData({ city })
-  },
-
-  chooseCity() {
-    wx.navigateTo({ url: '/pages/city/index?source=onboarding' })
-  },
-
-  getTemperatureIndex(value) {
-    const temp = Number(value)
-    const index = this.data.temperatureValues.findIndex((item) => item === temp)
-    return index >= 0 ? index : this.data.temperatureValues.findIndex((item) => item === 24)
-  },
-
-  temperatureChange(event) {
-    const index = Number(event.detail.value[0])
-    const indoorTemp = this.data.temperatureValues[index]
-    if (!Number.isFinite(indoorTemp)) return
-    this.setData({ draftIndoorTemp: indoorTemp, temperaturePickerValue: [index] })
-  },
-
-  validIndoorTemp() {
-    const temp = Number(this.data.draftIndoorTemp)
-    return Number.isFinite(temp) && temp >= 5 && temp <= 40
-  },
-
+  onLoad(options = {}) { storage.initialize(); const profile = storage.getBabyProfile(); const indoorTemp = storage.getEnvironment().indoorTemp; this.setData({ indoorTemp, draftIndoorTemp: indoorTemp, temperaturePickerValue: [this.getTemperatureIndex(indoorTemp)], birthday: profile.birthday, selectedAgeGroup: profile.ageConfirmed ? profile.ageGroup : '', selectedScene: options.scene || 'indoor', maxDate: new Date().toISOString().slice(0, 10) }) },
+  getTemperatureIndex(value) { const index = this.data.temperatureValues.indexOf(Number(value)); return index >= 0 ? index : 12 },
+  temperatureChange(event) { const index = Number(event.detail.value[0]); const indoorTemp = this.data.temperatureValues[index]; if (Number.isFinite(indoorTemp)) this.setData({ draftIndoorTemp: indoorTemp, temperaturePickerValue: [index] }) },
+  inputIndoor(event) { this.setData({ draftIndoorTemp: event.detail.value }) },
+  inputOutdoor(event) { this.setData({ draftOutdoorTemp: event.detail.value }) },
+  validIndoorTemp() { const temp = Number(this.data.draftIndoorTemp); return Number.isFinite(temp) && temp >= 5 && temp <= 40 },
   selectBirthday(event) { this.setData({ birthday: event.detail.value }) },
-  selectBodyType(event) { this.setData({ bodyType: event.currentTarget.dataset.value }) },
-  selectSweat(event) { this.setData({ easySweat: event.currentTarget.dataset.value }) },
-
-  next() {
-    if (this.data.step === 1) {
-      if (!this.validIndoorTemp()) {
-        wx.showToast({ title: '请输入 5-40℃', icon: 'none' })
-        return
-      }
-      storage.saveEnvironment({ indoorTemp: Number(this.data.draftIndoorTemp) })
-      this.setData({ indoorTemp: Number(this.data.draftIndoorTemp) })
-    }
-    if (this.data.step < 2) {
-      this.setData({ step: this.data.step + 1 })
-    } else {
-      this.finish()
-    }
-  },
-
-  previous() {
-    if (this.data.step > 0) this.setData({ step: this.data.step - 1 })
-  },
-
-  skip() {
-    if (this.data.step === 1 && !this.validIndoorTemp()) {
-      this.setData({ indoorTemp: 24, draftIndoorTemp: 24, temperaturePickerValue: [this.getTemperatureIndex(24)] })
-    }
-    if (this.data.step < 2) this.setData({ step: this.data.step + 1 })
-    else this.finish()
-  },
-
+  selectScene(event) { this.setData({ selectedScene: event.currentTarget.dataset.value }) },
+  selectAgeGroup(event) { this.setData({ birthday: '', selectedAgeGroup: event.currentTarget.dataset.value }) },
+  toggleExample() { this.setData({ showExample: !this.data.showExample }) },
   finish() {
-    const indoorTemp = this.validIndoorTemp() ? Number(this.data.draftIndoorTemp) : 24
-    storage.saveEnvironment({ indoorTemp })
-    storage.saveBabyProfile({
-      birthday: this.data.birthday,
-      bodyType: this.data.bodyType,
-      easySweat: this.data.easySweat
-    })
+    if (!this.data.selectedAgeGroup) { wx.showToast({ title: '请选择宝宝年龄段', icon: 'none' }); return }
+    if (this.data.selectedScene !== 'outdoor' && !this.validIndoorTemp()) { wx.showToast({ title: '请输入 5-40℃', icon: 'none' }); return }
+    const outdoorTemp = Number(this.data.draftOutdoorTemp)
+    if (this.data.selectedScene === 'outdoor' && !(String(this.data.draftOutdoorTemp).trim() && Number.isFinite(outdoorTemp) && outdoorTemp >= -30 && outdoorTemp <= 45)) { wx.showToast({ title: '出门请填写室外温度', icon: 'none' }); return }
+    if (this.data.selectedScene !== 'outdoor') storage.saveEnvironment({ indoorTemp: Number(this.data.draftIndoorTemp) })
+    if (this.data.selectedScene === 'outdoor') storage.saveManualWeather({ outdoorTemp: Math.round(outdoorTemp), indoorTemp: Number(this.data.draftIndoorTemp), weatherType: [] })
+    storage.saveBabyProfile({ ...storage.getBabyProfile(), birthday: this.data.birthday, ageGroup: this.data.selectedAgeGroup, ageConfirmed: true })
+    storage.saveLastOutcome({ scene: this.data.selectedScene, sceneLabel: this.data.selectedScene === 'indoor' ? '在家' : this.data.selectedScene === 'outdoor' ? '出门' : '睡觉', adjustments: { indoor: 0, outdoor: 0, sleep: 0 }, adoptedScenes: {}, conditions: { indoorTemp: Number(this.data.draftIndoorTemp), outdoorTemp: this.data.selectedScene === 'outdoor' ? Math.round(outdoorTemp) : null, source: this.data.selectedScene === 'outdoor' ? 'manual' : 'example', ageGroup: storage.getBabyProfile().ageGroup }, savedAt: Date.now() })
     storage.setInitialized(true)
     wx.switchTab({ url: '/pages/today/index' })
   },
-
-  onShareAppMessage() {
-    return {
-      title: '宝宝今天怎么穿？看看三种场景建议',
-      path: '/pages/today/index'
-    }
-  }
+  onShareAppMessage() { return { title: '宝宝今天怎么穿？看看三种场景建议', path: '/pages/today/index' } }
 })

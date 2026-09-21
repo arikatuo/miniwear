@@ -94,17 +94,17 @@ Component({
       ctx.fillText('宝宝今天穿什么', 150, 78)
       ctx.fillStyle = '#8A7868'
       ctx.font = '20px sans-serif'
-      ctx.fillText(`${data.cityName} · ${data.weatherText} · ${data.outdoorTemp}℃`, 150, 112)
-      ctx.fillText(`家里 ${data.indoorTemp}℃ · 给家人的穿衣参考`, 150, 144)
+      ctx.fillText(`${data.date || '今天'} · ${data.source === 'api' ? '自动天气' : '手动填写'}`, 150, 112)
+      ctx.fillText(`${data.scene === 'outdoor' ? '室外 ' + data.outdoorTemp : '室温 ' + data.indoorTemp}℃ · 给家人的穿衣参考`, 150, 144)
 
       ctx.fillStyle = '#4A3B30'
       ctx.font = '27px sans-serif'
       ctx.fillText('今天这样照看', 42, 220)
       ctx.fillStyle = '#B7A99B'
       ctx.font = '18px sans-serif'
-      ctx.fillText('三种场景分别看，按宝宝状态再微调', 234, 220)
+      ctx.fillText('仅分享当前选择的场景', 234, 220)
 
-      SCENES.forEach((scene, index) => {
+      SCENES.filter((scene) => !data.scene || scene.key === data.scene).forEach((scene, index) => {
         const result = data.recommendations[scene.key].result
         const y = 248 + index * 112
         ctx.fillStyle = '#FFFFFF'
@@ -119,6 +119,10 @@ Component({
         this.drawCenteredWrappedText(ctx, result, 156, y + 43, 370, 30, 25, 2)
       })
 
+      ctx.fillStyle = '#8A7868'
+      ctx.font = '20px sans-serif'
+      ctx.fillText('年龄段：' + (data.ageGroup === 'baby_0_6m' ? '0–6 个月' : data.ageGroup === 'baby_6_12m' ? '6–12 个月' : '1–3 岁'), 56, 398)
+      this.drawWrappedText(ctx, '这是当时选定的搭配。请核对日期、温度和宝宝实际状态，条件变化后重新生成。', 56, 446, 480, 30, 3)
       ctx.fillStyle = '#FFF0C7'
       this.fillRoundRect(ctx, 38, 604, 524, 82, 24)
       ctx.fillStyle = '#E8643A'

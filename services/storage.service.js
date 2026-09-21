@@ -4,10 +4,11 @@ const { clampTemperature, oneOf } = require('../utils/validators')
 
 const CURRENT_STORAGE_VERSION = '1.0.0'
 const CACHE_TTL_MS = 30 * 60 * 1000
+const MANUAL_WEATHER_TTL_MS = 12 * 60 * 60 * 1000
 
 const defaults = {
   appState: { storageVersion: CURRENT_STORAGE_VERSION, appInit: false },
-  babyProfile: { birthday: '', ageGroup: 'baby_6_12m', bodyType: 'unknown', easySweat: 'unknown' },
+  babyProfile: { birthday: '', ageGroup: 'baby_6_12m', ageConfirmed: false, bodyType: 'unknown', easySweat: 'unknown' },
   environment: { indoorTemp: 24 }
 }
 
@@ -32,9 +33,12 @@ function validCity(city) {
 
 function normalizeProfile(profile = {}) {
   const birthday = typeof profile.birthday === 'string' ? profile.birthday : ''
+  const suppliedAgeGroup = oneOf(profile.ageGroup, ['baby_0_6m', 'baby_6_12m', 'baby_1_3y', 'fallback_3y_plus'], 'baby_6_12m')
   return {
     birthday,
-    ageGroup: getAgeGroup(birthday),
+    // A real birthday is more precise than the quick first-use age group.
+    ageGroup: birthday ? getAgeGroup(birthday) : suppliedAgeGroup,
+    ageConfirmed: Boolean(birthday || profile.ageConfirmed),
     bodyType: oneOf(profile.bodyType, ['hot', 'cold', 'unknown'], 'unknown'),
     easySweat: oneOf(profile.easySweat, ['yes', 'no', 'unknown'], 'unknown')
   }
@@ -58,7 +62,7 @@ function createStorageService(adapter) {
         write(STORAGE_KEYS.APP_STATE, appState)
         write(STORAGE_KEYS.BABY_PROFILE, normalizeProfile(read(STORAGE_KEYS.BABY_PROFILE)))
         const environment = read(STORAGE_KEYS.ENVIRONMENT) || {}
-        write(STORAGE_KEYS.ENVIRONMENT, { indoorTemp: clampTemperature(environment.indoorTemp, 24) })
+        write(STORAGE_KEYS.ENVIRONMENT, { indoorTemp: clampTemperature(environment.indoorTemp, 24), confirmedAt: Number.isFinite(environment.confirmedAt) ? environment.confirmedAt : null })
         if (!Array.isArray(read(STORAGE_KEYS.RECENT_CITIES))) write(STORAGE_KEYS.RECENT_CITIES, [])
         return {
           ...appState,
@@ -114,12 +118,12 @@ function createStorageService(adapter) {
 
     getEnvironment() {
       const value = read(STORAGE_KEYS.ENVIRONMENT) || {}
-      return { indoorTemp: clampTemperature(value.indoorTemp, 24) }
+      return { indoorTemp: clampTemperature(value.indoorTemp, 24), confirmedAt: Number.isFinite(value.confirmedAt) ? value.confirmedAt : null }
     },
 
     saveEnvironment(environment) {
       return write(STORAGE_KEYS.ENVIRONMENT, {
-        indoorTemp: clampTemperature(environment && environment.indoorTemp, 24)
+        indoorTemp: clampTemperature(environment && environment.indoorTemp, 24), confirmedAt: Date.now()
       })
     },
 
@@ -133,12 +137,19 @@ function createStorageService(adapter) {
     },
 
     getManualWeather() {
-      return read(STORAGE_KEYS.MANUAL_WEATHER) || null
+      const value = read(STORAGE_KEYS.MANUAL_WEATHER)
+      return value && Number.isFinite(value.updateTime) ? value : null
     },
 
     saveManualWeather(weather) {
-      return write(STORAGE_KEYS.MANUAL_WEATHER, weather)
+      return write(STORAGE_KEYS.MANUAL_WEATHER, { ...weather, updateTime: Number.isFinite(weather.updateTime) ? weather.updateTime : Date.now(), source: 'manual' })
     },
+
+    removeManualWeather() { adapter.remove(STORAGE_KEYS.MANUAL_WEATHER) },
+
+    getLastOutcome() { return read(STORAGE_KEYS.LAST_OUTCOME) || null },
+
+    saveLastOutcome(outcome) { return write(STORAGE_KEYS.LAST_OUTCOME, outcome) },
 
     clearAll() {
       adapter.keys().filter((key) => key.startsWith('bbc_')).forEach((key) => adapter.remove(key))
@@ -155,13 +166,19 @@ function isWeatherCacheFresh(cache, now = Date.now()) {
   return Boolean(cache && Number.isFinite(cache.updateTime) && now - cache.updateTime <= CACHE_TTL_MS)
 }
 
+function isManualWeatherFresh(weather, now = Date.now()) {
+  return Boolean(weather && Number.isFinite(weather.updateTime) && now - weather.updateTime <= MANUAL_WEATHER_TTL_MS)
+}
+
 const storage = typeof wx !== 'undefined' ? createStorageService(wxAdapter()) : null
 
 module.exports = {
   CURRENT_STORAGE_VERSION,
   CACHE_TTL_MS,
+  MANUAL_WEATHER_TTL_MS,
   createStorageService,
   isWeatherCacheFresh,
+  isManualWeatherFresh,
   initialize: (...args) => storage && storage.initialize(...args),
   getAppState: (...args) => storage && storage.getAppState(...args),
   setInitialized: (...args) => storage && storage.setInitialized(...args),
@@ -176,5 +193,8 @@ module.exports = {
   saveWeatherCache: (...args) => storage && storage.saveWeatherCache(...args),
   getManualWeather: (...args) => storage && storage.getManualWeather(...args),
   saveManualWeather: (...args) => storage && storage.saveManualWeather(...args),
+  removeManualWeather: (...args) => storage && storage.removeManualWeather(...args),
+  getLastOutcome: (...args) => storage && storage.getLastOutcome(...args),
+  saveLastOutcome: (...args) => storage && storage.saveLastOutcome(...args),
   clearAll: (...args) => storage && storage.clearAll(...args)
 }

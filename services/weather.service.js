@@ -90,7 +90,7 @@ function fromManualWeather(manual, city) {
     maxTemp: clampTemperature(manual.outdoorTemp, 24),
     weatherText: '手动填写',
     weatherType: Array.isArray(manual.weatherType) ? manual.weatherType : [],
-    updateTime: Date.now(),
+    updateTime: Number.isFinite(manual.updateTime) ? manual.updateTime : Date.now(),
     source: 'manual'
   }
 }

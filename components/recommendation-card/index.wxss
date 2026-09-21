@@ -61,6 +61,7 @@
   line-height: 1.6;
   border-top: 1.5rpx dashed var(--color-border);
 }
+.goods-link { margin-top: 14rpx; color: var(--scene-deep); font-size: 24rpx; font-weight: 700; }
 
 .tip-toggle-row {
   display: flex;

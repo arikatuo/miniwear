@@ -12,6 +12,7 @@
     <text class="reason">{{item.reason}}</text>
   </view>
   <text wx:if="{{item.ageText}}" class="age-note">{{item.ageText}}</text>
+  <view class="goods-link" bindtap="viewGoods" role="button">看衣物图例与替代项 ›</view>
 
   <view class="tip-toggle-row">
     <view class="tip-toggle tip-hot {{expandedTip === 'hot' ? 'open' : ''}}" data-tip="hot" bindtap="toggleTip">
@@ -28,10 +29,6 @@
 
   <view class="actions">
     <button class="adjust-button" data-delta="-1" bindtap="adjust">想薄一点</button>
-    <button class="good-button" bindtap="confirmGood">
-      <image class="good-icon" src="/assets/icons/icon-check.svg" mode="aspectFit" />
-      <text>刚刚好</text>
-    </button>
     <button class="adjust-button" data-delta="1" bindtap="adjust">想厚一点</button>
   </view>
 </view>

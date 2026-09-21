@@ -12,7 +12,8 @@ const TEMP_LABELS = {
 Component({
   properties: {
     item: { type: Object, value: null },
-    adjustmentLabel: { type: String, value: '' }
+    adjustmentLabel: { type: String, value: '' },
+    adopted: { type: Boolean, value: false }
   },
   data: {
     sceneIcon: '',
@@ -41,8 +42,8 @@ Component({
         delta: Number(event.currentTarget.dataset.delta)
       })
     },
-    confirmGood() {
-      this.triggerEvent('good', { scene: this.data.item.scene })
+    viewGoods() {
+      this.triggerEvent('goods', { scene: this.data.item.scene, result: this.data.item.result })
     }
   }
 })

@@ -25,23 +25,26 @@ Component({
   data: {
     weatherIcon: ICONS.cloudy,
     showRange: false,
-    sourceLabel: ''
+    sourceLabel: '',
+    isManual: false
   },
   observers: {
     weather(weather) {
       if (!weather) {
-        this.setData({ weatherIcon: ICONS.cloudy, showRange: false, sourceLabel: '' })
+        this.setData({ weatherIcon: ICONS.cloudy, showRange: false, sourceLabel: '', isManual: false })
         return
       }
       this.setData({
         weatherIcon: pickIcon(weather.weatherType),
         showRange: weather.minTemp !== weather.maxTemp,
-        sourceLabel: weather.source === 'manual' ? '手动填写' : ''
+        sourceLabel: weather.source === 'manual' ? '手动填写' : weather.source === 'example' ? '室外未知' : '',
+        isManual: weather.source === 'manual'
       })
     }
   },
   methods: {
     refresh() { this.triggerEvent('refresh') },
+    restoreAutomatic() { this.triggerEvent('restoreautomatic') },
     chooseCity() { this.triggerEvent('choosecity') },
     manual() { this.triggerEvent('manual') },
     openTemperature() { this.triggerEvent('opentemp') }

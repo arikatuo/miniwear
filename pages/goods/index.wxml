@@ -43,7 +43,7 @@
         <text class="group-count">{{item.count}} 件参考用品</text>
       </view>
       <scroll-view class="mini-row" scroll-x enhanced show-scrollbar="{{false}}">
-        <view wx:for="{{item.goods}}" wx:for-item="goodsItem" wx:for-index="goodsIndex" wx:key="id" class="mini-card">
+        <view wx:for="{{item.goods}}" wx:for-item="goodsItem" wx:for-index="goodsIndex" wx:key="id" class="mini-card" data-key="{{item.key}}" data-index="{{goodsIndex}}" bindtap="showGoodsDetail" role="button" aria-label="查看{{goodsItem.name}}说明">
           <image
             class="mini-image"
             src="{{goodsItem.illustration}}"
@@ -60,4 +60,5 @@
     </view>
   </view>
   <empty-state wx:else title="当前分类暂无用品" description="换一个分类看看吧。" />
+  <view wx:if="{{selectedGoods}}" class="goods-detail-mask" bindtap="closeGoodsDetail"><view class="goods-detail" catchtap="noop"><image src="{{selectedGoods.illustration}}" mode="aspectFit" /><text class="detail-title">{{selectedGoods.name}}</text><text>{{selectedGoods.desc}}</text><text class="detail-note">{{selectedGoods.sceneText}}适用 · {{selectedGoods.warmText}}</text><button class="primary-button" bindtap="closeGoodsDetail">知道了</button></view></view>
 </view>

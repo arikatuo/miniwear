@@ -19,7 +19,7 @@
             <text class="combo-action city-action">改城市 ›</text>
           </view>
           <view class="combo-mainline">
-            <text class="combo-value">{{weather.currentTemp}}℃</text>
+            <text class="combo-value">{{weather.source === 'example' ? '待填写' : weather.currentTemp + '℃'}}</text>
           </view>
           <text wx:if="{{showRange}}" class="combo-range">{{weather.minTemp}}-{{weather.maxTemp}}℃</text>
         </view>
@@ -60,7 +60,8 @@
   <view class="combo-footer">
     <text class="stale">{{staleText}}</text>
     <view class="footer-links">
-      <button class="link-button" bindtap="refresh" loading="{{loading}}" disabled="{{loading}}">刷新天气</button>
+      <button wx:if="{{isManual}}" class="link-button" bindtap="restoreAutomatic" loading="{{loading}}" disabled="{{loading}}">恢复实时天气</button>
+      <button wx:else class="link-button" bindtap="refresh" loading="{{loading}}" disabled="{{loading}}">刷新天气</button>
       <button class="link-button" bindtap="manual">改天气</button>
     </view>
   </view>

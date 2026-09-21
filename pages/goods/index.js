@@ -12,7 +12,7 @@ Page({
   data: {
     category: 'clothing',
     currentFloor: '',
-    groupedGoods: [],
+    groupedGoods: [], selectedGoods: null,
     categoryMeta: {
       clothing: { title: '穿衣用品', desc: '按贴身层、下装、外套和配件整理，搭配时更容易看清层次。' },
       sleep: { title: '睡觉用品', desc: '按睡袋和盖毯床品整理，方便根据夜间室温选择。' }
@@ -65,6 +65,15 @@ Page({
     const groupIndex = this.data.groupedGoods.indexOf(group)
     this.setData({ [`groupedGoods[${groupIndex}].goods[${index}].illustration`]: '/assets/goods/default.jpg' })
   },
+
+  showGoodsDetail(event) {
+    const group = this.data.groupedGoods.find((item) => item.key === event.currentTarget.dataset.key)
+    const item = group && group.goods[Number(event.currentTarget.dataset.index)]
+    if (item) this.setData({ selectedGoods: item })
+  },
+
+  closeGoodsDetail() { this.setData({ selectedGoods: null }) },
+  noop() {},
 
   onShareAppMessage() {
     return {
