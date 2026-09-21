@@ -3,7 +3,8 @@ const assert = require('node:assert/strict')
 const {
   createStorageService,
   CURRENT_STORAGE_VERSION,
-  isWeatherCacheFresh
+  isWeatherCacheFresh,
+  isManualWeatherFresh
 } = require('../services/storage.service')
 
 function memoryAdapter(seed = {}) {
@@ -98,6 +99,31 @@ test('天气缓存 30 分钟内有效', () => {
   const now = 1_800_000
   assert.equal(isWeatherCacheFresh({ updateTime: now - 29 * 60 * 1000 }, now), true)
   assert.equal(isWeatherCacheFresh({ updateTime: now - 31 * 60 * 1000 }, now), false)
+})
+
+test('手动天气在有效期内保持为明确的用户选择，过期后标为较早记录', () => {
+  const now = 1_800_000
+  assert.equal(isManualWeatherFresh({ updateTime: now - 11 * 60 * 60 * 1000 }, now), true)
+  assert.equal(isManualWeatherFresh({ updateTime: now - 13 * 60 * 60 * 1000 }, now), false)
+})
+
+test('手动来源只能由显式恢复操作移除，且保留原始填写时间', () => {
+  const service = createStorageService(memoryAdapter())
+  service.initialize()
+  service.saveManualWeather({ outdoorTemp: 30, updateTime: 123 })
+  assert.equal(service.getManualWeather().updateTime, 123)
+  assert.equal(service.getManualWeather().outdoorTemp, 30)
+  service.removeManualWeather()
+  assert.equal(service.getManualWeather(), null)
+})
+
+test('首次确认的年龄段会保存，生日存在时生日优先', () => {
+  const service = createStorageService(memoryAdapter())
+  service.initialize()
+  service.saveBabyProfile({ ageGroup: 'baby_1_3y' })
+  assert.equal(service.getBabyProfile().ageGroup, 'baby_1_3y')
+  service.saveBabyProfile({ birthday: '2026-08-01', ageGroup: 'baby_1_3y' })
+  assert.equal(service.getBabyProfile().ageGroup, 'baby_0_6m')
 })
 
 test('本地存储不保留已移除的推荐用品焦点 API', () => {

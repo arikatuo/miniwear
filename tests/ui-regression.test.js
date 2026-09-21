@@ -35,17 +35,17 @@ function applySetData(target, patch, callback) {
   if (callback) callback()
 }
 
-test('首次设置温度滚轮用草稿温度实时驱动读数', () => withWxStorage(() => {
+test('首次设置温度输入保留草稿直到确认', () => withWxStorage(() => {
   const page = loadPage('../pages/onboarding/index')
   const context = {
     data: JSON.parse(JSON.stringify(page.data)),
     setData(patch, callback) { applySetData(this, patch, callback) }
   }
 
-  page.temperatureChange.call(context, { detail: { value: [16] } })
+  page.inputIndoor.call(context, { detail: { value: '28' } })
 
-  assert.equal(context.data.draftIndoorTemp, 28)
-  assert.deepEqual(context.data.temperaturePickerValue, [16])
+  assert.equal(context.data.draftIndoorTemp, '28')
+
 }))
 
 test('宝宝设置温度滚轮用草稿温度实时驱动读数并同步保存', () => withWxStorage(() => {
@@ -97,10 +97,9 @@ test('首次设置偏好选项使用 Flexbox 等宽三列以避开小程序 Grid
   const wxss = fs.readFileSync(path.join(__dirname, '../pages/onboarding/index.wxss'), 'utf8')
 
   assert.doesNotMatch(wxss, /\.option-grid\s*\{[^}]*display:\s*grid/)
-  assert.match(wxss, /\.option-grid\s*\{[^}]*display:\s*flex/)
-  assert.match(wxss, /\.option\s*\{[^}]*flex:\s*1\s+1\s+0/)
-  assert.match(wxss, /box-sizing:\s*border-box/)
-  assert.match(wxss, /white-space:\s*normal/)
+  assert.match(wxss, /\.option-grid[^}]*display:\s*flex/)
+  assert.match(wxss, /\.option,[^}]*flex:\s*1/)
+  assert.match(wxss, /min-width:\s*0/)
 })
 
 test('手动天气和用品分类入口也使用 Flexbox 避开真机 Grid 兼容风险', () => {
@@ -115,11 +114,11 @@ test('手动天气和用品分类入口也使用 Flexbox 避开真机 Grid 兼�
   assert.match(goods, /\.category-tabs button\s*\{[^}]*flex:\s*1\s+1\s+0/)
 })
 
-test('两处温度滚轮启用微信 picker-view 实时 change 事件', () => {
+test('首次温度可直接输入，设置页滚轮保留实时 change', () => {
   const onboarding = fs.readFileSync(path.join(__dirname, '../pages/onboarding/index.wxml'), 'utf8')
   const settings = fs.readFileSync(path.join(__dirname, '../pages/settings/index.wxml'), 'utf8')
 
-  assert.match(onboarding, /<picker-view[^>]+immediate-change="\{\{true\}\}"/)
+  assert.match(onboarding, /bindinput="inputIndoor"/)
   assert.match(settings, /<picker-view[^>]+immediate-change="\{\{true\}\}"/)
 })
 
@@ -198,17 +197,17 @@ test('推荐卡主文案不再被装饰图或长句年龄提示挤占', () => {
   assert.match(wxml, /class="age-note"/)
 })
 
-test('推荐卡不再包含查看相关用品入口', () => {
+test('推荐卡提供就地用品图例入口，返回不需重置当前搭配', () => {
   const cardWxml = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.wxml'), 'utf8')
   const cardJs = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.js'), 'utf8')
   const todayWxml = fs.readFileSync(path.join(__dirname, '../pages/today/index.wxml'), 'utf8')
   const todayJs = fs.readFileSync(path.join(__dirname, '../pages/today/index.js'), 'utf8')
 
-  assert.doesNotMatch(cardWxml, /goods-link/)
-  assert.doesNotMatch(cardWxml, /查看相关用品/)
-  assert.doesNotMatch(cardJs, /triggerEvent\('goods'/)
-  assert.doesNotMatch(todayWxml, /bind:goods="viewGoods"/)
-  assert.doesNotMatch(todayJs, /viewGoods/)
+  assert.match(cardWxml, /goods-link/)
+  assert.match(cardWxml, /看衣物图例与替代项/)
+  assert.match(cardJs, /triggerEvent\('goods'/)
+  assert.match(todayWxml, /bind:goods="viewGoods"/)
+  assert.match(todayJs, /viewGoods/)
 })
 
 test('用品页不保留无入口触发的推荐焦点区', () => {

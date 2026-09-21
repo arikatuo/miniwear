@@ -1,6 +1,13 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
-const { canUseWeatherCache, normalizeTencentWeather } = require('../services/weather.service')
+const { canUseWeatherCache, normalizeTencentWeather, fromManualWeather } = require('../services/weather.service')
+
+test('手动天气 30℃保留为手动来源，不被 API 缓存值替换', () => {
+  const weather = fromManualWeather({ outdoorTemp: 30, weatherType: ['sunny'], updateTime: 123 }, { name: '杭州' })
+  assert.equal(weather.currentTemp, 30)
+  assert.equal(weather.source, 'manual')
+  assert.equal(weather.updateTime, 123)
+})
 
 test('天气缓存只能用于同一个城市', () => {
   const cache = { cityName: '杭州', updateTime: 1_000_000 }
