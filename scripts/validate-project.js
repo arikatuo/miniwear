@@ -179,6 +179,11 @@ for (const imageFile of [...walk('assets/goods', '.jpg'), ...walk('assets/goods'
 }
 
 const maxMediaBytes = 200 * 1000
+for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
+  if (entry.isFile() && entry.name.toLowerCase().endsWith('.zip')) {
+    errors.push(`${entry.name}: 压缩素材包不能放在小程序项目根目录`)
+  }
+}
 for (const extension of ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.mp3', '.wav', '.aac']) {
   for (const mediaFile of walk('.', extension)) {
     const size = fs.statSync(path.join(root, mediaFile)).size
