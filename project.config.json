@@ -71,6 +71,10 @@
       {
         "value": "README.md",
         "type": "file"
+      },
+      {
+        "value": "宣传物料.zip",
+        "type": "file"
       }
     ],
     "include": []

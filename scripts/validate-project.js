@@ -178,7 +178,7 @@ for (const imageFile of [...walk('assets/goods', '.jpg'), ...walk('assets/goods'
   }
 }
 
-const maxMediaBytes = 200 * 1024
+const maxMediaBytes = 200 * 1000
 for (const extension of ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.mp3', '.wav', '.aac']) {
   for (const mediaFile of walk('.', extension)) {
     const size = fs.statSync(path.join(root, mediaFile)).size
