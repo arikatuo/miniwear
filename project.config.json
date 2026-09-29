@@ -3,7 +3,7 @@
   "projectname": "miniwear",
   "description": "宝宝今天穿什么 V1.0",
   "compileType": "miniprogram",
-  "miniprogramRoot": "./",
+  "miniprogramRoot": "miniprogram/",
   "setting": {
     "es6": true,
     "enhance": true,

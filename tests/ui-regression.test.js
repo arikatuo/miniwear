@@ -36,7 +36,7 @@ function applySetData(target, patch, callback) {
 }
 
 test('首次设置温度输入保留草稿直到确认', () => withWxStorage(() => {
-  const page = loadPage('../pages/onboarding/index')
+  const page = loadPage('../miniprogram/pages/onboarding/index')
   const context = {
     data: JSON.parse(JSON.stringify(page.data)),
     setData(patch, callback) { applySetData(this, patch, callback) }
@@ -49,9 +49,9 @@ test('首次设置温度输入保留草稿直到确认', () => withWxStorage(() 
 }))
 
 test('宝宝设置温度滚轮用草稿温度实时驱动读数并同步保存', () => withWxStorage(() => {
-  const storage = require('../services/storage.service')
+  const storage = require('../miniprogram/services/storage.service')
   storage.initialize()
-  const page = loadPage('../pages/settings/index')
+  const page = loadPage('../miniprogram/pages/settings/index')
   const context = {
     data: JSON.parse(JSON.stringify(page.data)),
     setData(patch, callback) { applySetData(this, patch, callback) }
@@ -66,15 +66,15 @@ test('宝宝设置温度滚轮用草稿温度实时驱动读数并同步保存',
 }))
 
 test('今日天气卡提供明确的改城市和改天气入口', () => {
-  const wxml = fs.readFileSync(path.join(__dirname, '../components/weather-bar/index.wxml'), 'utf8')
+  const wxml = fs.readFileSync(path.join(__dirname, '../miniprogram/components/weather-bar/index.wxml'), 'utf8')
 
   assert.match(wxml, /改城市/)
   assert.match(wxml, /改天气/)
 })
 
 test('今日天气卡主温度和温度范围分层展示避免挤压', () => {
-  const wxml = fs.readFileSync(path.join(__dirname, '../components/weather-bar/index.wxml'), 'utf8')
-  const wxss = fs.readFileSync(path.join(__dirname, '../components/weather-bar/index.wxss'), 'utf8')
+  const wxml = fs.readFileSync(path.join(__dirname, '../miniprogram/components/weather-bar/index.wxml'), 'utf8')
+  const wxss = fs.readFileSync(path.join(__dirname, '../miniprogram/components/weather-bar/index.wxss'), 'utf8')
 
   assert.match(wxml, /class="combo-body"/)
   assert.match(wxml, /class="combo-topline"/)
@@ -87,14 +87,14 @@ test('今日天气卡主温度和温度范围分层展示避免挤压', () => {
 })
 
 test('用品页不展示顶部说明长文', () => {
-  const wxml = fs.readFileSync(path.join(__dirname, '../pages/goods/index.wxml'), 'utf8')
+  const wxml = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/goods/index.wxml'), 'utf8')
 
   assert.doesNotMatch(wxml, /穿衣和睡觉用品参考清单，不代表必须全部准备，请按家里实际情况选择。/)
   assert.doesNotMatch(wxml, /page-subtitle/)
 })
 
 test('首次设置偏好选项使用 Flexbox 等宽三列以避开小程序 Grid 兼容风险', () => {
-  const wxss = fs.readFileSync(path.join(__dirname, '../pages/onboarding/index.wxss'), 'utf8')
+  const wxss = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/onboarding/index.wxss'), 'utf8')
 
   assert.doesNotMatch(wxss, /\.option-grid\s*\{[^}]*display:\s*grid/)
   assert.match(wxss, /\.option-grid[^}]*display:\s*flex/)
@@ -103,8 +103,8 @@ test('首次设置偏好选项使用 Flexbox 等宽三列以避开小程序 Grid
 })
 
 test('手动天气和用品分类入口也使用 Flexbox 避开真机 Grid 兼容风险', () => {
-  const manualWeather = fs.readFileSync(path.join(__dirname, '../pages/manual-weather/index.wxss'), 'utf8')
-  const goods = fs.readFileSync(path.join(__dirname, '../pages/goods/index.wxss'), 'utf8')
+  const manualWeather = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/manual-weather/index.wxss'), 'utf8')
+  const goods = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/goods/index.wxss'), 'utf8')
 
   assert.doesNotMatch(manualWeather, /\.weather-options\s*\{[^}]*display:\s*grid/)
   assert.match(manualWeather, /\.weather-options\s*\{[^}]*display:\s*flex/)
@@ -115,15 +115,15 @@ test('手动天气和用品分类入口也使用 Flexbox 避开真机 Grid 兼�
 })
 
 test('首次温度可直接输入，设置页滚轮保留实时 change', () => {
-  const onboarding = fs.readFileSync(path.join(__dirname, '../pages/onboarding/index.wxml'), 'utf8')
-  const settings = fs.readFileSync(path.join(__dirname, '../pages/settings/index.wxml'), 'utf8')
+  const onboarding = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/onboarding/index.wxml'), 'utf8')
+  const settings = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/settings/index.wxml'), 'utf8')
 
   assert.match(onboarding, /bindinput="inputIndoor"/)
   assert.match(settings, /<picker-view[^>]+immediate-change="\{\{true\}\}"/)
 })
 
 test('用品清单不混入插画占位条目', () => {
-  const { goods } = require('../config/goods.config')
+  const { goods } = require('../miniprogram/config/goods.config')
   const placeholderIds = ['leggings', 'fleece_pants', 'sun_hat', 'warm_hat', 'belly_band']
 
   placeholderIds.forEach((id) => {
@@ -142,8 +142,8 @@ test('用品清单不混入插画占位条目', () => {
 })
 
 test('分享弹层预览完整缩放长图而不是裁切底部', () => {
-  const wxml = fs.readFileSync(path.join(__dirname, '../components/share-card/index.wxml'), 'utf8')
-  const wxss = fs.readFileSync(path.join(__dirname, '../components/share-card/index.wxss'), 'utf8')
+  const wxml = fs.readFileSync(path.join(__dirname, '../miniprogram/components/share-card/index.wxml'), 'utf8')
+  const wxss = fs.readFileSync(path.join(__dirname, '../miniprogram/components/share-card/index.wxss'), 'utf8')
   const previewRule = wxss.match(/\.preview\s*\{[^}]+\}/)[0]
 
   assert.match(wxml, /<image[^>]+mode="aspectFit"[^>]+class="image"/)
@@ -152,16 +152,16 @@ test('分享弹层预览完整缩放长图而不是裁切底部', () => {
 })
 
 test('分享卡使用稳定的小程序码资源路径', () => {
-  const shareConfig = require('../config/share.config')
-  const qrcodePath = path.join(__dirname, '..', shareConfig.MINI_PROGRAM_CODE_PATH.replace(/^\//, ''))
+  const shareConfig = require('../miniprogram/config/share.config')
+  const qrcodePath = path.join(__dirname, '../miniprogram', shareConfig.MINI_PROGRAM_CODE_PATH.replace(/^\//, ''))
 
   assert.equal(shareConfig.MINI_PROGRAM_CODE_PATH, '/assets/qrcode.png')
   assert.equal(fs.existsSync(qrcodePath), true)
 })
 
 test('分享卡使用 Canvas 2D 节点并预加载小程序码后再绘制', () => {
-  const wxml = fs.readFileSync(path.join(__dirname, '../components/share-card/index.wxml'), 'utf8')
-  const js = fs.readFileSync(path.join(__dirname, '../components/share-card/index.js'), 'utf8')
+  const wxml = fs.readFileSync(path.join(__dirname, '../miniprogram/components/share-card/index.wxml'), 'utf8')
+  const js = fs.readFileSync(path.join(__dirname, '../miniprogram/components/share-card/index.js'), 'utf8')
 
   assert.match(wxml, /<canvas[^>]+id="posterCanvas"[^>]+type="2d"/)
   assert.doesNotMatch(wxml, /canvas-id="shareCanvas"/)
@@ -176,7 +176,7 @@ test('分享卡使用 Canvas 2D 节点并预加载小程序码后再绘制', () 
 })
 
 test('分享卡绘制函数只使用已加载的小程序码 image 对象', () => {
-  const js = fs.readFileSync(path.join(__dirname, '../components/share-card/index.js'), 'utf8')
+  const js = fs.readFileSync(path.join(__dirname, '../miniprogram/components/share-card/index.js'), 'utf8')
 
   assert.match(js, /ctx\.drawImage\(images\.qrcode,\s*424,\s*734,\s*124,\s*124\)/)
   assert.doesNotMatch(js, /ctx\.drawImage\(\s*MINI_PROGRAM_CODE_PATH/)
@@ -186,16 +186,16 @@ test('分享卡绘制函数只使用已加载的小程序码 image 对象', () =
 })
 
 test('app.json 中每个页面都提供微信好友分享入口', () => {
-  const appConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '../app.json'), 'utf8'))
+  const appConfig = JSON.parse(fs.readFileSync(path.join(__dirname, '../miniprogram/app.json'), 'utf8'))
 
   appConfig.pages.forEach((pagePath) => {
-    const js = fs.readFileSync(path.join(__dirname, '..', `${pagePath}.js`), 'utf8')
+    const js = fs.readFileSync(path.join(__dirname, '../miniprogram', `${pagePath}.js`), 'utf8')
     assert.match(js, /onShareAppMessage\s*\(/, `${pagePath}.js should define onShareAppMessage`)
   })
 })
 
 test('推荐卡主文案不再被装饰图或长句年龄提示挤占', () => {
-  const wxml = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.wxml'), 'utf8')
+  const wxml = fs.readFileSync(path.join(__dirname, '../miniprogram/components/recommendation-card/index.wxml'), 'utf8')
 
   assert.doesNotMatch(wxml, /illustration-thumb/)
   assert.doesNotMatch(wxml, /src="\{\{item\.icon\}\}"/)
@@ -205,10 +205,10 @@ test('推荐卡主文案不再被装饰图或长句年龄提示挤占', () => {
 })
 
 test('推荐卡提供就地用品图例入口，返回不需重置当前搭配', () => {
-  const cardWxml = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.wxml'), 'utf8')
-  const cardJs = fs.readFileSync(path.join(__dirname, '../components/recommendation-card/index.js'), 'utf8')
-  const todayWxml = fs.readFileSync(path.join(__dirname, '../pages/today/index.wxml'), 'utf8')
-  const todayJs = fs.readFileSync(path.join(__dirname, '../pages/today/index.js'), 'utf8')
+  const cardWxml = fs.readFileSync(path.join(__dirname, '../miniprogram/components/recommendation-card/index.wxml'), 'utf8')
+  const cardJs = fs.readFileSync(path.join(__dirname, '../miniprogram/components/recommendation-card/index.js'), 'utf8')
+  const todayWxml = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/today/index.wxml'), 'utf8')
+  const todayJs = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/today/index.js'), 'utf8')
 
   assert.match(cardWxml, /goods-link/)
   assert.match(cardWxml, /看衣物图例与替代项/)
@@ -218,9 +218,9 @@ test('推荐卡提供就地用品图例入口，返回不需重置当前搭配',
 })
 
 test('用品页不保留无入口触发的推荐焦点区', () => {
-  const wxml = fs.readFileSync(path.join(__dirname, '../pages/goods/index.wxml'), 'utf8')
-  const wxss = fs.readFileSync(path.join(__dirname, '../pages/goods/index.wxss'), 'utf8')
-  const js = fs.readFileSync(path.join(__dirname, '../pages/goods/index.js'), 'utf8')
+  const wxml = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/goods/index.wxml'), 'utf8')
+  const wxss = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/goods/index.wxss'), 'utf8')
+  const js = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/goods/index.js'), 'utf8')
 
   assert.doesNotMatch(wxml, /focusedGoods/)
   assert.doesNotMatch(wxml, /focus-panel/)
@@ -231,7 +231,7 @@ test('用品页不保留无入口触发的推荐焦点区', () => {
 })
 
 test('设置页不展示容易误解的定位状态行', () => {
-  const wxml = fs.readFileSync(path.join(__dirname, '../pages/settings/index.wxml'), 'utf8')
+  const wxml = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/settings/index.wxml'), 'utf8')
 
   assert.doesNotMatch(wxml, /定位状态/)
 })
@@ -257,11 +257,11 @@ test('定位命中内置城市时仍保存为定位来源', () => {
     showToast(options) { global.__lastToast = options },
     navigateBack() {}
   }
-  delete require.cache[require.resolve('../services/storage.service')]
-  delete require.cache[require.resolve('../pages/city/index')]
-  const storage = require('../services/storage.service')
+  delete require.cache[require.resolve('../miniprogram/services/storage.service')]
+  delete require.cache[require.resolve('../miniprogram/pages/city/index')]
+  const storage = require('../miniprogram/services/storage.service')
   storage.initialize()
-  const page = loadPage('../pages/city/index')
+  const page = loadPage('../miniprogram/pages/city/index')
   const context = {
     data: JSON.parse(JSON.stringify(page.data)),
     setData(patch) { applySetData(this, patch) }
@@ -274,7 +274,7 @@ test('定位命中内置城市时仍保存为定位来源', () => {
 })
 
 test('配件分类里厚袜子保暖值高于普通袜子', () => {
-  const { goods } = require('../config/goods.config')
+  const { goods } = require('../miniprogram/config/goods.config')
   const socks = goods.find((item) => item.id === 'socks')
   const thickSocks = goods.find((item) => item.id === 'thick_socks')
 

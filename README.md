@@ -11,7 +11,7 @@
 
 ## 配置天气
 
-在 `config/weather.config.js` 填写腾讯位置服务 WebService Key：
+在 `miniprogram/config/weather.config.js` 填写腾讯位置服务 WebService Key：
 
 ```js
 module.exports = {
@@ -27,7 +27,7 @@ module.exports = {
 
 ## 配置分享卡小程序码
 
-小程序发布并取得固定小程序码后，将 PNG 放入项目资产目录，并在 `config/share.config.js` 配置：
+小程序发布并取得固定小程序码后，将 PNG 放入 `miniprogram/assets`，并在 `miniprogram/config/share.config.js` 配置：
 
 ```js
 module.exports = {
@@ -45,6 +45,8 @@ npm run validate
 ```
 
 项目无运行时依赖，不需要执行 `npm install`。
+
+`miniprogram/` 是开发者工具扫描的小程序运行目录。用品图片使用 WebP，所有图片和音频的合计大小需低于 200 KiB；`npm run validate` 会检查这项总量。
 
 ## 数据与隐私
 

@@ -1,6 +1,6 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
-const { getAgeInMonths, getAgeGroup } = require('../utils/age')
+const { getAgeInMonths, getAgeGroup } = require('../miniprogram/utils/age')
 
 test('未设置生日时默认按 6-12 个月处理', () => {
   assert.equal(getAgeGroup(null), 'baby_6_12m')

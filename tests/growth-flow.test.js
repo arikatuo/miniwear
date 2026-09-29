@@ -1,8 +1,8 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
-const { signature, restoreScenes } = require('../utils/outfit-memory')
-const { createSnapshot, encodeSnapshot, decodeSnapshot } = require('../utils/share-snapshot')
-const { outfitGoods } = require('../utils/outfit-goods')
+const { signature, restoreScenes } = require('../miniprogram/utils/outfit-memory')
+const { createSnapshot, encodeSnapshot, decodeSnapshot } = require('../miniprogram/utils/share-snapshot')
+const { outfitGoods } = require('../miniprogram/utils/outfit-goods')
 const profile = { ageGroup: 'baby_6_12m', ageConfirmed: true, bodyType: 'unknown', easySweat: 'unknown' }
 const weather = { currentTemp: 22, source: 'manual', weatherType: [] }
 const now = new Date(2026, 8, 21, 10).getTime()
@@ -58,10 +58,10 @@ function pageHarness(path) {
     }
     if (callback) callback()
   } }
-  return { context, storage: require('../services/storage.service') }
+  return { context, storage: require('../miniprogram/services/storage.service') }
 }
 test('首次选睡觉会持久化所选场景，出门留空不能变成零度', () => {
-  const { context, storage } = pageHarness('../pages/onboarding/index')
+  const { context, storage } = pageHarness('../miniprogram/pages/onboarding/index')
   context.onLoad()
   context.selectAgeGroup({ currentTarget: { dataset: { value: 'baby_1_3y' } } })
   context.selectScene({ currentTarget: { dataset: { value: 'outdoor' } } })
@@ -74,7 +74,7 @@ test('首次选睡觉会持久化所选场景，出门留空不能变成零度',
   assert.ok(storage.getEnvironment().confirmedAt)
 })
 test('调整后取消旧采纳；恢复推荐会持久化且回访不恢复旧调整', () => {
-  const { context, storage } = pageHarness('../pages/today/index')
+  const { context, storage } = pageHarness('../miniprogram/pages/today/index')
   context.data.profile = profile; context.data.weather = weather; context.data.environmentConfirmed = true
   context.rebuildRecommendations()
   context.adjust({ detail: { scene: 'indoor', delta: -1 } })

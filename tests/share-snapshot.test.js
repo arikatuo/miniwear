@@ -1,6 +1,6 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
-const { createSnapshot, encodeSnapshot, decodeSnapshot, validateSnapshot, MAX_AGE_MS, MAX_ENCODED_LENGTH } = require('../utils/share-snapshot')
+const { createSnapshot, encodeSnapshot, decodeSnapshot, validateSnapshot, MAX_AGE_MS, MAX_ENCODED_LENGTH } = require('../miniprogram/utils/share-snapshot')
 
 const now = 1_800_000_000_000
 const snapshot = createSnapshot({ scene: 'outdoor', weather: { currentTemp: 30, source: 'manual', weatherText: '晴' }, indoorTemp: 25, recommendation: { result: '短袖包屁衣 + 薄裤' }, adjustment: -1, now })

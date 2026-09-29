@@ -2,7 +2,8 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { spawnSync } = require('node:child_process')
 
-const root = path.resolve(__dirname, '..')
+const projectRoot = path.resolve(__dirname, '..')
+const root = path.join(projectRoot, 'miniprogram')
 const errors = []
 
 function read(relativePath) {
@@ -33,6 +34,9 @@ function readImageSize(relativePath) {
   const buffer = fs.readFileSync(path.join(root, relativePath))
   if (buffer.length >= 24 && buffer.toString('ascii', 1, 4) === 'PNG') {
     return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20) }
+  }
+  if (buffer.length >= 30 && buffer.toString('ascii', 0, 4) === 'RIFF' && buffer.toString('ascii', 8, 12) === 'WEBP' && buffer.toString('ascii', 12, 15) === 'VP8') {
+    return { width: buffer.readUInt16LE(26) & 0x3fff, height: buffer.readUInt16LE(28) & 0x3fff }
   }
   if (buffer.length >= 4 && buffer[0] === 0xff && buffer[1] === 0xd8) {
     let offset = 2
@@ -72,7 +76,8 @@ walk('.', '.json')
   .forEach(validateJson)
 
 const appConfig = JSON.parse(read('app.json'))
-const projectConfig = JSON.parse(read('project.config.json'))
+const projectConfig = JSON.parse(fs.readFileSync(path.join(projectRoot, 'project.config.json'), 'utf8'))
+if (projectConfig.miniprogramRoot !== 'miniprogram/') errors.push('小程序运行目录配置错误')
 for (const page of appConfig.pages) {
   for (const extension of ['.js', '.json', '.wxml', '.wxss']) {
     const file = `${page}${extension}`
@@ -161,35 +166,36 @@ const { goods } = require(path.join(root, 'config/goods.config'))
 const goodsPage = read('pages/goods/index.js')
 if (!goodsPage.includes('warmText')) errors.push('用品页未使用格式化后的保暖值文案')
 if (goods.length < 50) errors.push(`用品配置至少应包含 50 个完整截图商品条目，当前 ${goods.length} 个`)
-const referencedGoodsAssets = new Set(['assets/goods/default.jpg'])
+const referencedGoodsAssets = new Set(['assets/goods/default.webp'])
 for (const item of goods) {
   const asset = normalizeRelativePath(item.illustration.replace(/^\//, ''))
   referencedGoodsAssets.add(asset)
   if (!exists(asset)) errors.push(`用品 ${item.id} 的插画不存在: ${asset}`)
   if (!Number.isFinite(item.warmValue)) errors.push(`用品 ${item.id} 的保暖值必须为数字`)
 }
-if (!exists('assets/goods/default.jpg')) errors.push('缺少用品默认占位图')
-for (const imageFile of [...walk('assets/goods', '.jpg'), ...walk('assets/goods', '.png')]) {
+if (!exists('assets/goods/default.webp')) errors.push('缺少用品默认占位图')
+for (const imageFile of [...walk('assets/goods', '.webp'), ...walk('assets/goods', '.jpg'), ...walk('assets/goods', '.png')]) {
   const normalizedImageFile = normalizeRelativePath(imageFile)
   if (!referencedGoodsAssets.has(normalizedImageFile)) errors.push(`${normalizedImageFile}: 用品图片未被配置引用`)
   const { width, height } = readImageSize(imageFile)
-  if (width !== 400 || height !== 400) {
-    errors.push(`${imageFile}: 插画尺寸必须为 400x400`)
+  if (width !== 300 || height !== 300) {
+    errors.push(`${imageFile}: 插画尺寸必须为 300x300`)
   }
 }
 
-const maxMediaBytes = 200 * 1000
-for (const entry of fs.readdirSync(root, { withFileTypes: true })) {
+const maxMediaBytes = 200 * 1024
+for (const entry of fs.readdirSync(projectRoot, { withFileTypes: true })) {
   if (entry.isFile() && entry.name.toLowerCase().endsWith('.zip')) {
     errors.push(`${entry.name}: 压缩素材包不能放在小程序项目根目录`)
   }
 }
-for (const extension of ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.mp3', '.wav', '.aac']) {
+let totalMediaBytes = 0
+for (const extension of ['.jpg', '.jpeg', '.png', '.svg', '.webp', '.gif', '.flac', '.m4a', '.ogg', '.ape', '.amr', '.wma', '.wav', '.mp3', '.mp4', '.aac', '.aiff', '.caf']) {
   for (const mediaFile of walk('.', extension)) {
-    const size = fs.statSync(path.join(root, mediaFile)).size
-    if (size > maxMediaBytes) errors.push(`${mediaFile}: 图片或音频资源超过 200K（${size} 字节）`)
+    totalMediaBytes += fs.statSync(path.join(root, mediaFile)).size
   }
 }
+if (totalMediaBytes >= maxMediaBytes) errors.push(`小程序图片和音频资源总量超过 200K（${totalMediaBytes} 字节）`)
 
 if (!appConfig.permission || !appConfig.permission['scope.userLocation']) {
   errors.push('app.json 缺少定位用途说明')

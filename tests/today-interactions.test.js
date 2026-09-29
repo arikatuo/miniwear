@@ -1,6 +1,6 @@
 const test = require('node:test')
 const assert = require('node:assert/strict')
-const { buildAllRecommendations } = require('../services/recommendation.service')
+const { buildAllRecommendations } = require('../miniprogram/services/recommendation.service')
 
 const profile = {
   ageGroup: 'baby_6_12m',
@@ -28,9 +28,9 @@ function loadTodayPage() {
       global.__lastToast = options
     }
   }
-  delete require.cache[require.resolve('../services/storage.service')]
-  delete require.cache[require.resolve('../pages/today/index')]
-  require('../pages/today/index')
+  delete require.cache[require.resolve('../miniprogram/services/storage.service')]
+  delete require.cache[require.resolve('../miniprogram/pages/today/index')]
+  require('../miniprogram/pages/today/index')
   return page
 }
 

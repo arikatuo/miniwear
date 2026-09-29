@@ -5,7 +5,7 @@ const {
   CURRENT_STORAGE_VERSION,
   isWeatherCacheFresh,
   isManualWeatherFresh
-} = require('../services/storage.service')
+} = require('../miniprogram/services/storage.service')
 
 function memoryAdapter(seed = {}) {
   const data = { ...seed }

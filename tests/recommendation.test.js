@@ -4,7 +4,7 @@ const {
   buildRecommendation,
   buildAllRecommendations,
   adjustRecommendation
-} = require('../services/recommendation.service')
+} = require('../miniprogram/services/recommendation.service')
 
 const profile = {
   ageGroup: 'baby_6_12m',

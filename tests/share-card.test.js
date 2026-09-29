@@ -4,8 +4,8 @@ const assert = require('node:assert/strict')
 function loadShareCardComponent() {
   let component = null
   global.Component = (definition) => { component = definition }
-  delete require.cache[require.resolve('../components/share-card/index')]
-  require('../components/share-card/index')
+  delete require.cache[require.resolve('../miniprogram/components/share-card/index')]
+  require('../miniprogram/components/share-card/index')
   return component
 }
 
@@ -55,7 +55,7 @@ test('分享卡一行和两行推荐文案围绕同一个中心绘制', () => {
 
 test('分享卡场景结果使用居中文案绘制方法', () => {
   const source = require('fs').readFileSync(
-    require('path').join(__dirname, '../components/share-card/index.js'),
+    require('path').join(__dirname, '../miniprogram/components/share-card/index.js'),
     'utf8'
   )
   assert.doesNotMatch(source, /drawWrappedText\(ctx, result,/)
