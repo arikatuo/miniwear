@@ -178,6 +178,14 @@ for (const imageFile of [...walk('assets/goods', '.jpg'), ...walk('assets/goods'
   }
 }
 
+const maxMediaBytes = 200 * 1024
+for (const extension of ['.png', '.jpg', '.jpeg', '.webp', '.gif', '.mp3', '.wav', '.aac']) {
+  for (const mediaFile of walk('.', extension)) {
+    const size = fs.statSync(path.join(root, mediaFile)).size
+    if (size > maxMediaBytes) errors.push(`${mediaFile}: 图片或音频资源超过 200K（${size} 字节）`)
+  }
+}
+
 if (!appConfig.permission || !appConfig.permission['scope.userLocation']) {
   errors.push('app.json 缺少定位用途说明')
 }
