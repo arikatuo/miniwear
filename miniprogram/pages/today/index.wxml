@@ -85,6 +85,6 @@
 
   <temperature-modal visible="{{showTemperature}}" value="{{indoorTemp}}" bind:close="closeTemperature" bind:confirm="saveTemperature" />
   <share-card id="shareCard" />
-  <view wx:if="{{showGoods}}" class="goods-mask" bindtap="closeGoods"><view class="goods-sheet" catchtap="stop"><text class="goods-title">这套搭配里的衣物</text><text class="goods-current">{{recommendations[activeScene].result}}</text><text class="goods-note">图片帮助辨认款式；“/”表示可替代选择，不是全部叠穿。厚薄仍以当前建议为准。</text><scroll-view scroll-y class="goods-scroll"><view wx:for="{{currentGoods}}" wx:key="id" class="goods-row"><image src="{{item.illustration}}" mode="aspectFit" webp="{{true}}"/><view><text class="goods-name">{{item.name}}</text><text>{{item.desc}}</text></view></view></scroll-view><button class="primary-button" bindtap="closeGoods">明白了，回到搭配</button></view></view>
+  <view wx:if="{{showGoods}}" class="goods-mask" bindtap="closeGoods"><view class="goods-sheet" catchtap="stop"><text class="goods-title">这套搭配里的衣物</text><text class="goods-current">{{recommendations[activeScene].result}}</text><text class="goods-note">图片帮助辨认款式；“/”表示可替代选择，不是全部叠穿。厚薄仍以当前建议为准。</text><scroll-view scroll-y class="goods-scroll"><view wx:for="{{currentGoods}}" wx:key="id" class="goods-row"><image src="{{item.illustration}}" mode="aspectFit"/><view><text class="goods-name">{{item.name}}</text><text>{{item.desc}}</text></view></view></scroll-view><button class="primary-button" bindtap="closeGoods">明白了，回到搭配</button></view></view>
   </block>
 </view>

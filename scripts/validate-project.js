@@ -166,20 +166,21 @@ const { goods } = require(path.join(root, 'config/goods.config'))
 const goodsPage = read('pages/goods/index.js')
 if (!goodsPage.includes('warmText')) errors.push('用品页未使用格式化后的保暖值文案')
 if (goods.length < 50) errors.push(`用品配置至少应包含 50 个完整截图商品条目，当前 ${goods.length} 个`)
-const referencedGoodsAssets = new Set(['assets/goods/default.webp'])
+const referencedGoodsAssets = new Set(['assets/goods/default.jpg'])
 for (const item of goods) {
   const asset = normalizeRelativePath(item.illustration.replace(/^\//, ''))
   referencedGoodsAssets.add(asset)
   if (!exists(asset)) errors.push(`用品 ${item.id} 的插画不存在: ${asset}`)
+  if (!asset.endsWith('.jpg')) errors.push(`用品 ${item.id} 的本地插画必须使用 JPEG`)
   if (!Number.isFinite(item.warmValue)) errors.push(`用品 ${item.id} 的保暖值必须为数字`)
 }
-if (!exists('assets/goods/default.webp')) errors.push('缺少用品默认占位图')
+if (!exists('assets/goods/default.jpg')) errors.push('缺少用品默认占位图')
 for (const imageFile of [...walk('assets/goods', '.webp'), ...walk('assets/goods', '.jpg'), ...walk('assets/goods', '.png')]) {
   const normalizedImageFile = normalizeRelativePath(imageFile)
   if (!referencedGoodsAssets.has(normalizedImageFile)) errors.push(`${normalizedImageFile}: 用品图片未被配置引用`)
   const { width, height } = readImageSize(imageFile)
-  if (width !== 300 || height !== 300) {
-    errors.push(`${imageFile}: 插画尺寸必须为 300x300`)
+  if (width !== 216 || height !== 216) {
+    errors.push(`${imageFile}: 插画尺寸必须为 216x216`)
   }
 }
 

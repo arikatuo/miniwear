@@ -46,7 +46,7 @@ npm run validate
 
 项目无运行时依赖，不需要执行 `npm install`。
 
-`miniprogram/` 是开发者工具扫描的小程序运行目录。用品图片使用 WebP，所有图片和音频的合计大小需低于 200 KiB；`npm run validate` 会检查这项总量。
+`miniprogram/` 是开发者工具扫描的小程序运行目录。用品图片使用 JPEG，所有图片和音频的合计大小需低于 200 KiB；`npm run validate` 会检查这项总量。
 
 ## 数据与隐私
 

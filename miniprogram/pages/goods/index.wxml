@@ -48,7 +48,6 @@
             class="mini-image"
             src="{{goodsItem.illustration}}"
             mode="aspectFit"
-            webp="{{true}}"
             data-key="{{item.key}}"
             data-index="{{goodsIndex}}"
             binderror="imageError"
@@ -62,5 +61,5 @@
     </view>
   </view>
   <empty-state wx:else title="当前分类暂无用品" description="换一个分类看看吧。" />
-  <view wx:if="{{selectedGoods}}" class="goods-detail-mask" bindtap="closeGoodsDetail"><view class="goods-detail" catchtap="noop"><image src="{{selectedGoods.illustration}}" mode="aspectFit" webp="{{true}}" /><text class="detail-title">{{selectedGoods.name}}</text><text>{{selectedGoods.desc}}</text><view wx:if="{{selectedGoods.variants}}" class="variant-list"><text class="variant-title">可选规格</text><text wx:for="{{selectedGoods.variants}}" wx:key="label" class="variant-item">{{item.label}} · 保暖值 +{{item.warmValue}}℃</text></view><text class="detail-note">{{selectedGoods.sceneText}}适用 · {{selectedGoods.warmText}}</text><button class="primary-button" bindtap="closeGoodsDetail">知道了</button></view></view>
+  <view wx:if="{{selectedGoods}}" class="goods-detail-mask" bindtap="closeGoodsDetail"><view class="goods-detail" catchtap="noop"><image src="{{selectedGoods.illustration}}" mode="aspectFit" /><text class="detail-title">{{selectedGoods.name}}</text><text>{{selectedGoods.desc}}</text><view wx:if="{{selectedGoods.variants}}" class="variant-list"><text class="variant-title">可选规格</text><text wx:for="{{selectedGoods.variants}}" wx:key="label" class="variant-item">{{item.label}} · 保暖值 +{{item.warmValue}}℃</text></view><text class="detail-note">{{selectedGoods.sceneText}}适用 · {{selectedGoods.warmText}}</text><button class="primary-button" bindtap="closeGoodsDetail">知道了</button></view></view>
 </view>
