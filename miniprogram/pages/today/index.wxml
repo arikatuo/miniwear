@@ -1,9 +1,4 @@
 <view class="page today-page">
-  <view class="greeting">
-    <image class="greeting-icon" src="/assets/icons/mascot-cloud.svg" mode="aspectFit" />
-    <text>今天也要好好照顾宝宝哦～</text>
-  </view>
-
   <block wx:if="{{sharedSnapshot}}">
     <view class="shared-card">
       <text class="eyebrow">家人转来的只读参考</text>
@@ -16,7 +11,20 @@
   </block>
   <block wx:elif="{{sharedError}}"><empty-state title="分享内容不可用" description="{{sharedError}}" action-text="按我家情况生成" bind:action="exitShared" /></block>
   <block wx:else>
-  <weather-bar wx:if="{{activeScene === 'outdoor'}}"
+  <view wx:if="{{profile}}" class="context-summary">
+    <image class="context-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" />
+    <text class="context-primary">{{activeScene === 'outdoor' ? (noWeather ? '室外待填写' : '室外 ' + weather.currentTemp + '℃') : '室温 ' + indoorTemp + '℃'}}</text>
+    <text class="context-age">· {{ageCompactText}}</text>
+    <button wx:if="{{!profile.ageConfirmed}}" class="context-action" bindtap="confirmAge">确认年龄 ›</button>
+    <button wx:elif="{{activeScene === 'outdoor'}}" class="context-action" bindtap="openManual">修改 ›</button>
+    <button wx:else class="context-action" bindtap="openTemperature">修改 ›</button>
+  </view>
+  <text wx:if="{{profile && activeScene !== 'outdoor' && !environmentConfirmed}}" class="context-notice">室温为默认值，记下穿法前请确认。</text>
+  <view wx:if="{{activeScene === 'outdoor' && weather}}" class="weather-summary">
+    <text>{{weather.cityName}} · {{weather.weatherText}}</text>
+    <button class="weather-detail-link" bindtap="toggleWeatherDetails">{{showWeatherDetails ? '收起天气' : '天气详情'}} ›</button>
+  </view>
+  <weather-bar wx:if="{{activeScene === 'outdoor' && showWeatherDetails}}"
     weather="{{weather}}"
     city="{{city}}"
     loading="{{loading}}"
@@ -28,7 +36,7 @@
     bind:manual="openManual"
     bind:opentemp="openTemperature"
   />
-  <view class="context-line"><view wx:if="{{activeScene !== 'outdoor'}}" bindtap="openTemperature" role="button">房间 {{indoorTemp}}℃ · 点击更新室温<view class="condition-time">{{environmentTime}}</view></view><view wx:if="{{activeScene === 'outdoor' && weatherTime}}" class="condition-time">{{weather.source === 'manual' ? '填写于' : '天气更新于'}} {{weatherTime}}</view><view>{{ageText}}</view><button wx:if="{{!profile.ageConfirmed}}" class="text-button" bindtap="confirmAge">确认年龄段</button></view>
+  <view wx:if="{{activeScene === 'outdoor' && staleText && !showWeatherDetails}}" class="weather-notice">{{staleText}}</view>
   <view wx:if="{{lastOutcomeText}}" class="last-outcome">{{lastOutcomeText}}</view>
 
   <block wx:if="{{loading && !recommendations}}">
@@ -58,15 +66,18 @@
       item="{{recommendations[activeScene]}}"
       adjustment-label="{{adjustmentLabels[activeScene]}}"
       adopted="{{adoptedScenes[activeScene]}}"
-      bind:adjust="adjust"
+      bind:confirm="confirmGood"
+      bind:adjustopen="openAdjust"
       bind:goods="viewGoods"
     />
-
-    <button class="adopt-button" bindtap="confirmGood">{{activeScene === 'outdoor' && noWeather ? '先填写室外温度' : adoptedScenes[activeScene] ? '已记下这套搭配' : '记下这套搭配'}}</button>
-    <view class="secondary-actions"><button class="text-button" bindtap="resetScene">恢复推荐</button><button class="text-button" bindtap="share">保存图片</button><button class="share-button" disabled="{{!profile.ageConfirmed || (activeScene !== 'outdoor' && !environmentConfirmed)}}" open-type="share">
-      <image class="share-icon" src="/assets/icons/icon-heart.svg" mode="aspectFit" />
-      <text>发给家人</text>
-    </button></view>
+    <view wx:if="{{adoptedScenes[activeScene]}}" class="recorded-actions">
+      <text class="recorded-title">穿后可根据宝宝的状态再调整</text>
+      <view class="recorded-links">
+        <button bindtap="openAfterWear">穿后观察</button>
+        <button bindtap="share">保存图片</button>
+        <button open-type="share">发给家人</button>
+      </view>
+    </view>
     </block>
   </block>
 
@@ -78,13 +89,39 @@
     bind:action="openManual"
   />
 
-  <view class="global-tip">
+  <view class="global-tip" bindtap="toggleSafety" role="button" aria-label="查看判断冷热说明">
     <image class="global-tip-icon" src="/assets/icons/icon-heart.svg" mode="aspectFit" />
-    <text>判断小窍门：摸宝宝后颈，温热、不出汗，通常就是穿对了。本建议仅供日常穿衣参考，不构成医疗建议；如宝宝出现明显不适，请及时咨询医生。</text>
+    <text>判断冷热：摸后颈，温热不出汗</text>
+    <text class="tip-chevron">{{showSafetyDetails ? '⌃' : '›'}}</text>
   </view>
+  <text wx:if="{{showSafetyDetails}}" class="safety-details">通常摸后颈温热、不出汗，就是比较合适的状态。本建议仅供日常穿衣参考，不构成医疗建议；如宝宝出现明显不适，请及时咨询医生。</text>
 
   <temperature-modal visible="{{showTemperature}}" value="{{indoorTemp}}" bind:close="closeTemperature" bind:confirm="saveTemperature" />
   <share-card id="shareCard" />
+  <view wx:if="{{showAdjust}}" class="action-mask" bindtap="closeAdjust">
+    <view class="action-sheet" catchtap="stop">
+      <text class="sheet-title">调整这套搭配</text>
+      <text class="sheet-subtitle">按宝宝当前状态微调，记下后才会保存为今天的穿法。</text>
+      <view class="sheet-buttons">
+        <button data-delta="-1" bindtap="adjustFromSheet">想薄一点</button>
+        <button data-delta="1" bindtap="adjustFromSheet">想厚一点</button>
+      </view>
+      <button wx:if="{{adjustments[activeScene] !== 0}}" class="sheet-link" bindtap="resetFromSheet">恢复原建议</button>
+      <button class="sheet-close" bindtap="closeAdjust">完成</button>
+    </view>
+  </view>
+  <view wx:if="{{showAfterWear}}" class="action-mask" bindtap="closeAfterWear">
+    <view class="action-sheet" catchtap="stop">
+      <text class="sheet-title">穿后怎么观察</text>
+      <text class="sheet-subtitle">先摸宝宝后颈，结合出汗、手脚和精神状态判断。</text>
+      <view class="sheet-buttons">
+        <button data-tip="hot" bindtap="selectAfterWearTip">觉得热了</button>
+        <button data-tip="cold" bindtap="selectAfterWearTip">觉得冷了</button>
+      </view>
+      <text wx:if="{{afterWearTip}}" class="after-wear-guidance">{{afterWearTip === 'hot' ? recommendations[activeScene].hotAction : recommendations[activeScene].coldAction}}</text>
+      <button class="sheet-close" bindtap="closeAfterWear">知道了</button>
+    </view>
+  </view>
   <view wx:if="{{showGoods}}" class="goods-mask" bindtap="closeGoods"><view class="goods-sheet" catchtap="stop"><text class="goods-title">这套搭配里的衣物</text><text class="goods-current">{{recommendations[activeScene].result}}</text><text class="goods-note">图片帮助辨认款式；“/”表示可替代选择，不是全部叠穿。厚薄仍以当前建议为准。</text><scroll-view scroll-y class="goods-scroll"><view wx:for="{{currentGoods}}" wx:key="id" class="goods-row"><image src="{{item.illustration}}" mode="aspectFit"/><view><text class="goods-name">{{item.name}}</text><text>{{item.desc}}</text></view></view></scroll-view><button class="primary-button" bindtap="closeGoods">明白了，回到搭配</button></view></view>
   </block>
 </view>

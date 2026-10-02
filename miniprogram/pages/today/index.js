@@ -13,9 +13,9 @@ const OUTCOME_TTL_MS = 24 * 60 * 60 * 1000
 
 Page({
   data: {
-    environmentConfirmed: false, environmentTime: '', weatherTime: '', showGoods: false, currentGoods: [], city: null, weather: null, indoorTemp: 24, profile: null, ageText: '未确认年龄，以下为示例（默认按 6 个月）', recommendations: null,
+    environmentConfirmed: false, environmentTime: '', weatherTime: '', showGoods: false, currentGoods: [], city: null, weather: null, indoorTemp: 24, profile: null, ageText: '未确认年龄，以下为示例（默认按 6 个月）', ageCompactText: '年龄待确认', recommendations: null,
     adjustmentLabels: { indoor: '', outdoor: '', sleep: '' }, adjustments: { indoor: 0, outdoor: 0, sleep: 0 }, adoptedScenes: {}, loading: false,
-    staleText: '', contextText: '', noWeather: false, showTemperature: false, activeScene: 'indoor', lastOutcomeText: '', sharedSnapshot: null, sharedError: '',
+    staleText: '', contextText: '', noWeather: false, showTemperature: false, showWeatherDetails: false, showAdjust: false, showAfterWear: false, afterWearTip: '', showSafetyDetails: false, activeScene: 'indoor', lastOutcomeText: '', sharedSnapshot: null, sharedError: '',
     sceneList: [{ value: 'indoor', label: '在家', icon: '/assets/icons/scene-home.svg' }, { value: 'outdoor', label: '出门', icon: '/assets/icons/scene-outdoor.svg' }, { value: 'sleep', label: '睡觉', icon: '/assets/icons/scene-sleep.svg' }]
   },
   onLoad(options = {}) { if (options.snapshot) { const sharedSnapshot = decodeSnapshot(options.snapshot); this.setData(sharedSnapshot ? { sharedSnapshot } : { sharedError: '这份分享已失效或内容不完整，请让家人重新发送当前建议。' }) } },
@@ -23,9 +23,10 @@ Page({
   async loadData(forceRefresh = false) {
     const requestId = (this.weatherRequestId || 0) + 1; this.weatherRequestId = requestId;
     const city = storage.getCity(); const profile = storage.getBabyProfile(); const indoorTemp = storage.getEnvironment().indoorTemp; const manual = storage.getManualWeather(); const manualFresh = storage.isManualWeatherFresh(manual)
-    const ageText = profile.birthday ? `年龄已确认：${formatAge(profile.birthday)}` : profile.ageConfirmed ? `年龄段已确认：${profile.ageGroup === 'baby_0_6m' ? '0–6 个月' : profile.ageGroup === 'baby_1_3y' ? '1–3 岁' : '6–12 个月'}` : '年龄未确认：以下为示例（默认按 6–12 个月）'
+    const ageCompactText = profile.birthday ? formatAge(profile.birthday) : profile.ageConfirmed ? (profile.ageGroup === 'baby_0_6m' ? '0–6 个月' : profile.ageGroup === 'baby_1_3y' ? '1–3 岁' : '6–12 个月') : '年龄待确认'
+    const ageText = profile.ageConfirmed ? `年龄已确认：${ageCompactText}` : '年龄未确认：以下为示例（默认按 6–12 个月）'
     const environment = storage.getEnvironment(); const environmentTime = environment.confirmedAt ? this.formatTime(environment.confirmedAt) : '默认值，待确认';
-    this.setData({ environmentConfirmed: Boolean(environment.confirmedAt), environmentTime, city, profile, indoorTemp, ageText, loading: true, staleText: '', noWeather: false })
+    this.setData({ environmentConfirmed: Boolean(environment.confirmedAt), environmentTime, city, profile, indoorTemp, ageText, ageCompactText, loading: true, staleText: '', noWeather: false, showAdjust: false, showAfterWear: false, afterWearTip: '' })
     // Manual remains the chosen source until the user explicitly restores automatic weather.
     if (manual) { this.useWeather(weatherService.fromManualWeather(manual, city), !manualFresh, manualFresh ? '' : '这份手动温度较早填写；仍按此值展示，请按现在情况更新或恢复实时天气。', manualFresh ? '手动填写 · 已确认' : '手动填写 · 较早记录'); return }
     if (!city) { this.useWeather({ cityName: '未设置城市', currentTemp: null, minTemp: null, maxTemp: null, weatherText: '室外未知', weatherType: [], updateTime: Date.now(), source: 'example' }, false, '未设置城市：在家和睡觉已按室温生成；出门需要填写室外温度。', '室外未知'); return }
@@ -49,7 +50,7 @@ Page({
     const restored = restoreScenes(last, this.sceneSignatures(weather))
     this.savedScenes = restored.scenes
     const activeScene = last && SCENES.includes(last.scene) ? last.scene : this.data.activeScene
-    const lastOutcomeText = restored.changed ? '相关条件或日期已变化，请重新确认搭配。' : restored.adoptedScenes[activeScene] ? '已保留你记下的搭配；出发前再核对当前温度。' : ''
+    const lastOutcomeText = restored.changed ? '相关条件或日期已变化，请重新确认搭配。' : ''
     this.setData({ activeScene, adjustments: restored.adjustments, adoptedScenes: restored.adoptedScenes, adjustmentLabels: restored.adjustmentLabels, lastOutcomeText }, () => this.rebuildRecommendations(weather))
   },
   rebuildRecommendations(weather = this.data.weather, adjustments = this.data.adjustments) { if (!weather || !this.data.profile) return; const outdoorTemp = Number.isFinite(weather.currentTemp) ? weather.currentTemp : this.data.indoorTemp; this.setData({ recommendations: buildAllRecommendations({ indoorTemp: this.data.indoorTemp, outdoorTemp, profile: this.data.profile, weatherTypes: weather.weatherType, adjustments }), adjustments }) },
@@ -64,10 +65,19 @@ Page({
   setScene(event) {
     const activeScene = event.currentTarget.dataset.scene
     if (!SCENES.includes(activeScene)) return
-    this.setData({ activeScene })
+    this.setData({ activeScene, showAdjust: false, showAfterWear: false, afterWearTip: '', showWeatherDetails: false })
     storage.saveLastOutcome({ ...(storage.getLastOutcome() || {}), scene: activeScene })
   },
   saveTemperature(event) { const indoorTemp = event.detail.value; storage.saveEnvironment({ indoorTemp }); this.setData({ environmentConfirmed: true, environmentTime: this.formatTime(Date.now()), indoorTemp, showTemperature: false }, () => { this.rebuildRecommendations(); this.setData({ contextText: contextText(this.data.weather, indoorTemp, this.data.weather.source === 'manual' ? '手动填写 · 已确认' : this.data.weather.source === 'example' ? '室外未知' : '自动天气', this.data.ageText) }); this.restoreSavedState(this.data.weather) }) },
+  toggleWeatherDetails() { this.setData({ showWeatherDetails: !this.data.showWeatherDetails }) },
+  toggleSafety() { this.setData({ showSafetyDetails: !this.data.showSafetyDetails }) },
+  openAdjust() { this.setData({ showAdjust: true }) },
+  closeAdjust() { this.setData({ showAdjust: false }) },
+  adjustFromSheet(event) { this.adjust({ detail: { scene: this.data.activeScene, delta: Number(event.currentTarget.dataset.delta) } }); this.closeAdjust() },
+  resetFromSheet() { this.resetScene(); this.closeAdjust() },
+  openAfterWear() { this.setData({ showAfterWear: true, afterWearTip: '' }) },
+  closeAfterWear() { this.setData({ showAfterWear: false, afterWearTip: '' }) },
+  selectAfterWearTip(event) { this.setData({ afterWearTip: event.currentTarget.dataset.tip }) },
   adjust(event) { const { scene, delta } = event.detail; const candidate = { ...this.data.adjustments, [scene]: this.data.adjustments[scene] + delta }; const recommendations = buildAllRecommendations({ indoorTemp: this.data.indoorTemp, outdoorTemp: Number.isFinite(this.data.weather.currentTemp) ? this.data.weather.currentTemp : this.data.indoorTemp, profile: this.data.profile, weatherTypes: this.data.weather.weatherType, adjustments: candidate }); if (recommendations[scene].atBoundary) { wx.showToast({ title: recommendations[scene].boundaryMessage, icon: 'none' }); return } this.setData({ adjustments: candidate, recommendations, [`adoptedScenes.${scene}`]: false, [`adjustmentLabels.${scene}`]: candidate[scene] < 0 ? '已调薄，尚未记下' : candidate[scene] > 0 ? '已调厚，尚未记下' : '' }, () => this.persistState(scene)) },
   canConfirmScene(scene) { return Boolean(this.data.profile && this.data.profile.ageConfirmed) && (scene === 'outdoor' || this.data.environmentConfirmed !== false) && !(sceneNeedsOutdoor(scene) && this.data.weather.source === 'example') },
   confirmGood(event) { const scene = event.detail && event.detail.scene || this.data.activeScene; if (!this.data.profile || !this.data.profile.ageConfirmed) { wx.showToast({ title: '请先确认宝宝年龄段，再记下搭配', icon: 'none' }); return } if (sceneNeedsOutdoor(scene) && this.data.weather.source === 'example') { if (this.openManual) this.openManual(); else wx.showToast({ title: '请先填写室外温度，再确认出门搭配', icon: 'none' }); return } if (scene !== 'outdoor' && this.data.environmentConfirmed === false) { this.openTemperature(); return } const adoptedScenes = { ...(this.data.adoptedScenes || {}), [scene]: true }; this.setData({ adoptedScenes, [`adjustmentLabels.${scene}`]: '已记下这套搭配' }, () => { if (this.persistState) this.persistState(scene); wx.showToast({ title: '已记下，之后可按现在条件更新。', icon: 'none' }) }) },

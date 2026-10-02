@@ -92,6 +92,22 @@ test('室外未知时不能确认出门搭配，但在家搭配仍可确认', ()
   assert.equal(context.data.adoptedScenes.indoor, true)
 })
 
+test('调整入口按当前场景应用选择并关闭弹层', () => {
+  const todayPage = loadTodayPage()
+  const calls = []
+  const context = {
+    data: { activeScene: 'sleep', showAdjust: true },
+    setData(patch) { applySetData(this, patch) },
+    adjust(event) { calls.push(event.detail) },
+    closeAdjust: todayPage.closeAdjust
+  }
+
+  todayPage.adjustFromSheet.call(context, { currentTarget: { dataset: { delta: -1 } } })
+
+  assert.deepEqual(calls, [{ scene: 'sleep', delta: -1 }])
+  assert.equal(context.data.showAdjust, false)
+})
+
 test('回访条件只把当前场景需要的环境纳入有效性判断', () => {
   const todayPage = loadTodayPage()
   const context = {
