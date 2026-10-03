@@ -1,127 +1,54 @@
-.weather-shell { }
+@import "../../styles/shared.wxss";
+
+.weather-shell { margin-bottom: 18rpx; animation: rise-in 300ms ease both; }
 
 .combo-card {
   display: flex;
   align-items: stretch;
+  overflow: hidden;
   background: var(--color-surface);
-  border: 1.5rpx solid var(--color-border);
+  border: 1rpx solid var(--color-border);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-soft);
-  overflow: hidden;
 }
 
-.combo-half {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 14rpx;
-  min-width: 0;
-  padding: 22rpx 20rpx;
-}
+.combo-half { flex: 1; display: flex; align-items: center; gap: 16rpx; min-width: 0; padding: 24rpx 22rpx; }
+.combo-half:active { background: var(--color-surface-soft); }
+.weather-half { flex: 1.08 1 0; }
+.temp-half { flex: 0.92 1 0; }
 
-.weather-half { flex: 1.06 1 0; }
-.temp-half { flex: 0.94 1 0; }
+.combo-divider { width: 1.5rpx; margin: 22rpx 0; background: var(--color-border); }
 
-.combo-divider {
-  width: 1.5rpx;
-  margin: 18rpx 0;
-  background: var(--color-border);
-}
-
-.combo-icon-wrap {
-  display: flex;
-  width: 72rpx;
-  height: 72rpx;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-sky-soft);
-  border-radius: 20rpx;
-}
-
+.combo-icon-wrap { display: flex; width: 76rpx; height: 76rpx; flex: none; align-items: center; justify-content: center; background: var(--color-sky-soft); border-radius: 24rpx; }
 .combo-icon-wrap.warm { background: var(--color-butter-soft); }
 .combo-icon-wrap.muted { background: var(--color-bg-deep); }
-.combo-icon { width: 44rpx; height: 44rpx; }
+.combo-icon { width: 46rpx; height: 46rpx; }
 
-.combo-body {
-  display: flex;
-  min-width: 0;
-  flex: 1;
-  flex-direction: column;
-}
-
-.combo-topline {
-  display: flex;
-  min-width: 0;
-  align-items: center;
-  gap: 10rpx;
-}
+.combo-body { display: flex; min-width: 0; flex: 1; flex-direction: column; }
+.combo-topline { display: flex; min-width: 0; align-items: center; gap: 10rpx; }
 
 .combo-label {
   display: block;
   flex: 1;
   min-width: 0;
   overflow: hidden;
-  color: var(--color-faint);
-  font-size: 22rpx;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.combo-mainline {
-  display: flex;
-  align-items: baseline;
-  min-height: 40rpx;
-  margin-top: 4rpx;
-}
-
-.combo-value { display: block; color: var(--color-ink); font-size: 33rpx; font-weight: 750; line-height: 1.12; }
-.combo-value.small { color: var(--color-coral-deep); font-size: 25rpx; }
-.combo-range { display: block; margin-top: 4rpx; color: var(--color-faint); font-size: 21rpx; font-weight: 600; line-height: 1.2; }
-.combo-action { flex: none; color: var(--color-coral-deep); font-size: 22rpx; font-weight: 700; white-space: nowrap; }
-.city-action { font-size: 21rpx; }
-
-.spinner {
-  width: 36rpx;
-  height: 36rpx;
-  border: 4rpx solid var(--color-sky-soft);
-  border-top-color: var(--color-sky);
-  border-radius: 50%;
-  animation: spin 800ms linear infinite;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.combo-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 56rpx;
-  margin-top: 8rpx;
-  padding: 0 6rpx;
-}
-
-.stale {
-  flex: 1;
-  overflow: hidden;
-  color: var(--color-butter-deep);
-  font-size: 21rpx;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.footer-links { display: flex; flex: none; gap: 18rpx; }
-
-.link-button {
-  min-height: 56rpx;
-  margin: 0;
-  padding: 0;
-  color: var(--color-sky-deep);
-  background: transparent;
+  color: var(--color-muted);
   font-size: 23rpx;
-  font-weight: 700;
-  line-height: 56rpx;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-button::after { border: 0; }
+.combo-mainline { display: flex; align-items: baseline; min-height: 44rpx; margin-top: 4rpx; }
+.combo-value { display: block; color: var(--color-ink); font-size: 38rpx; font-weight: 800; line-height: 1.12; font-variant-numeric: tabular-nums; }
+.combo-value.small { color: var(--color-coral-ink); font-size: 26rpx; }
+.combo-range { display: block; margin-top: 4rpx; color: var(--color-muted); font-size: 22rpx; font-weight: 600; line-height: 1.2; }
+.combo-action { flex: none; color: var(--color-coral-ink); font-size: 22rpx; font-weight: 700; white-space: nowrap; }
+.city-action { font-size: 22rpx; }
+
+.spinner { width: 36rpx; height: 36rpx; border: 4rpx solid var(--color-sky-soft); border-top-color: var(--color-sky); border-radius: 50%; animation: spin 800ms linear infinite; }
+
+.combo-footer { display: flex; align-items: center; justify-content: space-between; min-height: 72rpx; margin-top: 6rpx; padding: 0 8rpx; }
+.stale { flex: 1; overflow: hidden; color: var(--color-butter-ink); font-size: 23rpx; text-overflow: ellipsis; white-space: nowrap; }
+.footer-links { display: flex; flex: none; gap: 8rpx; }
+.link-button { min-height: 72rpx; margin: 0; padding: 0 14rpx; color: var(--color-sky-ink); background: transparent; font-size: 24rpx; font-weight: 700; line-height: 72rpx; }

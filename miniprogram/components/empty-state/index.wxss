@@ -1,7 +1,22 @@
-.empty { padding: 50rpx 32rpx; text-align: center; }
-.mascot { width: 320rpx; height: 226rpx; margin: 0 auto 16rpx; }
+@import "../../styles/shared.wxss";
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8rpx 0 22rpx;
+  padding: 44rpx 36rpx 40rpx;
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+  animation: rise-in 360ms ease both;
+}
+
+.mascot-wrap { animation: float-y 3.6s ease-in-out infinite; }
+.mascot { width: 280rpx; height: 198rpx; }
 .title, .description { display: block; }
-.title { color: var(--color-ink); font-size: 32rpx; font-weight: 700; }
-.description { margin-top: 10rpx; color: var(--color-muted); font-size: 26rpx; line-height: 1.6; }
-.action { min-height: 84rpx; margin-top: 28rpx; color: #ffffff; background: linear-gradient(135deg, var(--color-coral), #ff7048); border-radius: 24rpx; font-size: 28rpx; font-weight: 700; line-height: 84rpx; }
-button::after { border: 0; }
+.title { margin-top: 10rpx; color: var(--color-ink); font-size: 34rpx; font-weight: 800; }
+.description { margin-top: 10rpx; color: var(--color-muted); font-size: 26rpx; line-height: 1.65; }
+.action { width: 100%; margin-top: 32rpx; }

@@ -1,52 +1,68 @@
+@import "styles/shared.wxss";
+
 page {
-  /* ---- 品牌色板：奶油底 + 珊瑚橙主色，三场景三色编码 ---- */
-  --color-bg: #FFF8EF;
-  --color-bg-deep: #FFF1DC;
+  /* ---- 品牌色板：奶油底 + 珊瑚橙主色；-ink 用于文字，保证对比度 ---- */
+  --color-bg: #FFF9F2;
+  --color-bg-deep: #FFF0E0;
   --color-surface: #FFFFFF;
-  --color-surface-soft: #FFFDFA;
+  --color-surface-soft: #FFFCF8;
 
   --color-coral: #FF8A65;
-  --color-coral-deep: #E8643A;
-  --color-coral-soft: #FFE0D1;
+  --color-coral-deep: #E8603A;
+  --color-coral-ink: #BF4719;
+  --color-coral-soft: #FFE7DB;
+  --color-coral-tint: #FFF4EE;
 
   --color-butter: #FFC85C;
   --color-butter-deep: #E29A2E;
-  --color-butter-soft: #FFEFC2;
+  --color-butter-ink: #8A5A0E;
+  --color-butter-soft: #FFF0C9;
+  --color-butter-tint: #FFF8E6;
 
   --color-sky: #4FB8D6;
-  --color-sky-deep: #3D9FC0;
+  --color-sky-deep: #2F9BBE;
+  --color-sky-ink: #19708F;
   --color-sky-soft: #DFF4F8;
 
   --color-lavender: #8B8FE0;
   --color-lavender-deep: #6B6FC4;
+  --color-lavender-ink: #4F53B0;
   --color-lavender-soft: #ECECFB;
 
   --color-mint: #4FC392;
-  --color-mint-deep: #3FAE82;
+  --color-mint-deep: #35A97C;
+  --color-mint-ink: #1F7D5A;
   --color-mint-soft: #DFF8EC;
 
-  --color-ink: #4A3B30;
-  --color-muted: #8A7868;
-  --color-faint: #B7A99B;
-  --color-border: #F3E4D5;
-  --color-danger: #E2685A;
+  --color-ink: #3E3128;
+  --color-muted: #7A6757;
+  --color-faint: #A7998B;
+  --color-border: #F1E3D4;
+  --color-border-strong: #E6D3C0;
+  --color-danger: #D9534A;
+  --color-danger-ink: #B23B33;
   --color-danger-soft: #FCE6E2;
 
-  /* 三场景配色变量（默认在家=珊瑚橙），由 .scene-* 覆盖 */
-  --scene-color: var(--color-coral);
-  --scene-deep: var(--color-coral-deep);
-  --scene-soft: var(--color-coral-soft);
+  /* 默认场景（在家）；由 .scene-* 覆盖 */
+  --scene-color: #FF8A65;
+  --scene-deep: #E8603A;
+  --scene-ink: #BF4719;
+  --scene-soft: #FFE7DB;
+  --scene-tint: #FFF4EE;
 
-  --shadow-soft: 0 14rpx 38rpx rgba(214, 142, 96, 0.14);
-  --shadow-lift: 0 24rpx 56rpx rgba(214, 120, 80, 0.18);
+  --shadow-soft: 0 10rpx 30rpx rgba(190, 120, 70, 0.10), 0 2rpx 6rpx rgba(190, 120, 70, 0.06);
+  --shadow-lift: 0 22rpx 52rpx rgba(190, 110, 70, 0.18), 0 4rpx 10rpx rgba(190, 110, 70, 0.08);
   --radius-card: 36rpx;
+  --radius-lg: 44rpx;
   --radius-control: 26rpx;
+  --radius-chip: 999rpx;
 
-  background: var(--color-bg);
+  background: #FFF9F2 linear-gradient(180deg, #FFEEDB 0, #FFF9F2 560rpx) no-repeat;
   color: var(--color-ink);
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "HarmonyOS Sans SC", "Noto Sans SC", "Segoe UI", sans-serif;
   font-size: 30rpx;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 view, text, button, input, picker, picker-view, picker-view-column, image, canvas, scroll-view {
@@ -56,24 +72,19 @@ view, text, button, input, picker, picker-view, picker-view-column, image, canva
 .page {
   position: relative;
   min-height: 100vh;
-  padding: 30rpx 28rpx calc(56rpx + env(safe-area-inset-bottom));
+  padding: 24rpx 28rpx calc(56rpx + env(safe-area-inset-bottom));
 }
-
-/* ---- 场景色编码：在家 / 出门 / 睡觉 ---- */
-.scene-indoor { --scene-color: var(--color-coral); --scene-deep: var(--color-coral-deep); --scene-soft: var(--color-coral-soft); }
-.scene-outdoor { --scene-color: var(--color-sky); --scene-deep: var(--color-sky-deep); --scene-soft: var(--color-sky-soft); }
-.scene-sleep { --scene-color: var(--color-lavender); --scene-deep: var(--color-lavender-deep); --scene-soft: var(--color-lavender-soft); }
 
 /* ---- 文字层级 ---- */
 .eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8rpx;
-  min-height: 48rpx;
-  padding: 0 20rpx;
-  border-radius: 999rpx;
+  min-height: 44rpx;
+  padding: 0 18rpx;
+  border-radius: var(--radius-chip);
   background: var(--color-coral-soft);
-  color: var(--color-coral-deep);
+  color: var(--color-coral-ink);
   font-size: 22rpx;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -81,29 +92,19 @@ view, text, button, input, picker, picker-view, picker-view-column, image, canva
 
 .page-title {
   display: block;
-  margin: 16rpx 0 10rpx;
+  margin: 14rpx 0 8rpx;
   color: var(--color-ink);
-  font-size: 48rpx;
-  font-weight: 750;
-  line-height: 1.28;
+  font-size: 46rpx;
+  font-weight: 800;
+  line-height: 1.26;
+  letter-spacing: -0.01em;
 }
 
-.page-subtitle {
-  display: block;
-  color: var(--color-muted);
-  font-size: 27rpx;
-  line-height: 1.65;
-}
+.page-subtitle { display: block; color: var(--color-muted); font-size: 26rpx; line-height: 1.65; }
+.section-title { display: block; color: var(--color-ink); font-size: 32rpx; font-weight: 750; line-height: 1.3; }
+.num { font-variant-numeric: tabular-nums; }
 
-.section-title {
-  display: block;
-  color: var(--color-ink);
-  font-size: 32rpx;
-  font-weight: 750;
-  line-height: 1.3;
-}
-
-/* ---- 卡片 / 容器 ---- */
+/* ---- 卡片 ---- */
 .card {
   margin-bottom: 22rpx;
   padding: 28rpx;
@@ -113,59 +114,8 @@ view, text, button, input, picker, picker-view, picker-view-column, image, canva
   box-shadow: var(--shadow-soft);
 }
 
-/* ---- 按钮 ---- */
-.primary-button,
-.secondary-button,
-.ghost-button {
-  min-height: 96rpx;
-  border-radius: 30rpx;
-  font-size: 30rpx;
-  font-weight: 700;
-  line-height: 96rpx;
-}
-
-.primary-button {
-  color: #ffffff;
-  background: linear-gradient(135deg, var(--color-coral), #ff7048);
-  box-shadow: 0 18rpx 38rpx rgba(255, 112, 72, 0.28);
-}
-
-.secondary-button {
-  color: var(--color-coral-deep);
-  background: var(--color-coral-soft);
-}
-
-.ghost-button {
-  color: var(--color-ink);
-  background: var(--color-surface);
-  border: 1.5rpx solid var(--color-border);
-}
-
-button {
-  transition: transform 180ms ease, opacity 180ms ease, box-shadow 180ms ease;
-}
-
-button::after {
-  border: 0;
-}
-
-button:active {
-  opacity: 0.86;
-  transform: scale(0.98);
-}
-
-button[disabled] {
-  opacity: 0.45;
-}
-
 /* ---- 表单 ---- */
-.form-label {
-  display: block;
-  margin-bottom: 14rpx;
-  color: var(--color-ink);
-  font-size: 27rpx;
-  font-weight: 700;
-}
+.form-label { display: block; margin-bottom: 14rpx; color: var(--color-ink); font-size: 27rpx; font-weight: 700; }
 
 .field {
   width: 100%;
@@ -177,58 +127,42 @@ button[disabled] {
   border-radius: 24rpx;
 }
 
-.help-text,
+.help-text { color: var(--color-muted); font-size: 24rpx; line-height: 1.7; }
+
+/* 免责声明：安静的小字，不抢视线，但始终可见 */
 .disclaimer {
-  color: var(--color-muted);
-  font-size: 24rpx;
+  margin-top: 28rpx;
+  padding: 20rpx 24rpx;
+  color: var(--color-butter-ink);
+  background: var(--color-butter-tint);
+  border: 1rpx solid var(--color-butter-soft);
+  border-radius: 24rpx;
+  font-size: 23rpx;
   line-height: 1.7;
 }
 
-.disclaimer {
-  margin-top: 30rpx;
-  padding: 22rpx 24rpx;
-  background: var(--color-butter-soft);
-  border-radius: 24rpx;
-}
-
-.row {
-  display: flex;
-  align-items: center;
-}
-
-.row-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+.row { display: flex; align-items: center; }
+.row-between { display: flex; align-items: center; justify-content: space-between; }
 
 .pill {
   display: inline-flex;
   align-items: center;
-  min-height: 56rpx;
+  min-height: 52rpx;
   padding: 0 22rpx;
-  border-radius: 999rpx;
-  color: var(--scene-deep);
+  border-radius: var(--radius-chip);
+  color: var(--scene-ink);
   background: var(--scene-soft);
-  font-size: 25rpx;
+  font-size: 24rpx;
   font-weight: 700;
 }
 
-.icon-img {
-  flex: none;
-  display: block;
-}
+.icon-img { flex: none; display: block; }
 
 .skeleton {
   overflow: hidden;
   min-height: 100rpx;
-  background: linear-gradient(90deg, #fbeee0 25%, #fff8ef 50%, #fbeee0 75%);
+  background: linear-gradient(90deg, #FBEBDC 25%, #FFF6EC 50%, #FBEBDC 75%);
   background-size: 200% 100%;
-  border-radius: 24rpx;
+  border-radius: 28rpx;
   animation: shimmer 1.4s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  from { background-position: 200% 0; }
-  to { background-position: -200% 0; }
 }

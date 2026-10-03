@@ -1,0 +1,90 @@
+/* =========================================================
+ * 共享基础样式（app.wxss 与各组件通过相对路径 @import）
+ * 包含：场景主题、按钮、底部弹层、动效。
+ * 组件默认样式隔离，所以这里的类需要在每个组件内再引入一次。
+ * 颜色/圆角等变量定义在 app.wxss 的 page 上，组件内可继承使用。
+ * ========================================================= */
+
+/* ---- 场景主题：在家 / 出门 / 睡觉 ---- */
+.scene-indoor { --scene-color: #FF8A65; --scene-deep: #E8603A; --scene-ink: #BF4719; --scene-soft: #FFE7DB; --scene-tint: #FFF4EE; --scene-grad: linear-gradient(150deg, #FFE7DB 0%, #FFF4EE 55%, #FFFFFF 100%); }
+.scene-outdoor { --scene-color: #4FB8D6; --scene-deep: #2F9BBE; --scene-ink: #19708F; --scene-soft: #DFF4F8; --scene-tint: #F0FAFC; --scene-grad: linear-gradient(150deg, #DFF4F8 0%, #F0FAFC 55%, #FFFFFF 100%); }
+.scene-sleep { --scene-color: #8B8FE0; --scene-deep: #6B6FC4; --scene-ink: #4F53B0; --scene-soft: #ECECFB; --scene-tint: #F6F6FD; --scene-grad: linear-gradient(150deg, #ECECFB 0%, #F6F6FD 55%, #FFFFFF 100%); }
+
+/* ---- 按钮 ---- */
+button { transition: transform 160ms ease, opacity 160ms ease, box-shadow 160ms ease, background-color 160ms ease; }
+button::after { border: 0; }
+button:active { opacity: 0.88; transform: scale(0.98); }
+button[disabled] { opacity: 0.45; }
+
+.primary-button, .secondary-button, .ghost-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  min-height: 96rpx;
+  margin: 0;
+  padding: 0 32rpx;
+  border-radius: 32rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.primary-button {
+  color: #ffffff;
+  background: linear-gradient(135deg, #F47A52 0%, #E5593A 100%);
+  box-shadow: 0 16rpx 34rpx rgba(229, 89, 58, 0.28), inset 0 2rpx 0 rgba(255, 255, 255, 0.28);
+}
+
+.secondary-button { color: #BF4719; background: #FFE7DB; }
+.ghost-button { color: #3E3128; background: #FFFFFF; border: 1.5rpx solid #E6D3C0; }
+
+/* 文字按钮：低优先级动作，仍保证 80rpx 以上触控高度 */
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80rpx;
+  margin: 0;
+  padding: 0 16rpx;
+  color: #7A6757;
+  background: transparent;
+  font-size: 26rpx;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* ---- 底部弹层 ---- */
+.sheet-mask {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(62, 49, 40, 0.42);
+  animation: fade-in 220ms ease both;
+}
+
+.sheet {
+  width: 100%;
+  max-height: 88vh;
+  padding: 18rpx 32rpx calc(32rpx + env(safe-area-inset-bottom));
+  background: #FFF9F2;
+  border-radius: 44rpx 44rpx 0 0;
+  box-shadow: 0 -20rpx 60rpx rgba(62, 49, 40, 0.16);
+  animation: sheet-up 320ms cubic-bezier(0.22, 0.8, 0.3, 1) both;
+}
+
+.sheet-handle { width: 80rpx; height: 8rpx; margin: 0 auto 26rpx; background: #E6D3C0; border-radius: 99rpx; }
+
+/* ---- 动效 ---- */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sheet-up { from { transform: translateY(60rpx); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes pop-in { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes rise-in { from { transform: translateY(18rpx); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12rpx); } }
