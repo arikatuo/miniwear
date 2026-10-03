@@ -194,14 +194,28 @@ test('app.json 中每个页面都提供微信好友分享入口', () => {
   })
 })
 
-test('推荐卡主文案不再被装饰图或长句年龄提示挤占', () => {
+test('推荐卡只突出穿搭结果和一个记录动作', () => {
   const wxml = fs.readFileSync(path.join(__dirname, '../miniprogram/components/recommendation-card/index.wxml'), 'utf8')
 
   assert.doesNotMatch(wxml, /illustration-thumb/)
   assert.doesNotMatch(wxml, /src="\{\{item\.icon\}\}"/)
   assert.doesNotMatch(wxml, /class="tag age-tag"/)
   assert.doesNotMatch(wxml, /class="warmth-meter"/)
-  assert.match(wxml, /class="age-note"/)
+  assert.doesNotMatch(wxml, /class="age-note"/)
+  assert.doesNotMatch(wxml, /热了怎么办|冷了怎么办|想薄一点|想厚一点/)
+  assert.match(wxml, /class="result"/)
+  assert.match(wxml, /class="adopt-button [^"]*"[^>]*bindtap="confirm"/)
+})
+
+test('首页将调整收起，记录后才提供观察与分享', () => {
+  const wxml = fs.readFileSync(path.join(__dirname, '../miniprogram/pages/today/index.wxml'), 'utf8')
+  const card = fs.readFileSync(path.join(__dirname, '../miniprogram/components/recommendation-card/index.wxml'), 'utf8')
+
+  assert.match(wxml, /class="context-summary"/)
+  assert.match(card, /bindtap="openAdjust"/)
+  assert.match(wxml, /wx:if="\{\{adoptedScenes\[activeScene\]\}\}" class="recorded-actions"/)
+  assert.match(wxml, /class="global-tip" bindtap="toggleSafety"/)
+  assert.match(wxml, /wx:if="\{\{showSafetyDetails\}\}" class="safety-details"/)
 })
 
 test('推荐卡提供就地用品图例入口，返回不需重置当前搭配', () => {

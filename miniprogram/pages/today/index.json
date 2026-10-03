@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "宝宝今天穿什么",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
   "usingComponents": {
     "weather-bar": "/components/weather-bar/index",
     "recommendation-card": "/components/recommendation-card/index",
