@@ -1,82 +1,47 @@
 .settings-page { padding-bottom: calc(132rpx + env(safe-area-inset-bottom)); }
-.settings-hero { margin-bottom: 30rpx; }
 
-.section-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin: 34rpx 0 16rpx;
-}
+.profile-card { display: flex; align-items: center; gap: 24rpx; padding: 30rpx 30rpx; background: var(--scene-grad); border: 1rpx solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-soft); }
+.profile-avatar { display: flex; width: 112rpx; height: 112rpx; flex: none; align-items: center; justify-content: center; background: #ffffff; border-radius: 36rpx; box-shadow: var(--shadow-soft); }
+.profile-avatar-icon { width: 68rpx; height: 68rpx; }
+.profile-text { min-width: 0; }
+.profile-label, .profile-age, .profile-note { display: block; }
+.profile-label { color: var(--color-muted); font-size: 23rpx; font-weight: 650; }
+.profile-age { margin-top: 2rpx; color: var(--color-ink); font-size: 40rpx; font-weight: 800; line-height: 1.25; }
+.profile-note { margin-top: 6rpx; color: var(--color-muted); font-size: 24rpx; line-height: 1.5; }
 
-.section-note { color: var(--color-faint); font-size: 23rpx; font-weight: 700; }
+.section-heading { display: flex; align-items: flex-end; justify-content: space-between; margin: 36rpx 6rpx 14rpx; }
+.section-note { color: var(--color-muted); font-size: 23rpx; font-weight: 650; }
 
-.settings-card {
-  overflow: hidden;
-  background: var(--color-surface);
-  border: 1.5rpx solid var(--color-border);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-soft);
-}
+.settings-card { overflow: hidden; background: var(--color-surface); border: 1rpx solid var(--color-border); border-radius: var(--radius-card); box-shadow: var(--shadow-soft); }
 
-.setting-row {
-  display: flex;
-  min-height: 108rpx;
-  align-items: center;
-  gap: 18rpx;
-  padding: 0 26rpx;
-  border-bottom: 1rpx solid var(--color-border);
-  color: var(--color-ink);
-  font-size: 29rpx;
-  font-weight: 700;
-}
-
+.setting-row { display: flex; min-height: 116rpx; align-items: center; gap: 20rpx; padding: 14rpx 26rpx; border-bottom: 1rpx solid var(--color-border); color: var(--color-ink); }
+.setting-row:active { background: var(--color-surface-soft); }
 .setting-row:last-child { border-bottom: 0; }
 
-.row-icon-wrap {
-  display: flex;
-  width: 64rpx;
-  height: 64rpx;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-coral-soft);
-  border-radius: 18rpx;
-}
-
+.row-icon-wrap { display: flex; width: 68rpx; height: 68rpx; flex: none; align-items: center; justify-content: center; background: var(--color-coral-soft); border-radius: 20rpx; }
 .row-icon-wrap.danger { background: var(--color-danger-soft); }
-.row-icon { width: 38rpx; height: 38rpx; }
+.row-icon { width: 40rpx; height: 40rpx; }
 
-.row-label { flex: 1; }
+.row-main { display: flex; flex: 1; min-width: 0; flex-direction: column; }
+.row-label { color: var(--color-ink); font-size: 29rpx; font-weight: 750; line-height: 1.35; }
+.row-sub { margin-top: 2rpx; color: var(--color-muted); font-size: 23rpx; line-height: 1.4; }
 
-.setting-row.static { color: var(--color-muted); font-weight: 650; }
-.temp-row { border-bottom: 0; }
+.value { max-width: 44%; color: var(--color-muted); font-size: 27rpx; font-weight: 650; text-align: right; }
+.danger .row-label, .danger .value { color: var(--color-danger-ink); }
 
-.value { max-width: 50%; color: var(--color-muted); font-weight: 650; text-align: right; }
-.value.strong { color: var(--color-coral-deep); font-size: 34rpx; font-weight: 850; }
+/* 温度卡：读数 + 带边界的滚轮 */
+.temp-head { display: flex; align-items: center; gap: 20rpx; padding: 22rpx 26rpx 8rpx; }
+.temp-readout { display: flex; align-items: baseline; color: var(--color-coral-ink); font-weight: 850; }
+.temp-number { font-size: 56rpx; line-height: 1; }
+.temp-unit { margin-left: 2rpx; font-size: 28rpx; }
 
-.danger .row-label, .danger .value { color: var(--color-danger); }
-
-.settings-temp-wheel {
-  position: relative;
-  height: 214rpx;
-  margin: 0 24rpx 24rpx;
-  overflow: hidden;
-  background: linear-gradient(180deg, var(--color-bg), var(--color-sky-soft), var(--color-bg));
-  border-radius: 28rpx;
-}
-
-.wheel-highlight {
-  position: absolute;
-  top: 71rpx;
-  right: 22rpx;
-  left: 22rpx;
-  height: 72rpx;
-  background: var(--color-surface);
-  border: 1.5rpx solid var(--color-border);
-  border-radius: 22rpx;
-}
-
-.temperature-wheel { position: relative; z-index: 1; width: 100%; height: 214rpx; }
-.wheel-item { display: flex; height: 72rpx; align-items: center; justify-content: center; color: var(--color-coral-deep); font-size: 36rpx; font-weight: 850; }
+.settings-temp-wheel { position: relative; height: 224rpx; margin: 10rpx 26rpx 22rpx; overflow: hidden; background: var(--color-surface-soft); border: 1.5rpx solid var(--color-border); border-radius: 30rpx; }
+.wheel-highlight { position: absolute; top: 76rpx; right: 16rpx; left: 16rpx; height: 72rpx; background: var(--color-coral-tint); border: 1.5rpx solid var(--color-coral-soft); border-radius: 22rpx; }
+.temperature-wheel { position: relative; z-index: 1; width: 100%; height: 224rpx; }
+.wheel-item { display: flex; height: 72rpx; align-items: center; justify-content: center; color: var(--color-coral-ink); font-size: 36rpx; font-weight: 800; }
+.wheel-fade { position: absolute; z-index: 2; right: 0; left: 0; height: 70rpx; pointer-events: none; }
+.wheel-fade.top { top: 0; background: linear-gradient(180deg, var(--color-surface-soft), rgba(255, 252, 248, 0)); }
+.wheel-fade.bottom { bottom: 0; background: linear-gradient(0deg, var(--color-surface-soft), rgba(255, 252, 248, 0)); }
+.city-row { border-top: 1rpx solid var(--color-border); }
 
 .disclaimer { margin-bottom: 10rpx; }

@@ -1,15 +1,29 @@
-.onboarding { padding-bottom: calc(32rpx + env(safe-area-inset-bottom)); }
-.hero-copy { margin: 16rpx 0 24rpx; }
-.page-title { font-size: 42rpx; }
+.onboarding { padding-bottom: calc(220rpx + env(safe-area-inset-bottom)); }
+
+.hero { display: flex; align-items: center; justify-content: space-between; gap: 8rpx; margin: 6rpx 0 26rpx; }
+.hero-copy { flex: 1; min-width: 0; }
+.page-title { font-size: 44rpx; }
 .page-subtitle { font-size: 26rpx; line-height: 1.6; }
-.form-card { margin-bottom: 20rpx; padding: 24rpx; border: 1rpx solid var(--color-border); border-radius: 26rpx; background: var(--color-surface); }
-.form-label { display: block; font-size: 28rpx; font-weight: 700; margin-bottom: 18rpx; }
-.option-grid,.age-grid { display: flex; gap: 12rpx; }
-.option,.age-option { flex: 1; min-width: 0; padding: 16rpx 4rpx; font-size: 25rpx; line-height: 1.5; border-radius: 18rpx; color: var(--color-muted); background: var(--color-bg-deep); }
-.option { display: flex; flex-direction: column; align-items: center; gap: 8rpx; }
-.option-icon { width: 42rpx; height: 42rpx; }
-.active { color: var(--color-coral-deep); background: var(--color-coral-soft); }
-.temperature-input { display: flex; align-items: center; gap: 16rpx; font-size: 32rpx; }
-.temperature-input input { flex: 1; height: 76rpx; padding: 0 22rpx; border-radius: 16rpx; background: var(--color-bg-deep); }
-.form-note { display: block; color: var(--color-muted); font-size: 23rpx; line-height: 1.55; margin-top: 14rpx; }
-button::after { border: 0; }
+.hero-mascot { width: 196rpx; height: 140rpx; flex: none; animation: float-y 3.6s ease-in-out infinite; }
+
+.form-card { margin-bottom: 20rpx; padding: 26rpx; border: 1rpx solid var(--color-border); border-radius: var(--radius-card); background: var(--color-surface); box-shadow: var(--shadow-soft); }
+.form-head { display: flex; align-items: center; gap: 14rpx; margin-bottom: 20rpx; }
+.step-badge { display: flex; width: 44rpx; height: 44rpx; flex: none; align-items: center; justify-content: center; color: #ffffff; background: linear-gradient(135deg, #F47A52 0%, #E5593A 100%); border-radius: 50%; font-size: 24rpx; font-weight: 800; line-height: 1; }
+.form-label { display: block; margin-bottom: 0; font-size: 30rpx; font-weight: 750; }
+
+.option-grid, .age-grid { display: flex; gap: 12rpx; }
+.option, .age-option { flex: 1; min-width: 0; margin: 0; padding: 18rpx 4rpx; border: 2rpx solid transparent; border-radius: 24rpx; color: var(--color-muted); background: var(--color-bg-deep); font-size: 27rpx; font-weight: 700; line-height: 1.5; }
+.option { display: flex; flex-direction: column; align-items: center; gap: 8rpx; min-height: 140rpx; justify-content: center; }
+.age-option { min-height: 92rpx; line-height: 56rpx; }
+.option-icon { width: 52rpx; height: 52rpx; opacity: 0.6; }
+.option.active, .age-option.active { color: var(--color-coral-ink); background: var(--color-coral-soft); border-color: var(--color-coral); }
+.option.active .option-icon { opacity: 1; }
+.option.scene-outdoor.active { color: var(--color-sky-ink); background: var(--color-sky-soft); border-color: var(--color-sky); }
+.option.scene-sleep.active { color: var(--color-lavender-ink); background: var(--color-lavender-soft); border-color: var(--color-lavender); }
+
+.temperature-input { display: flex; align-items: center; gap: 16rpx; padding: 0 26rpx; background: var(--color-surface-soft); border: 1.5rpx solid var(--color-border); border-radius: 26rpx; }
+.temperature-input input { flex: 1; height: 100rpx; color: var(--color-ink); font-size: 46rpx; font-weight: 800; }
+.unit { color: var(--color-muted); font-size: 32rpx; font-weight: 700; }
+.form-note { display: block; margin-top: 16rpx; color: var(--color-muted); font-size: 24rpx; line-height: 1.6; }
+
+.cta-bar { position: fixed; z-index: 20; right: 0; bottom: 0; left: 0; padding: 36rpx 28rpx calc(24rpx + env(safe-area-inset-bottom)); background: linear-gradient(180deg, rgba(255, 249, 242, 0), #FFF9F2 42%); }

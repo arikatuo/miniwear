@@ -1,29 +1,15 @@
-.privacy-card, .health-card {
-  display: flex;
-  gap: 20rpx;
-  margin-top: 22rpx;
-  padding: 26rpx;
-  background: var(--color-surface);
-  border: 1.5rpx solid var(--color-border);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-soft);
-}
+.privacy-list { margin-top: 26rpx; overflow: hidden; background: var(--color-surface); border: 1rpx solid var(--color-border); border-radius: var(--radius-card); box-shadow: var(--shadow-soft); }
+.privacy-item { display: flex; gap: 22rpx; padding: 28rpx 26rpx; border-bottom: 1rpx solid var(--color-border); }
+.privacy-item:last-child { border-bottom: 0; }
 
-.privacy-icon-wrap {
-  display: flex;
-  width: 72rpx;
-  height: 72rpx;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-coral-soft);
-  border-radius: 20rpx;
-}
+.health-card { display: flex; gap: 22rpx; margin-top: 22rpx; padding: 28rpx 26rpx; background: var(--color-butter-tint); border: 1rpx solid var(--color-butter-soft); border-radius: var(--radius-card); }
 
+.privacy-icon-wrap { display: flex; width: 76rpx; height: 76rpx; flex: none; align-items: center; justify-content: center; background: var(--color-coral-soft); border-radius: 22rpx; }
+.privacy-icon-wrap.mint { background: var(--color-mint-soft); }
+.privacy-icon-wrap.sky { background: var(--color-sky-soft); }
 .privacy-icon-wrap.health { background: var(--color-butter-soft); }
-.privacy-icon { width: 42rpx; height: 42rpx; }
+.privacy-icon { width: 44rpx; height: 44rpx; }
 
-.privacy-text { flex: 1; min-width: 0; color: var(--color-muted); font-size: 26rpx; line-height: 1.7; }
-.privacy-title { display: block; margin-bottom: 8rpx; color: var(--color-ink); font-size: 30rpx; font-weight: 750; }
-
-.health-card { background: var(--color-butter-soft); border-color: transparent; }
+.privacy-text { flex: 1; min-width: 0; color: var(--color-muted); font-size: 26rpx; line-height: 1.75; }
+.privacy-title { display: block; margin-bottom: 6rpx; color: var(--color-ink); font-size: 30rpx; font-weight: 800; }
+.health-card .privacy-text { color: var(--color-butter-ink); }

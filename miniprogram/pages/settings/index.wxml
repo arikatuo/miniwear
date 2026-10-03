@@ -1,8 +1,11 @@
 <view class="page settings-page" wx:if="{{profile}}">
-  <view class="settings-hero">
-    <text class="eyebrow">个人化建议</text>
-    <text class="page-title">宝宝设置</text>
-    <text class="page-subtitle">这些信息只保存在本地，用来让穿衣建议更贴近宝宝状态。</text>
+  <view class="profile-card scene-indoor">
+    <view class="profile-avatar"><image class="profile-avatar-icon" src="/assets/icons/icon-babybib.svg" mode="aspectFit" /></view>
+    <view class="profile-text">
+      <text class="profile-label">当前月龄</text>
+      <text class="profile-age">{{ageText}}</text>
+      <text class="profile-note">以下信息只保存在本机，让建议更贴近宝宝状态。</text>
+    </view>
   </view>
 
   <view class="section-heading">
@@ -13,26 +16,21 @@
     <picker mode="date" value="{{profile.birthday}}" end="{{maxDate}}" bindchange="birthdayChange">
       <view class="setting-row">
         <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-babybib.svg" mode="aspectFit" /></view>
-        <text class="row-label">出生日期</text>
-        <text class="value">{{profile.birthday || '未设置'}} ›</text>
+        <view class="row-main"><text class="row-label">出生日期</text><text class="row-sub">用于计算月龄，让建议更准</text></view>
+        <text class="value">{{profile.birthday || '去设置'}} ›</text>
       </view>
     </picker>
-    <view class="setting-row static">
-      <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-heart.svg" mode="aspectFit" /></view>
-      <text class="row-label">当前月龄</text>
-      <text class="value">{{ageText}}</text>
-    </view>
     <picker range="{{bodyOptions}}" range-key="label" value="{{bodyIndex}}" bindchange="bodyChange">
       <view class="setting-row">
         <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/weather-hot.svg" mode="aspectFit" /></view>
-        <text class="row-label">宝宝体质</text>
+        <view class="row-main"><text class="row-label">宝宝体质</text><text class="row-sub">偏怕热 / 怕冷会让建议略薄 / 略厚</text></view>
         <text class="value">{{bodyOptions[bodyIndex].label}} ›</text>
       </view>
     </picker>
     <picker range="{{sweatOptions}}" range-key="label" value="{{sweatIndex}}" bindchange="sweatChange">
       <view class="setting-row">
         <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/weather-rain.svg" mode="aspectFit" /></view>
-        <text class="row-label">出汗情况</text>
+        <view class="row-main"><text class="row-label">出汗情况</text><text class="row-sub">容易出汗时，睡觉建议会更轻薄</text></view>
         <text class="value">{{sweatOptions[sweatIndex].label}} ›</text>
       </view>
     </picker>
@@ -42,11 +40,11 @@
     <text class="section-title">环境设置</text>
     <text class="section-note">默认参考</text>
   </view>
-  <view class="settings-card">
-    <view class="setting-row static temp-row">
+  <view class="settings-card temp-card">
+    <view class="temp-head">
       <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" /></view>
-      <text class="row-label">默认室内温度</text>
-      <text class="value strong">{{draftIndoorTemp}}℃</text>
+      <view class="row-main"><text class="row-label">默认室内温度</text><text class="row-sub">上下滑动选择，自动保存</text></view>
+      <view class="temp-readout"><text class="temp-number num">{{draftIndoorTemp}}</text><text class="temp-unit">℃</text></view>
     </view>
     <view class="settings-temp-wheel">
       <view class="wheel-highlight"></view>
@@ -55,11 +53,13 @@
           <view wx:for="{{tempValues}}" wx:key="*this" class="wheel-item compact">{{item}}℃</view>
         </picker-view-column>
       </picker-view>
+      <view class="wheel-fade top"></view>
+      <view class="wheel-fade bottom"></view>
     </view>
-    <view class="setting-row" bindtap="chooseCity" role="button">
+    <view class="setting-row city-row" bindtap="chooseCity" role="button">
       <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-pin.svg" mode="aspectFit" /></view>
-      <text class="row-label">所在城市</text>
-      <text class="value">{{city ? city.name : '未设置'}} ›</text>
+      <view class="row-main"><text class="row-label">所在城市</text><text class="row-sub">用于获取出门时的室外天气</text></view>
+      <text class="value">{{city ? city.name : '去设置'}} ›</text>
     </view>
   </view>
 
@@ -70,12 +70,12 @@
   <view class="settings-card">
     <view class="setting-row" bindtap="openPrivacy" role="button">
       <view class="row-icon-wrap"><image class="row-icon" src="/assets/icons/icon-shield.svg" mode="aspectFit" /></view>
-      <text class="row-label">隐私说明</text>
+      <view class="row-main"><text class="row-label">隐私说明</text></view>
       <text class="value">›</text>
     </view>
     <view class="setting-row danger" bindtap="clearData" role="button">
       <view class="row-icon-wrap danger"><image class="row-icon" src="/assets/icons/icon-trash.svg" mode="aspectFit" /></view>
-      <text class="row-label">清除本地数据</text>
+      <view class="row-main"><text class="row-label">清除本地数据</text></view>
       <text class="value">›</text>
     </view>
   </view>

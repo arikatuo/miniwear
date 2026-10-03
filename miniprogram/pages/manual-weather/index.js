@@ -33,6 +33,15 @@ Page({
     }
   },
 
+  // ± 步进：单手快速微调，范围与提交校验保持一致（-30 ~ 45℃）
+  stepTemp(event) {
+    const { field, delta } = event.currentTarget.dataset
+    if (field !== 'outdoorTemp' && field !== 'indoorTemp') return
+    const raw = String(this.data[field]).trim()
+    const current = raw === '' ? NaN : Number(raw)
+    const base = Number.isFinite(current) ? Math.round(current) : (field === 'outdoorTemp' ? 21 : 24)
+    this.setData({ [field]: Math.max(-30, Math.min(45, base + Number(delta))) })
+  },
   inputOutdoor(event) { this.setData({ outdoorTemp: event.detail.value }) },
   inputIndoor(event) { this.setData({ indoorTemp: event.detail.value }) },
   toggleWeather(event) {

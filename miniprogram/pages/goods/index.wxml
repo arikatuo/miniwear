@@ -1,40 +1,35 @@
 <view class="page goods-page">
-  <view class="goods-hero">
-    <text class="eyebrow">用品图鉴</text>
-    <text class="page-title">宝宝用品</text>
+  <view class="goods-sticky">
+    <view class="category-tabs">
+      <button class="{{category === 'clothing' ? 'active' : ''}}" data-value="clothing" bindtap="chooseCategory">
+        <image class="tab-icon" src="/assets/icons/icon-hanger.svg" mode="aspectFit" />
+        <view class="tab-copy"><text class="tab-title">穿衣用品</text><text class="tab-desc">分层搭配</text></view>
+      </button>
+      <button class="{{category === 'sleep' ? 'active' : ''}}" data-value="sleep" bindtap="chooseCategory">
+        <image class="tab-icon" src="/assets/icons/scene-sleep.svg" mode="aspectFit" />
+        <view class="tab-copy"><text class="tab-title">睡觉用品</text><text class="tab-desc">夜间保暖</text></view>
+      </button>
+    </view>
+    <scroll-view wx:if="{{groupedGoods.length}}" class="floor-nav" scroll-x enhanced show-scrollbar="{{false}}">
+      <view
+        wx:for="{{groupedGoods}}"
+        wx:key="key"
+        class="floor {{currentFloor === item.key ? 'current' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="jumpToFloor"
+        role="button"
+        aria-label="跳转到{{item.label}}"
+      >
+        <text>{{item.label}}</text>
+        <text class="floor-count">{{item.count}}</text>
+      </view>
+    </scroll-view>
   </view>
+
   <view class="notice">
     <image class="notice-icon" src="/assets/icons/icon-thermometer.svg" mode="aspectFit" />
     <text>保暖值仅供参考，重点观察后颈温度、出汗和精神状态。</text>
   </view>
-
-  <view class="category-tabs">
-    <button class="{{category === 'clothing' ? 'active' : ''}}" data-value="clothing" bindtap="chooseCategory">
-      <image class="tab-icon" src="/assets/icons/icon-hanger.svg" mode="aspectFit" />
-      <text>穿衣用品</text>
-      <text class="tab-desc">分层搭配</text>
-    </button>
-    <button class="{{category === 'sleep' ? 'active' : ''}}" data-value="sleep" bindtap="chooseCategory">
-      <image class="tab-icon" src="/assets/icons/scene-sleep.svg" mode="aspectFit" />
-      <text>睡觉用品</text>
-      <text class="tab-desc">夜间保暖</text>
-    </button>
-  </view>
-
-  <scroll-view wx:if="{{groupedGoods.length}}" class="floor-nav" scroll-x enhanced show-scrollbar="{{false}}">
-    <view
-      wx:for="{{groupedGoods}}"
-      wx:key="key"
-      class="floor {{currentFloor === item.key ? 'current' : ''}}"
-      data-key="{{item.key}}"
-      bindtap="jumpToFloor"
-      role="button"
-      aria-label="跳转到{{item.label}}"
-    >
-      <text>{{item.label}}</text>
-      <text class="floor-count">{{item.count}}</text>
-    </view>
-  </scroll-view>
 
   <view wx:if="{{groupedGoods.length}}" class="grouped-list">
     <view wx:for="{{groupedGoods}}" wx:key="key" id="floor-{{item.key}}" class="goods-group">
@@ -42,24 +37,45 @@
         <text class="group-title">{{item.label}}</text>
         <text class="group-count">{{item.count}} 件参考用品</text>
       </view>
-      <scroll-view class="mini-row" scroll-x enhanced show-scrollbar="{{false}}">
-        <view wx:for="{{item.goods}}" wx:for-item="goodsItem" wx:for-index="goodsIndex" wx:key="id" class="mini-card" data-key="{{item.key}}" data-index="{{goodsIndex}}" bindtap="showGoodsDetail" role="button" aria-label="查看{{goodsItem.name}}说明">
-          <image wx:if="{{!goodsItem.imageMissing}}"
-            class="mini-image"
-            src="{{goodsItem.illustration}}"
-            mode="aspectFit"
-            data-key="{{item.key}}"
-            data-index="{{goodsIndex}}"
-            binderror="imageError"
-            aria-label="{{goodsItem.name}}图片"
-          />
-          <view wx:else class="mini-image image-missing" role="img" aria-label="{{goodsItem.name}}图片暂缺"><text>图片暂缺</text></view>
-          <text class="mini-name">{{goodsItem.name}}</text>
-          <text class="mini-warm">{{goodsItem.warmText}}</text>
+      <view class="goods-grid">
+        <view wx:for="{{item.goods}}" wx:for-item="goodsItem" wx:for-index="goodsIndex" wx:key="id" class="goods-card" data-key="{{item.key}}" data-index="{{goodsIndex}}" bindtap="showGoodsDetail" role="button" aria-label="查看{{goodsItem.name}}说明">
+          <view class="goods-thumb">
+            <image wx:if="{{!goodsItem.imageMissing}}"
+              class="goods-image"
+              src="{{goodsItem.illustration}}"
+              mode="aspectFit"
+              data-key="{{item.key}}"
+              data-index="{{goodsIndex}}"
+              binderror="imageError"
+              aria-label="{{goodsItem.name}}图片"
+            />
+            <view wx:else class="goods-image image-missing" role="img" aria-label="{{goodsItem.name}}图片暂缺"><text>图片暂缺</text></view>
+          </view>
+          <text class="goods-name">{{goodsItem.name}}</text>
+          <text class="goods-warm">{{goodsItem.warmText}}</text>
         </view>
-      </scroll-view>
+      </view>
     </view>
   </view>
   <empty-state wx:else title="当前分类暂无用品" description="换一个分类看看吧。" />
-  <view wx:if="{{selectedGoods}}" class="goods-detail-mask" bindtap="closeGoodsDetail"><view class="goods-detail" catchtap="noop"><image src="{{selectedGoods.illustration}}" mode="aspectFit" /><text class="detail-title">{{selectedGoods.name}}</text><text>{{selectedGoods.desc}}</text><view wx:if="{{selectedGoods.variants}}" class="variant-list"><text class="variant-title">可选规格</text><text wx:for="{{selectedGoods.variants}}" wx:key="label" class="variant-item">{{item.label}} · 保暖值 +{{item.warmValue}}℃</text></view><text class="detail-note">{{selectedGoods.sceneText}}适用 · {{selectedGoods.warmText}}</text><button class="primary-button" bindtap="closeGoodsDetail">知道了</button></view></view>
+
+  <view wx:if="{{selectedGoods}}" class="sheet-mask" bindtap="closeGoodsDetail">
+    <view class="sheet detail-sheet" catchtap="noop">
+      <view class="sheet-handle"></view>
+      <view class="detail-head">
+        <view class="detail-thumb"><image class="detail-image" src="{{selectedGoods.illustration}}" mode="aspectFit" /></view>
+        <view class="detail-meta">
+          <text class="detail-title">{{selectedGoods.name}}</text>
+          <text class="detail-warm">{{selectedGoods.warmText}}</text>
+        </view>
+      </view>
+      <text class="detail-desc">{{selectedGoods.desc}}</text>
+      <view wx:if="{{selectedGoods.variants}}" class="variant-list">
+        <text class="variant-title">可选规格</text>
+        <text wx:for="{{selectedGoods.variants}}" wx:key="label" class="variant-item">{{item.label}} · 保暖值 +{{item.warmValue}}℃</text>
+      </view>
+      <text class="detail-note">适用场景：{{selectedGoods.sceneText}}</text>
+      <button class="ghost-button detail-close" bindtap="closeGoodsDetail">关闭</button>
+    </view>
+  </view>
 </view>

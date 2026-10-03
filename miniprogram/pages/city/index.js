@@ -6,12 +6,14 @@ Page({
   data: {
     keyword: '',
     results: cities,
+    hotCities: cities.slice(0, 8),
+    currentCity: null,
     recentCities: [],
     locating: false
   },
 
   onShow() {
-    this.setData({ recentCities: storage.getRecentCities() })
+    this.setData({ recentCities: storage.getRecentCities(), currentCity: storage.getCity() })
   },
 
   inputKeyword(event) {
