@@ -72,83 +72,131 @@ Component({
       if (MINI_PROGRAM_CODE_PATH) {
         images.qrcode = await this.loadCanvasImage(canvas, MINI_PROGRAM_CODE_PATH)
       }
+      // 衣物缩略图只是锦上添花：任何一张加载失败都不影响海报生成
+      const pieces = (this.data.cardData && this.data.cardData.pieces) || []
+      images.pieces = await Promise.all(pieces.slice(0, 4).map((piece) => (
+        this.loadCanvasImage(canvas, piece.illustration).then((image) => ({ name: piece.name, image })).catch(() => null)
+      )))
+      images.pieces = images.pieces.filter(Boolean)
       return images
     },
     drawPoster({ ctx, images, data }) {
-      const SCENES = [
-        { key: 'indoor', label: '在家', color: '#FF8A65', soft: '#FFE0D1', deep: '#E8643A' },
-        { key: 'outdoor', label: '出门', color: '#4FB8D6', soft: '#DFF4F8', deep: '#2E86A8' },
-        { key: 'sleep', label: '睡觉', color: '#8B8FE0', soft: '#ECECFB', deep: '#5A5EC9' }
-      ]
-      ctx.fillStyle = '#FFF8EF'
+      const THEMES = {
+        indoor: { label: '在家', soft: '#FFE7DB', tint: '#FFF4EE', deep: '#E8603A', ink: '#BF4719' },
+        outdoor: { label: '出门', soft: '#DFF4F8', tint: '#F0FAFC', deep: '#2F9BBE', ink: '#19708F' },
+        sleep: { label: '睡觉', soft: '#ECECFB', tint: '#F6F6FD', deep: '#6B6FC4', ink: '#4F53B0' }
+      }
+      const theme = THEMES[data.scene] || THEMES.indoor
+      const recommendation = data.recommendations[data.scene] || data.recommendations.indoor
+      const result = recommendation.result
+      const ageText = data.ageGroup === 'baby_0_6m' ? '0–6 个月' : data.ageGroup === 'baby_6_12m' ? '6–12 个月' : '1–3 岁'
+      const temp = data.scene === 'outdoor' ? data.outdoorTemp : data.indoorTemp
+
+      // 背景：场景色顶部渐变 + 奶油底
+      ctx.fillStyle = '#FFF9F2'
       ctx.fillRect(0, 0, CARD_WIDTH, CARD_HEIGHT)
-      ctx.fillStyle = '#FFE5D8'
-      this.fillRoundRect(ctx, 32, 30, 536, 142, 28)
+      const sky = ctx.createLinearGradient(0, 0, 0, 380)
+      sky.addColorStop(0, theme.soft)
+      sky.addColorStop(1, '#FFF9F2')
+      ctx.fillStyle = sky
+      ctx.fillRect(0, 0, CARD_WIDTH, 380)
+
+      // 品牌行
       ctx.fillStyle = '#FF8A65'
-      this.fillRoundRect(ctx, 48, 52, 78, 78, 22)
+      this.fillRoundRect(ctx, 36, 34, 60, 60, 18)
       ctx.fillStyle = '#FFFFFF'
-      ctx.font = '38px sans-serif'
-      ctx.fillText('衣', 72, 102)
-      ctx.fillStyle = '#4A3B30'
-      ctx.font = '32px sans-serif'
-      ctx.fillText('宝宝今天穿什么', 150, 78)
-      ctx.fillStyle = '#8A7868'
+      ctx.font = 'bold 32px sans-serif'
+      ctx.fillText('衣', 48, 76)
+      ctx.fillStyle = '#3E3128'
+      ctx.font = 'bold 28px sans-serif'
+      ctx.fillText('宝宝今天穿什么', 110, 62)
+      ctx.fillStyle = '#7A6757'
       ctx.font = '20px sans-serif'
-      ctx.fillText(`${data.date || '今天'} · ${data.source === 'api' ? '自动天气' : '手动填写'}`, 150, 112)
-      ctx.fillText(`${data.scene === 'outdoor' ? '室外 ' + data.outdoorTemp : '室温 ' + data.indoorTemp}℃ · 给家人的穿衣参考`, 150, 144)
+      ctx.fillText(`${data.date || '今天'} · ${data.source === 'api' ? '自动天气' : '手动填写'}`, 110, 90)
+      ctx.fillStyle = 'rgba(255,255,255,0.85)'
+      this.fillRoundRect(ctx, 460, 42, 104, 44, 22)
+      ctx.fillStyle = theme.ink
+      ctx.font = 'bold 22px sans-serif'
+      ctx.fillText(theme.label, 460 + (104 - ctx.measureText(theme.label).width) / 2, 72)
 
-      ctx.fillStyle = '#4A3B30'
-      ctx.font = '27px sans-serif'
-      ctx.fillText('今天这样照看', 42, 220)
-      ctx.fillStyle = '#B7A99B'
-      ctx.font = '18px sans-serif'
-      ctx.fillText('仅分享当前选择的场景', 234, 220)
+      // 温度主视觉
+      ctx.fillStyle = '#7A6757'
+      ctx.font = '22px sans-serif'
+      ctx.fillText(data.scene === 'outdoor' ? '室外温度' : '室内温度', 44, 148)
+      ctx.fillStyle = theme.deep
+      ctx.font = 'bold 84px sans-serif'
+      ctx.fillText(String(temp), 44, 228)
+      const tempWidth = ctx.measureText(String(temp)).width
+      ctx.font = 'bold 34px sans-serif'
+      ctx.fillText('℃', 44 + tempWidth + 6, 228)
+      ctx.fillStyle = '#7A6757'
+      ctx.font = '22px sans-serif'
+      ctx.fillText(`宝宝年龄段：${ageText}`, 44, 266)
 
-      SCENES.filter((scene) => !data.scene || scene.key === data.scene).forEach((scene, index) => {
-        const result = data.recommendations[scene.key].result
-        const y = 248 + index * 112
-        ctx.fillStyle = '#FFFFFF'
-        this.fillRoundRect(ctx, 38, y, 524, 86, 22)
-        ctx.fillStyle = scene.soft
-        this.fillRoundRect(ctx, 56, y + 18, 78, 50, 22)
-        ctx.fillStyle = scene.deep
-        ctx.font = '20px sans-serif'
-        ctx.fillText(scene.label, 76, y + 52)
-        ctx.fillStyle = '#4A3B30'
-        ctx.font = '25px sans-serif'
-        this.drawCenteredWrappedText(ctx, result, 156, y + 43, 370, 30, 25, 2)
-      })
+      // 主卡片：结论 + 衣物缩略图
+      ctx.save()
+      ctx.shadowColor = 'rgba(190,120,70,0.18)'
+      ctx.shadowBlur = 24
+      ctx.shadowOffsetY = 8
+      ctx.fillStyle = '#FFFFFF'
+      this.fillRoundRect(ctx, 32, 296, 536, 300, 36)
+      ctx.restore()
+      ctx.fillStyle = theme.ink
+      ctx.font = 'bold 22px sans-serif'
+      ctx.fillText(`今天${theme.label}这样穿`, 60, 338)
+      ctx.fillStyle = '#3E3128'
+      ctx.font = 'bold 38px sans-serif'
+      this.drawCenteredWrappedText(ctx, result, 60, 396, 480, 50, 38, 2)
 
-      ctx.fillStyle = '#8A7868'
+      if (images.pieces && images.pieces.length) {
+        const count = images.pieces.length
+        const tile = 100
+        const gap = 16
+        const startX = 300 - (count * tile + (count - 1) * gap) / 2
+        images.pieces.forEach((piece, index) => {
+          const x = startX + index * (tile + gap)
+          ctx.fillStyle = theme.tint
+          this.fillRoundRect(ctx, x, 462, tile, tile, 22)
+          ctx.drawImage(piece.image, x + 8, 470, tile - 16, tile - 16)
+          ctx.fillStyle = '#3E3128'
+          ctx.font = '18px sans-serif'
+          const name = piece.name.length > 6 ? `${piece.name.slice(0, 5)}…` : piece.name
+          ctx.fillText(name, x + (tile - ctx.measureText(name).width) / 2, 462 + tile + 22)
+        })
+      } else {
+        ctx.fillStyle = '#7A6757'
+        ctx.font = '22px sans-serif'
+        this.drawWrappedText(ctx, recommendation.reason || '', 60, 482, 480, 32, 3)
+      }
+
+      // 判断小窍门
+      ctx.fillStyle = '#FFF0C9'
+      this.fillRoundRect(ctx, 32, 620, 536, 80, 26)
+      ctx.fillStyle = '#BF4719'
+      ctx.font = 'bold 22px sans-serif'
+      ctx.fillText('判断小窍门', 58, 653)
+      ctx.fillStyle = '#8A5A0E'
       ctx.font = '20px sans-serif'
-      ctx.fillText('年龄段：' + (data.ageGroup === 'baby_0_6m' ? '0–6 个月' : data.ageGroup === 'baby_6_12m' ? '6–12 个月' : '1–3 岁'), 56, 398)
-      this.drawWrappedText(ctx, '这是当时选定的搭配。请核对日期、温度和宝宝实际状态，条件变化后重新生成。', 56, 446, 480, 30, 3)
-      ctx.fillStyle = '#FFF0C7'
-      this.fillRoundRect(ctx, 38, 604, 524, 82, 24)
-      ctx.fillStyle = '#E8643A'
-      ctx.font = '21px sans-serif'
-      ctx.fillText('判断小窍门', 64, 642)
-      ctx.fillStyle = '#8A6234'
-      ctx.font = '19px sans-serif'
-      this.drawWrappedText(ctx, '摸宝宝后颈，温热、不出汗，通常比较合适。', 180, 642, 336, 26, 2)
+      ctx.fillText('摸宝宝后颈，温热、不出汗，通常比较合适。', 58, 683)
 
-      ctx.fillStyle = '#8A7868'
+      // 页脚：免责声明 + 小程序码
+      ctx.fillStyle = '#7A6757'
       ctx.font = '17px sans-serif'
-      this.drawWrappedText(ctx, '本建议仅供日常穿衣参考，不构成医疗建议。请结合宝宝实际状态判断；如宝宝出现明显不适，请及时咨询医生。', 44, 746, 340, 25, 4)
+      this.drawWrappedText(ctx, '本建议仅供日常穿衣参考，不构成医疗建议。请结合宝宝实际状态判断；如宝宝出现明显不适，请及时咨询医生。', 44, 752, 340, 25, 4)
 
       if (images.qrcode) {
         ctx.drawImage(images.qrcode, 424, 734, 124, 124)
       } else {
-        ctx.strokeStyle = '#E8D9C8'
+        ctx.strokeStyle = '#E6D3C0'
         ctx.strokeRect(424, 734, 124, 124)
-        ctx.fillStyle = '#8A7868'
+        ctx.fillStyle = '#7A6757'
         ctx.font = '16px sans-serif'
         ctx.fillText('小程序码', 458, 790)
         ctx.fillText('上线前配置', 450, 816)
       }
-      ctx.fillStyle = '#B7A99B'
+      ctx.fillStyle = '#A7998B'
       ctx.font = '15px sans-serif'
-      ctx.fillText('宝宝今天穿什么', 44, 862)
+      ctx.fillText('长按识别小程序码，按你家的情况生成', 44, 868)
     },
     fillRoundRect(ctx, x, y, width, height, radius) {
       ctx.beginPath()

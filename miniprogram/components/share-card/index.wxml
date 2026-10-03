@@ -1,13 +1,13 @@
-<view wx:if="{{visible}}" class="overlay" bindtap="close">
-  <view class="panel" catchtap="stop">
+<view wx:if="{{visible}}" class="sheet-mask overlay" bindtap="close">
+  <view class="sheet panel" catchtap="stop">
+    <view class="sheet-handle"></view>
     <view class="panel-head">
-      <view>
-        <text class="eyebrow">穿衣建议卡</text>
+      <view class="head-text">
         <text class="title">分享给家人</text>
+        <text class="subtitle">保存图片或直接发送，一起照看宝宝。</text>
       </view>
-      <button class="close" bindtap="close" aria-label="关闭分享卡">关闭</button>
+      <button class="close" bindtap="close" aria-label="关闭分享卡">×</button>
     </view>
-    <text class="subtitle">保存后发给家人，方便一起照看宝宝状态。</text>
     <view class="preview">
       <image wx:if="{{imagePath}}" src="{{imagePath}}" mode="aspectFit" class="image" />
       <view wx:else class="loading">
@@ -18,7 +18,10 @@
       </view>
     </view>
     <canvas id="posterCanvas" type="2d" class="canvas"></canvas>
-    <button class="save" bindtap="save" disabled="{{!imagePath}}">保存图片到相册</button>
+    <view class="actions">
+      <button class="primary-button save" bindtap="save" disabled="{{!imagePath}}">保存图片到相册</button>
+      <button class="secondary-button send" open-type="share">发给家人</button>
+    </view>
     <text class="note">分享前请再次结合宝宝实际状态判断。</text>
   </view>
 </view>

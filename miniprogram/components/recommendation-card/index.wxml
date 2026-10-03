@@ -1,34 +1,34 @@
 <view wx:if="{{item}}" class="recommend-card scene-{{item.scene}}">
-  <view class="card-head">
-    <view class="tag temp-tag">
-      <image class="tag-icon" src="{{sceneIcon}}" mode="aspectFit" />
-      <text>{{tempLabel}} {{item.temperature}}℃</text>
+  <view class="card-hero">
+    <view class="card-label">
+      <image class="card-label-icon" src="{{sceneIcon}}" mode="aspectFit" />
+      <text>今天{{sceneLabel}}建议</text>
     </view>
-    <text wx:if="{{adjustmentLabel}}" class="tag adjust-tag">{{adjustmentLabel}}</text>
-  </view>
-
-  <view class="recommend-main">
-    <text class="result">{{item.result}}</text>
+    <text class="result" style="{{resultLong ? 'font-size: 42rpx; line-height: 1.34;' : ''}}">{{item.result}}</text>
     <text class="reason">{{item.reason}}</text>
-  </view>
-  <text wx:if="{{item.ageText}}" class="age-note">{{item.ageText}}</text>
-  <view class="goods-link" bindtap="viewGoods" role="button">看衣物图例与替代项 ›</view>
-
-  <view class="tip-toggle-row">
-    <view class="tip-toggle tip-hot {{expandedTip === 'hot' ? 'open' : ''}}" data-tip="hot" bindtap="toggleTip">
-      <image class="tip-toggle-icon" src="/assets/icons/weather-hot.svg" mode="aspectFit" />
-      <text>热了怎么办</text>
-    </view>
-    <view class="tip-toggle tip-cold {{expandedTip === 'cold' ? 'open' : ''}}" data-tip="cold" bindtap="toggleTip">
-      <image class="tip-toggle-icon" src="/assets/icons/weather-cold.svg" mode="aspectFit" />
-      <text>冷了怎么办</text>
+    <view class="level-meter" aria-label="厚薄程度：{{levelText}}">
+      <text class="level-name">厚薄</text>
+      <view class="dots">
+        <view wx:for="{{dots}}" wx:for-item="dot" wx:key="n" class="dot {{dot.on ? 'on' : ''}}"></view>
+      </view>
+      <text class="level-text">{{levelText}}</text>
     </view>
   </view>
-  <view wx:if="{{expandedTip === 'hot'}}" class="tip-expanded tip-expanded-hot">{{item.hotAction}}</view>
-  <view wx:if="{{expandedTip === 'cold'}}" class="tip-expanded tip-expanded-cold">{{item.coldAction}}</view>
 
-  <view class="actions">
-    <button class="adjust-button" data-delta="-1" bindtap="adjust">想薄一点</button>
-    <button class="adjust-button" data-delta="1" bindtap="adjust">想厚一点</button>
+  <view class="card-body">
+    <view wx:if="{{pieces.length}}" class="pieces">
+      <view wx:for="{{pieces}}" wx:for-item="piece" wx:key="id" class="piece" bindtap="viewGoods" role="button" aria-label="{{piece.name}}">
+        <image class="piece-image" src="{{piece.illustration}}" mode="aspectFit" />
+        <text class="piece-name">{{piece.name}}</text>
+      </view>
+    </view>
+    <view class="goods-link" bindtap="viewGoods" role="button" aria-label="查看衣物图例与替代项">看衣物图例与替代项 ›</view>
+
+    <text wx:if="{{adjustmentLabel && !adopted}}" class="adjustment-note">{{adjustmentLabel}}</text>
+    <button class="adopt-button {{adopted ? 'adopted' : ''}}" disabled="{{adopted}}" bindtap="confirm">
+      <image wx:if="{{adopted}}" class="adopt-icon" src="/assets/icons/icon-check.svg" mode="aspectFit" />
+      <text>{{adopted ? '已记下今天穿法' : '记下今天穿法'}}</text>
+    </button>
+    <button class="adjust-button" bindtap="openAdjust">觉得偏冷或偏热？调整厚薄</button>
   </view>
 </view>
