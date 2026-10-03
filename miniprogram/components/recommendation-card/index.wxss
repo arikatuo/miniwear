@@ -1,87 +1,137 @@
 .recommend-card {
-  padding: 34rpx 30rpx 28rpx;
+  margin-bottom: 24rpx;
+  padding: 30rpx 28rpx 28rpx;
   background: var(--color-surface);
-  border: 1rpx solid var(--color-border);
+  border: 1.5rpx solid var(--color-border);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-lift);
 }
 
-.card-label {
+.card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.tag {
   display: inline-flex;
   align-items: center;
-  gap: 8rpx;
-  padding: 8rpx 16rpx;
-  color: var(--scene-deep);
-  background: var(--scene-soft);
+  gap: 6rpx;
+  min-height: 48rpx;
+  padding: 0 18rpx;
   border-radius: 999rpx;
   font-size: 23rpx;
-  font-weight: 700;
+  font-weight: 750;
 }
 
-.card-label-icon { width: 28rpx; height: 28rpx; }
+.temp-tag { color: var(--scene-deep); background: var(--scene-soft); }
+.tag-icon { width: 28rpx; height: 28rpx; }
+.adjust-tag { color: var(--color-butter-deep); background: var(--color-butter-soft); }
+
+.recommend-main { margin-top: 22rpx; }
 
 .result {
   display: block;
-  margin-top: 26rpx;
   color: var(--color-ink);
-  font-size: 42rpx;
+  font-size: 38rpx;
   font-weight: 800;
-  line-height: 1.32;
+  line-height: 1.28;
 }
 
 .reason {
   display: block;
-  margin-top: 12rpx;
+  margin-top: 8rpx;
+  overflow: hidden;
   color: var(--color-muted);
-  font-size: 25rpx;
-  line-height: 1.55;
+  font-size: 24rpx;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-.adjustment-note {
+.age-note {
   display: block;
-  margin-top: 14rpx;
-  color: var(--color-butter-deep);
-  font-size: 23rpx;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  color: var(--color-faint);
+  font-size: 22rpx;
+  line-height: 1.6;
+  border-top: 1.5rpx dashed var(--color-border);
+}
+.goods-link { margin-top: 14rpx; color: var(--scene-deep); font-size: 24rpx; font-weight: 700; }
+
+.tip-toggle-row {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 22rpx;
 }
 
-.adopt-button {
+.tip-toggle {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 94rpx;
-  margin: 42rpx 0 0;
-  color: #fff;
-  background: var(--color-coral);
-  border-radius: 24rpx;
-  font-size: 29rpx;
+  gap: 8rpx;
+  min-height: 68rpx;
+  border-radius: 18rpx;
+  font-size: 24rpx;
   font-weight: 700;
-  box-shadow: 0 12rpx 28rpx rgba(255, 138, 101, .22);
 }
 
-.adopt-button.adopted {
-  color: var(--color-mint-deep);
-  background: var(--color-mint-soft);
-  box-shadow: none;
+.tip-toggle-icon { width: 30rpx; height: 30rpx; }
+
+.tip-hot { color: var(--color-coral-deep); background: var(--color-coral-soft); }
+.tip-cold { color: var(--color-sky-deep); background: var(--color-sky-soft); }
+.tip-hot.open, .tip-cold.open { box-shadow: inset 0 0 0 2rpx currentColor; }
+
+.tip-expanded {
+  margin-top: 12rpx;
+  padding: 18rpx 20rpx;
+  color: var(--color-ink);
+  font-size: 24rpx;
+  line-height: 1.6;
+  border-radius: 18rpx;
+}
+
+.tip-expanded-hot { background: var(--color-coral-soft); }
+.tip-expanded-cold { background: var(--color-sky-soft); }
+
+.actions {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 24rpx;
+}
+
+.adjust-button,
+.good-button {
+  flex: 1;
+  min-height: 84rpx;
+  margin: 0;
+  padding: 0;
+  border-radius: 24rpx;
+  font-size: 25rpx;
+  font-weight: 700;
+  line-height: 84rpx;
 }
 
 .adjust-button {
-  min-height: 82rpx;
-  margin: 16rpx 0 0;
-  color: var(--color-coral-deep);
-  background: var(--color-surface);
-  border: 1.5rpx solid var(--color-coral);
-  border-radius: 22rpx;
-  font-size: 26rpx;
-  font-weight: 700;
-  line-height: 82rpx;
+  color: var(--scene-deep);
+  background: var(--scene-soft);
 }
 
-.goods-link {
-  margin-top: 20rpx;
-  color: var(--color-muted);
-  font-size: 23rpx;
-  line-height: 1.5;
-  text-align: center;
+.good-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rpx;
+  color: var(--color-mint-deep);
+  background: var(--color-mint-soft);
+  line-height: 1;
 }
+
+.good-icon { width: 30rpx; height: 30rpx; }
 
 button::after { border: 0; }

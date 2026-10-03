@@ -82,5 +82,6 @@
   "simulatorType": "wechat",
   "condition": {},
   "simulatorPluginLibVersion": {},
-  "editorSetting": {}
+  "editorSetting": {},
+  "isGameTourist": false
 }
