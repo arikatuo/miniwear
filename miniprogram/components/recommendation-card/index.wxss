@@ -62,8 +62,11 @@
   align-items: center;
   justify-content: center;
   gap: 12rpx;
+  width: 100% !important;
   min-height: 100rpx;
-  margin: 12rpx 0 0;
+  margin-top: 12rpx;
+  margin-bottom: 0;
+  padding: 0 24rpx !important;
   color: #ffffff;
   background: linear-gradient(135deg, #F47A52 0%, #E5593A 100%);
   border-radius: 32rpx;
@@ -84,13 +87,19 @@
 .adopt-icon { width: 38rpx; height: 38rpx; animation: pop-in 420ms ease both; }
 
 .adjust-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
   min-height: 84rpx;
-  margin: 14rpx 0 0;
+  margin-top: 14rpx;
+  margin-bottom: 0;
+  padding: 0 24rpx !important;
   color: var(--color-muted);
   background: transparent;
   border: 1.5rpx solid var(--color-border-strong);
   border-radius: 28rpx;
   font-size: 26rpx;
   font-weight: 650;
-  line-height: 80rpx;
+  line-height: 1.2;
 }

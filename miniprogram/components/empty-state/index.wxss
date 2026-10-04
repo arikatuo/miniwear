@@ -19,4 +19,4 @@
 .title, .description { display: block; }
 .title { margin-top: 10rpx; color: var(--color-ink); font-size: 34rpx; font-weight: 800; }
 .description { margin-top: 10rpx; color: var(--color-muted); font-size: 26rpx; line-height: 1.65; }
-.action { width: 100%; margin-top: 32rpx; }
+.action { margin-top: 32rpx; }

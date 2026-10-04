@@ -6,7 +6,7 @@
 .location-title { color: var(--color-ink); font-size: 30rpx; font-weight: 800; }
 .location-copy { margin-top: 2rpx; color: var(--color-muted); font-size: 24rpx; line-height: 1.5; }
 
-.locate { flex: none; min-width: 168rpx; min-height: 84rpx; margin: 0; padding: 0 24rpx; color: #ffffff; background: linear-gradient(135deg, #F47A52 0%, #E5593A 100%); border-radius: 26rpx; box-shadow: 0 12rpx 26rpx rgba(229, 89, 58, 0.26); font-size: 27rpx; font-weight: 750; line-height: 84rpx; }
+.locate { flex: none; width: 176rpx !important; min-height: 84rpx; margin-top: 0; margin-bottom: 0; padding: 0 !important; color: #ffffff; background: linear-gradient(135deg, #F47A52 0%, #E5593A 100%); border-radius: 26rpx; box-shadow: 0 12rpx 26rpx rgba(229, 89, 58, 0.26); font-size: 27rpx; font-weight: 750; line-height: 84rpx; }
 
 .search { display: flex; align-items: center; margin-top: 22rpx; padding: 0 24rpx; background: var(--color-surface); border: 1.5rpx solid var(--color-border); border-radius: 26rpx; }
 .search-icon { margin-right: 12rpx; color: var(--color-muted); font-size: 38rpx; }
@@ -16,7 +16,7 @@
 .section-title { display: block; margin: 32rpx 6rpx 14rpx; font-size: 29rpx; }
 
 .chip-wrap { display: flex; flex-wrap: wrap; gap: 14rpx; }
-.chip { min-width: 128rpx; min-height: 76rpx; margin: 0; padding: 0 26rpx; color: var(--color-ink); background: var(--color-surface); border: 1.5rpx solid var(--color-border); border-radius: 999rpx; font-size: 27rpx; font-weight: 650; line-height: 72rpx; }
+.chip { flex: none; width: auto !important; min-width: 128rpx; min-height: 76rpx; margin-top: 0; margin-bottom: 0; padding: 0 26rpx !important; color: var(--color-ink); background: var(--color-surface); border: 1.5rpx solid var(--color-border); border-radius: 999rpx; font-size: 27rpx; font-weight: 650; line-height: 72rpx; }
 .chip.current { color: var(--color-coral-ink); background: var(--color-coral-soft); border-color: var(--color-coral); }
 
 .city-list { overflow: hidden; background: var(--color-surface); border: 1rpx solid var(--color-border); border-radius: var(--radius-card); box-shadow: var(--shadow-soft); }

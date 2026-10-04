@@ -10,7 +10,11 @@
 .scene-outdoor { --scene-color: #4FB8D6; --scene-deep: #2F9BBE; --scene-ink: #19708F; --scene-soft: #DFF4F8; --scene-tint: #F0FAFC; --scene-grad: linear-gradient(150deg, #DFF4F8 0%, #F0FAFC 55%, #FFFFFF 100%); }
 .scene-sleep { --scene-color: #8B8FE0; --scene-deep: #6B6FC4; --scene-ink: #4F53B0; --scene-soft: #ECECFB; --scene-tint: #F6F6FD; --scene-grad: linear-gradient(150deg, #ECECFB 0%, #F6F6FD 55%, #FFFFFF 100%); }
 
-/* ---- 按钮 ---- */
+/* ---- 按钮 ----
+ * 微信原生 <button> 自带默认宽度（约 184px）、左右 auto 外边距和 14px 内边距，
+ * 且优先级高于单个类选择器，会让按钮变成"窄而居中"、flex 换行失效。
+ * 这里对外边距统一归零，并让通栏按钮显式 100% 宽（!important 才能压过默认值）。*/
+button { margin-left: 0 !important; margin-right: 0 !important; }
 button { transition: transform 160ms ease, opacity 160ms ease, box-shadow 160ms ease, background-color 160ms ease; }
 button::after { border: 0; }
 button:active { opacity: 0.88; transform: scale(0.98); }
@@ -21,9 +25,12 @@ button[disabled] { opacity: 0.45; }
   align-items: center;
   justify-content: center;
   gap: 10rpx;
+  width: 100% !important;
   min-height: 96rpx;
-  margin: 0;
-  padding: 0 32rpx;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 32rpx !important;
+  padding-right: 32rpx !important;
   border-radius: 32rpx;
   font-size: 30rpx;
   font-weight: 700;
@@ -41,12 +48,15 @@ button[disabled] { opacity: 0.45; }
 
 /* 文字按钮：低优先级动作，仍保证 80rpx 以上触控高度 */
 .text-button {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
+  width: auto !important;
   min-height: 80rpx;
-  margin: 0;
-  padding: 0 16rpx;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 16rpx !important;
+  padding-right: 16rpx !important;
   color: #7A6757;
   background: transparent;
   font-size: 26rpx;
@@ -77,6 +87,8 @@ button[disabled] { opacity: 0.45; }
   box-shadow: 0 -20rpx 60rpx rgba(62, 49, 40, 0.16);
   animation: sheet-up 320ms cubic-bezier(0.22, 0.8, 0.3, 1) both;
 }
+
+.pressed { opacity: 0.85; transform: scale(0.97); }
 
 .sheet-handle { width: 80rpx; height: 8rpx; margin: 0 auto 26rpx; background: #E6D3C0; border-radius: 99rpx; }
 

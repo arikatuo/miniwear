@@ -4,17 +4,15 @@
   <view class="weather-form card">
     <text class="form-label">室外温度</text>
     <view class="temp-field">
-      <button class="step" data-field="outdoorTemp" data-delta="-1" bindtap="stepTemp" aria-label="室外温度降低 1 度">−</button>
-      <input class="temp-input num" type="number" value="{{outdoorTemp}}" bindinput="inputOutdoor" aria-label="室外温度" />
-      <text class="temp-unit">℃</text>
-      <button class="step" data-field="outdoorTemp" data-delta="1" bindtap="stepTemp" aria-label="室外温度升高 1 度">+</button>
+      <view class="step" data-field="outdoorTemp" data-delta="-1" bindtap="stepTemp" hover-class="pressed" role="button" aria-label="室外温度降低 1 度">−</view>
+      <view class="temp-center"><input class="temp-input num" type="number" value="{{outdoorTemp}}" bindinput="inputOutdoor" aria-label="室外温度" /><text class="temp-unit">℃</text></view>
+      <view class="step" data-field="outdoorTemp" data-delta="1" bindtap="stepTemp" hover-class="pressed" role="button" aria-label="室外温度升高 1 度">+</view>
     </view>
     <text class="form-label spaced">室内温度</text>
     <view class="temp-field">
-      <button class="step" data-field="indoorTemp" data-delta="-1" bindtap="stepTemp" aria-label="室内温度降低 1 度">−</button>
-      <input class="temp-input num" type="number" value="{{indoorTemp}}" bindinput="inputIndoor" aria-label="室内温度" />
-      <text class="temp-unit">℃</text>
-      <button class="step" data-field="indoorTemp" data-delta="1" bindtap="stepTemp" aria-label="室内温度升高 1 度">+</button>
+      <view class="step" data-field="indoorTemp" data-delta="-1" bindtap="stepTemp" hover-class="pressed" role="button" aria-label="室内温度降低 1 度">−</view>
+      <view class="temp-center"><input class="temp-input num" type="number" value="{{indoorTemp}}" bindinput="inputIndoor" aria-label="室内温度" /><text class="temp-unit">℃</text></view>
+      <view class="step" data-field="indoorTemp" data-delta="1" bindtap="stepTemp" hover-class="pressed" role="button" aria-label="室内温度升高 1 度">+</view>
     </view>
     <text class="form-label spaced">天气情况（可多选）</text>
     <view class="weather-options">

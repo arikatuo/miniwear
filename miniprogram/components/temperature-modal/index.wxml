@@ -9,12 +9,12 @@
       </view>
     </view>
     <view class="stepper">
-      <button class="step-button" data-delta="-1" bindtap="step" aria-label="降低 1 度">−</button>
+      <view class="step-button" data-delta="-1" bindtap="step" hover-class="pressed" role="button" aria-label="降低 1 度">−</view>
       <view class="readout">
         <input class="readout-input num" type="digit" value="{{draft}}" bindinput="input" maxlength="4" aria-label="室内温度" />
         <text class="readout-unit">℃</text>
       </view>
-      <button class="step-button" data-delta="1" bindtap="step" aria-label="升高 1 度">+</button>
+      <view class="step-button" data-delta="1" bindtap="step" hover-class="pressed" role="button" aria-label="升高 1 度">+</view>
     </view>
     <view class="choices">
       <button wx:for="{{choices}}" wx:key="*this" class="choice {{draft == item ? 'active' : ''}}" data-value="{{item}}" bindtap="choose">{{item}}℃</button>

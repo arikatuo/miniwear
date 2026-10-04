@@ -8,14 +8,15 @@
 .category-tabs button {
   display: flex;
   flex: 1 1 0;
-  width: 0;
+  width: 0 !important;
   min-height: 96rpx;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 14rpx;
-  margin: 0;
-  padding: 0 8rpx;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 8rpx !important;
   color: var(--color-muted);
   background: transparent;
   border-radius: 24rpx;

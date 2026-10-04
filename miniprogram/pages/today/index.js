@@ -10,8 +10,6 @@ const { createSnapshot, encodeSnapshot, decodeSnapshot } = require('../../utils/
 function contextText(weather, indoorTemp, source, ageText) { return `室温 ${indoorTemp}℃ · ${weather.source === 'example' ? '室外未知（示例不可确认）' : `室外 ${weather.currentTemp}℃`} · ${source} · ${ageText}` }
 function sceneNeedsOutdoor(scene) { return scene === 'outdoor' }
 const OUTCOME_TTL_MS = 24 * 60 * 60 * 1000
-// 轻触觉反馈：仅在支持的基础库上触发，失败时静默
-function haptic() { if (typeof wx !== 'undefined' && wx.vibrateShort) { try { wx.vibrateShort({ type: 'light' }) } catch (error) { /* ignore */ } } }
 
 Page({
   data: {
@@ -72,7 +70,6 @@ Page({
   setScene(event) {
     const activeScene = event.currentTarget.dataset.scene
     if (!SCENES.includes(activeScene)) return
-    if (activeScene !== this.data.activeScene) haptic()
     this.setData({ activeScene, showAdjust: false, showAfterWear: false, afterWearTip: '', showWeatherDetails: false })
     storage.saveLastOutcome({ ...(storage.getLastOutcome() || {}), scene: activeScene })
   },
@@ -88,7 +85,7 @@ Page({
   selectAfterWearTip(event) { this.setData({ afterWearTip: event.currentTarget.dataset.tip }) },
   adjust(event) { const { scene, delta } = event.detail; const candidate = { ...this.data.adjustments, [scene]: this.data.adjustments[scene] + delta }; const recommendations = buildAllRecommendations({ indoorTemp: this.data.indoorTemp, outdoorTemp: Number.isFinite(this.data.weather.currentTemp) ? this.data.weather.currentTemp : this.data.indoorTemp, profile: this.data.profile, weatherTypes: this.data.weather.weatherType, adjustments: candidate }); if (recommendations[scene].atBoundary) { wx.showToast({ title: recommendations[scene].boundaryMessage, icon: 'none' }); return } this.setData({ adjustments: candidate, recommendations, [`adoptedScenes.${scene}`]: false, [`adjustmentLabels.${scene}`]: candidate[scene] < 0 ? '已调薄，尚未记下' : candidate[scene] > 0 ? '已调厚，尚未记下' : '' }, () => this.persistState(scene)) },
   canConfirmScene(scene) { return Boolean(this.data.profile && this.data.profile.ageConfirmed) && (scene === 'outdoor' || this.data.environmentConfirmed !== false) && !(sceneNeedsOutdoor(scene) && this.data.weather.source === 'example') },
-  confirmGood(event) { const scene = event.detail && event.detail.scene || this.data.activeScene; if (!this.data.profile || !this.data.profile.ageConfirmed) { wx.showToast({ title: '请先确认宝宝年龄段，再记下搭配', icon: 'none' }); return } if (sceneNeedsOutdoor(scene) && this.data.weather.source === 'example') { if (this.openManual) this.openManual(); else wx.showToast({ title: '请先填写室外温度，再确认出门搭配', icon: 'none' }); return } if (scene !== 'outdoor' && this.data.environmentConfirmed === false) { this.openTemperature(); return } const adoptedScenes = { ...(this.data.adoptedScenes || {}), [scene]: true }; this.setData({ adoptedScenes, [`adjustmentLabels.${scene}`]: '已记下这套搭配' }, () => { if (this.persistState) this.persistState(scene); haptic(); wx.showToast({ title: '已记下，之后可按现在条件更新。', icon: 'none' }) }) },
+  confirmGood(event) { const scene = event.detail && event.detail.scene || this.data.activeScene; if (!this.data.profile || !this.data.profile.ageConfirmed) { wx.showToast({ title: '请先确认宝宝年龄段，再记下搭配', icon: 'none' }); return } if (sceneNeedsOutdoor(scene) && this.data.weather.source === 'example') { if (this.openManual) this.openManual(); else wx.showToast({ title: '请先填写室外温度，再确认出门搭配', icon: 'none' }); return } if (scene !== 'outdoor' && this.data.environmentConfirmed === false) { this.openTemperature(); return } const adoptedScenes = { ...(this.data.adoptedScenes || {}), [scene]: true }; this.setData({ adoptedScenes, [`adjustmentLabels.${scene}`]: '已记下这套搭配' }, () => { if (this.persistState) this.persistState(scene); wx.showToast({ title: '已记下，之后可按现在条件更新。', icon: 'none' }) }) },
   resetScene() { const scene = this.data.activeScene; const adjustments = { ...this.data.adjustments, [scene]: 0 }; this.setData({ adjustments, [`adjustmentLabels.${scene}`]: '', [`adoptedScenes.${scene}`]: false }, () => { this.rebuildRecommendations(); this.persistState(scene) }) },
   viewGoods() { const current = this.data.recommendations[this.data.activeScene]; this.setData({ showGoods: true, currentGoods: outfitGoods(this.data.activeScene, current.level) }) },
   closeGoods() { this.setData({ showGoods: false }) },

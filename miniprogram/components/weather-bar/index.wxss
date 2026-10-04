@@ -51,4 +51,4 @@
 .combo-footer { display: flex; align-items: center; justify-content: space-between; min-height: 72rpx; margin-top: 6rpx; padding: 0 8rpx; }
 .stale { flex: 1; overflow: hidden; color: var(--color-butter-ink); font-size: 23rpx; text-overflow: ellipsis; white-space: nowrap; }
 .footer-links { display: flex; flex: none; gap: 8rpx; }
-.link-button { min-height: 72rpx; margin: 0; padding: 0 14rpx; color: var(--color-sky-ink); background: transparent; font-size: 24rpx; font-weight: 700; line-height: 72rpx; }
+.link-button { width: auto !important; min-height: 72rpx; margin-top: 0; margin-bottom: 0; padding: 0 14rpx !important; color: var(--color-sky-ink); background: transparent; font-size: 24rpx; font-weight: 700; line-height: 72rpx; }

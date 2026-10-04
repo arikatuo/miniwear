@@ -12,7 +12,7 @@
 .form-label { display: block; margin-bottom: 0; font-size: 30rpx; font-weight: 750; }
 
 .option-grid, .age-grid { display: flex; gap: 12rpx; }
-.option, .age-option { flex: 1; min-width: 0; margin: 0; padding: 18rpx 4rpx; border: 2rpx solid transparent; border-radius: 24rpx; color: var(--color-muted); background: var(--color-bg-deep); font-size: 27rpx; font-weight: 700; line-height: 1.5; }
+.option, .age-option { flex: 1 1 0; width: 0 !important; min-width: 0; margin-top: 0; margin-bottom: 0; padding: 18rpx 4rpx !important; border: 2rpx solid transparent; border-radius: 24rpx; color: var(--color-muted); background: var(--color-bg-deep); font-size: 27rpx; font-weight: 700; line-height: 1.5; }
 .option { display: flex; flex-direction: column; align-items: center; gap: 8rpx; min-height: 140rpx; justify-content: center; }
 .age-option { min-height: 92rpx; line-height: 56rpx; }
 .option-icon { width: 52rpx; height: 52rpx; opacity: 0.6; }

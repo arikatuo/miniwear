@@ -1,24 +1,26 @@
 .weather-form { margin-top: 28rpx; }
 .spaced { margin-top: 30rpx; }
 
-.temp-field { display: flex; align-items: center; gap: 12rpx; padding: 10rpx; background: var(--color-surface-soft); border: 1.5rpx solid var(--color-border); border-radius: 30rpx; }
-.step { display: flex; width: 92rpx; height: 92rpx; min-height: 92rpx; flex: none; align-items: center; justify-content: center; margin: 0; padding: 0; color: var(--color-coral-ink); background: var(--color-coral-soft); border-radius: 22rpx; font-size: 46rpx; font-weight: 500; line-height: 1; }
-.temp-input { flex: 1; min-width: 0; height: 92rpx; color: var(--color-ink); font-size: 56rpx; font-weight: 800; line-height: 92rpx; text-align: right; }
-.temp-unit { margin-right: 6rpx; color: var(--color-muted); font-size: 30rpx; font-weight: 700; }
+.temp-field { display: flex; align-items: center; justify-content: space-between; padding: 10rpx; background: var(--color-surface-soft); border: 1.5rpx solid var(--color-border); border-radius: 30rpx; }
+.step { display: flex; width: 92rpx; height: 92rpx; flex: none; align-items: center; justify-content: center; color: var(--color-coral-ink); background: var(--color-coral-soft); border-radius: 22rpx; font-size: 46rpx; font-weight: 500; line-height: 1; }
+.temp-center { display: flex; flex: 1; min-width: 0; align-items: center; justify-content: center; }
+.temp-input { flex: none; width: 190rpx; height: 92rpx; color: var(--color-ink); font-size: 56rpx; font-weight: 800; line-height: 92rpx; text-align: right; }
+.temp-unit { flex: none; margin-left: 4rpx; color: var(--color-muted); font-size: 30rpx; font-weight: 700; }
 
 .weather-options { display: flex; gap: 10rpx; }
 
 .weather-options button {
   display: flex;
   flex: 1 1 0;
-  width: 0;
+  width: 0 !important;
   min-height: 124rpx;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8rpx;
-  margin: 0;
-  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0 !important;
   color: var(--color-muted);
   background: var(--color-surface-soft);
   border: 1.5rpx solid var(--color-border);

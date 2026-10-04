@@ -101,3 +101,28 @@ test('室温弹层输入清空后点 ± 回到默认 24℃ 起步，而不是从
   component.methods.step.call(context, { currentTarget: { dataset: { delta: 1 } } })
   assert.equal(context.data.draft, 25)
 })
+
+test('不使用任何震动/触觉反馈 API', () => {
+  const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = path.join(dir, entry.name)
+    return entry.isDirectory() ? walk(full) : [full]
+  })
+  walk(root).filter((file) => /\.(js|wxml)$/.test(file)).forEach((file) => {
+    assert.doesNotMatch(fs.readFileSync(file, 'utf8'), /vibrate(Short|Long)/, path.relative(root, file))
+  })
+})
+
+test('原生 button 默认宽度/外边距必须被显式压过，否则按钮会变成窄而居中', () => {
+  const shared = read('styles/shared.wxss')
+  assert.match(shared, /button\s*\{\s*margin-left:\s*0\s*!important;\s*margin-right:\s*0\s*!important;/)
+  assert.match(shared, /\.primary-button[\s\S]*?width:\s*100%\s*!important/)
+  assert.match(read('components/recommendation-card/index.wxss'), /\.adopt-button[\s\S]*?width:\s*100%\s*!important/)
+  assert.match(read('components/recommendation-card/index.wxss'), /\.adjust-button[\s\S]*?width:\s*100%\s*!important/)
+  assert.match(read('pages/city/index.wxss'), /\.chip\s*\{[^}]*width:\s*auto\s*!important/)
+})
+
+test('固定尺寸的 ± 与关闭控件使用 view 而不是原生 button', () => {
+  assert.doesNotMatch(read('pages/manual-weather/index.wxml'), /<button[^>]*class="step"/)
+  assert.doesNotMatch(read('components/temperature-modal/index.wxml'), /<button[^>]*class="step-button"/)
+  assert.doesNotMatch(read('components/share-card/index.wxml'), /<button[^>]*class="close"/)
+})
